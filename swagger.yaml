@@ -1,0 +1,2808 @@
+---
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: Mode
+  description: |
+    Mode provides a REST API for many common operations, such as:
+
+    * Listing spaces and reports
+    * Running reports
+    * Downloading query results
+
+    ## Authentication
+
+    For most Mode API calls, the client must supply an API token and secret for
+    HTTP basic authentication.
+
+    If authentication is required for a given resource, unauthenticated requests
+    will result in a `401 Unauthorized` response.
+
+    [Create and Manage API Tokens](https://modeanalytics.com/settings/access_tokens)
+  termsOfService: https://about.modeanalytics.com/tos/
+  contact:
+    name: Mode API Team
+    email: support@modeanalytics.com
+  license:
+    name: MIT
+host: modeanalytics.com
+basePath: "/api"
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/hal+json
+security:
+- accessTokenAuth: []
+securityDefinitions:
+  accessTokenAuth:
+    type: basic
+paths:
+  "/account":
+    x-summary: User
+    get:
+      operationId: getCurrentUser
+      summary: Get authorizing user
+      description: Returns a representation of the authorizing `User`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`User` response"
+          schema:
+            "$ref": "#/definitions/Account"
+  "/{organization}/data_sources/{data_source}/grants":
+    x-summary: PermissionGrants
+    post:
+      operationId: createDataSourcePermissionGrant
+      summary: Create a data source permission grant
+      description: Creates a `PermissionGrant` for a `User` or `Group` to a limited
+        `Data Source`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateDataSourcePermissionGrantRequestBody"
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: data_source
+        in: path
+        description: "`DataSource` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`DataSourcePermissionGrant` response"
+          schema:
+            "$ref": "#/definitions/DataSourcePermissionGrant"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+    get:
+      operationId: getDataSourcePermissionGrants
+      summary: Get a list of data source permission grants
+      description: Gets a list of all the `PermissionGrants` to a limited `Data Source`
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: data_source
+        in: path
+        description: "`DataSource` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`DataSourcePermissionGrant` collection response"
+          schema:
+            "$ref": "#/definitions/DataSourcePermissionGrants"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+  "/{organization}/data_sources/{data_source}/grants/{grant_token}":
+    x-summary: PermissionGrant
+    get:
+      operationId: getDataSourcePermissionGrant
+      summary: Get a data source permission grant
+      description: Gets the `PermissionGrant` for a `User` or `Group` to a limited
+        `Data Source`
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: data_source
+        in: path
+        description: "`DataSource` token"
+        required: true
+        type: string
+      - name: grant_token
+        in: path
+        description: "`DataSourcePermissionGrant` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`DataSourcePermissionGrant` response"
+          schema:
+            "$ref": "#/definitions/DataSourcePermissionGrant"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+    delete:
+      operationId: deleteDataSourcePermissionGrant
+      summary: Delete a data source permission grant
+      description: Deletes the `PermissionGrant` for a `User` or `Group` from a limited
+        `Data Source`
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: data_source
+        in: path
+        description: "`DataSource` token"
+        required: true
+        type: string
+      - name: grant_token
+        in: path
+        description: "`DataSourcePermissionGrant` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`DataSourcePermissionGrant` response"
+          schema:
+            "$ref": "#/definitions/DataSourcePermissionGrant"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+  "/{organization}/data_sources":
+    x-summary: DataSources
+    get:
+      operationId: getDataSources
+      summary: Get list of data sources
+      description: Returns all `DataSource`s owned by an `Organization`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Organization` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`DataSource` collection response"
+          schema:
+            "$ref": "#/definitions/DataSources"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+  "/{organization}/data_sources/{data_source}":
+    x-summary: DataSource
+    get:
+      operationId: getDataSource
+      summary: Get a data source
+      description: Returns a single `DataSource`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`DataSource` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`DataSource` response"
+          schema:
+            "$ref": "#/definitions/DataSource"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: data_source
+        in: path
+        description: "`DataSource` token"
+        required: true
+        type: string
+  "/{organization}/definitions":
+    x-summary: Definitions
+    get:
+      operationId: getDefinitions
+      summary: Get list of definitions
+      description: Returns a list of `Definitions`s
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: No default `Library` found
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Definitions` collection response"
+          schema:
+            "$ref": "#/definitions/Definitions"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - in: query
+        name: filter
+        description: 'Filter `Definition`''s by token. Example: `?filter=by_tokens`'
+        type: string
+      - in: query
+        name: tokens
+        description: Comma separated list of `Definition` tokens
+        type: string
+    post:
+      operationId: createDefinition
+      summary: Create a definition
+      description: Creates a `Definition`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`DataSource` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Definition` response"
+          schema:
+            "$ref": "#/definitions/Definition"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+  "/{organization}/definitions/{definition}":
+    x-summary: Definition
+    get:
+      operationId: getDefinition
+      summary: Get list of definitions
+      description: Returns a representation of `Definition`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Definition` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Definition` response"
+          schema:
+            "$ref": "#/definitions/Definition"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: definition
+        in: path
+        description: "`Definition` token"
+        required: true
+        type: string
+    patch:
+      operationId: updateDefinition
+      summary: Update a definition
+      description: Updates a `Definition`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Definition` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Definition` response"
+          schema:
+            "$ref": "#/definitions/Definition"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: definition
+        in: path
+        description: "`Definition` token"
+        required: true
+        type: string
+    delete:
+      operationId: deleteDefinition
+      summary: Delete a definition
+      description: Deletes a `Definition`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Definition` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Definition` response"
+          schema:
+            "$ref": "#/definitions/Definition"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: definition
+        in: path
+        description: "`Definition` token"
+        required: true
+        type: string
+  "/{organization}/invites":
+    x-summary: Invite
+    post:
+      operationId: createOrganizationInvite
+      summary: Create an invitation
+      description: Creates a `User` and invites `User` to `Organization`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`OrganizationInvite` response"
+          schema:
+            "$ref": "#/definitions/Invite"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+  "/{organization}/memberships":
+    x-summary: Memberships
+    get:
+      operationId: getMemberships
+      summary: Get list of memberships
+      description: Returns a list of `Membership`s
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Organization` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+  "/{organization}/memberships/{membership}":
+    x-summary: Membership
+    get:
+      operationId: getMembership
+      summary: Get a membership
+      description: Returns a representation of a `Membership`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Membership` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Membership` response"
+          schema:
+            "$ref": "#/definitions/Membership"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: membership
+        in: path
+        description: "`Membership` token"
+        required: true
+        type: string
+    delete:
+      operationId: deleteMembership
+      summary: Delete a Membership
+      description: Deletes a `Membership`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Membership` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`Membership` response"
+          schema:
+            "$ref": "#/definitions/Membership"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: membership
+        in: path
+        description: "`Membership` token"
+        required: true
+        type: string
+  "/{account}/reports/{report}/runs/{run}/query_runs":
+    x-summary: Query Runs
+    get:
+      operationId: getQueryRunsForReportRun
+      summary: " Get list of query runs"
+      description: Returns all `QueryRun`s for a single `ReportRun`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: run
+        in: path
+        description: "`ReportRun` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportRun` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`QueryRun` collection response"
+          schema:
+            "$ref": "#/definitions/QueryRuns"
+  "/{account}/reports/{report}/filters":
+    x-summary: Report Filters
+    get:
+      operationId: getReportFilters
+      summary: Get list of report filters
+      description: Returns all `ReportFilter`s for a single `Report`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`ReportFilter` collection response"
+          schema:
+            "$ref": "#/definitions/ReportFilters"
+    post:
+      operationId: createReportFilter
+      summary: Create a report filter
+      description: Creates a `ReportFilter`
+      parameters:
+      - name: body
+        in: body
+        description: "`ReportFilter` attributes"
+        required: true
+        schema:
+          "$ref": "#/definitions/CreateOrUpdateReportFilterRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`ReportFilter` response"
+          schema:
+            "$ref": "#/definitions/ReportFilter"
+  "/{account}/reports/{report}/filters/{filter}":
+    x-summary: Report Filter
+    patch:
+      operationId: updateReportFilter
+      summary: Update a report filter
+      description: Updates a `ReportFilter`
+      parameters:
+      - name: body
+        in: body
+        description: "`ReportFilter` attributes"
+        required: true
+        schema:
+          "$ref": "#/definitions/CreateOrUpdateReportFilterRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: filter
+        in: path
+        description: "`ReportFilter` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportFilter` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`ReportFilter` response"
+          schema:
+            "$ref": "#/definitions/ReportFilter"
+  "/{account}/spaces/{space}/reports":
+    x-summary: Reports
+    get:
+      operationId: getReportsInSpace
+      summary: Get list of reports for a space
+      description: Returns all `Report`s in a `Space`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Space` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Report` collection response"
+          schema:
+            "$ref": "#/definitions/Reports"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: space
+        in: path
+        description: "`Space` token"
+        required: true
+        type: string
+  "/{account}/reports/{report}":
+    x-summary: Report
+    get:
+      operationId: getReport
+      summary: Get a report
+      description: Returns a representation of a single `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Report` response"
+          schema:
+            "$ref": "#/definitions/Report"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+    delete:
+      operationId: deleteReport
+      summary: Delete a report
+      description: Deletes a single `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: Empty body
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+  "/{account}/reports/{report}/archive":
+    x-summary: Archive Report
+    patch:
+      operationId: archiveReport
+      summary: Archive a report
+      description: Archives a single `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Report` response"
+          schema:
+            "$ref": "#/definitions/Report"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+  "/{account}/reports/{report}/unarchive":
+    x-summary: Unarchive Report
+    patch:
+      operationId: unarchiveReport
+      summary: Unarchive a report
+      description: Unarchives a single `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Report` response"
+          schema:
+            "$ref": "#/definitions/Report"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+  "/{account}/reports/{report}/runs":
+    x-summary: Report Runs
+    post:
+      operationId: runReport
+      summary: Create a report run
+      description: Runs a single `Report` and returns a representation of the resulting
+        `ReportRun`
+      parameters:
+      - name: parameters
+        in: body
+        description: Custom parameter attributes
+        schema:
+          "$ref": "#/definitions/RunReportRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`ReportRun` response"
+          schema:
+            "$ref": "#/definitions/ReportRun"
+    get:
+      operationId: getReportRuns
+      summary: Get a list of report runs
+      description: Returns a list of `ReportRun`s for a `Report`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`ReportRun` collection response"
+          schema:
+            "$ref": "#/definitions/ReportRuns"
+  "/{account}/reports/{report}/runs/{run}/clone":
+    x-summary: Clone Report Run
+    post:
+      operationId: cloneReportRun
+      summary: Clones a report run
+      description: Returns a representation of the cloned `ReportRun`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: run
+        in: path
+        description: "`ReportRun` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportRun` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`Report` response"
+          schema:
+            "$ref": "#/definitions/Report"
+  "/{account}/reports/{report}/runs/{run}":
+    x-summary: Report Run
+    get:
+      operationId: getReportRun
+      summary: Get a report run
+      description: Returns a representation of a single `ReportRun`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: run
+        in: path
+        description: "`ReportRun` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportRun` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`ReportRun` response"
+          schema:
+            "$ref": "#/definitions/ReportRun"
+  "/{organization}/spaces":
+    x-summary: Spaces
+    get:
+      operationId: getSpaces
+      summary: Get a list of spaces
+      description: Returns a representation of `Space`s in an `Organization` visible
+        to the authenticated `User`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Organization` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Space` collection response"
+          schema:
+            "$ref": "#/definitions/Spaces"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+  "/{organization}/spaces/{space}":
+    x-summary: Space
+    get:
+      operationId: getSpace
+      summary: Get a space
+      description: Returns a representation of a single `Space`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Space` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Space` response"
+          schema:
+            "$ref": "#/definitions/Space"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: space
+        in: path
+        description: "`Space` token"
+        required: true
+        type: string
+    delete:
+      operationId: deleteSpace
+      summary: Delete a space
+      description: Deletes a single `Space`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Space` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Space` response"
+          schema:
+            "$ref": "#/definitions/Space"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: space
+        in: path
+        description: "`Space` token"
+        required: true
+        type: string
+  "/{organization}/groups/{group_token}/memberships":
+    x-summary: GroupMemberships
+    get:
+      operationId: getGroupMemberships
+      summary: Get a list of group memberships
+      description: Get all `Memberships` of a `Group`
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: group_token
+        in: path
+        description: "`UserGroup token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`UserGroupMembership` collection response"
+          schema:
+            "$ref": "#/definitions/UserGroupMemberships"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+    post:
+      operationId: createGroupMembership
+      summary: Create a group membership
+      description: Create a `Group` `Membership` for a given `User`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateUserGroupMembershipRequestBody"
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: group_token
+        in: path
+        description: "`UserGroup token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`UserGroupMembership` response"
+          schema:
+            "$ref": "#/definitions/UserGroupMembership"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+  "/{organization}/groups/{group_token}/memberships/{membership_token}":
+    x-summary: GroupMembership
+    get:
+      operationId: getGroupMembership
+      summary: Get a group membership
+      description: Get the `Group` `Membership` of a `User`
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: group_token
+        in: path
+        description: "`UserGroup token"
+        required: true
+        type: string
+      - name: membership_token
+        in: path
+        description: "`UserGroupMembership token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`UserGroupMembership` response"
+          schema:
+            "$ref": "#/definitions/UserGroupMembership"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+    delete:
+      operationId: deleteGroupMembership
+      summary: Delete a group membership
+      description: Remove a `User` from a `Group` by destroying the `Membership`
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: group_token
+        in: path
+        description: "`UserGroup token"
+        required: true
+        type: string
+      - name: membership_token
+        in: path
+        description: "`UserGroupMembership token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`UserGroupMembership` response"
+          schema:
+            "$ref": "#/definitions/UserGroupMembership"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+  "/{organization}/groups":
+    x-summary: Groups
+    get:
+      operationId: getGroups
+      summary: Get a list of groups
+      description: Get all `Group`s for an `Organization`
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`UserGroup` collection response"
+          schema:
+            "$ref": "#/definitions/UserGroups"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+  "/{organization}/groups/{group_token}":
+    x-summary: Group
+    get:
+      operationId: getGroup
+      summary: Get a group
+      description: Gets a `Group` of `Users`
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: group_token
+        in: path
+        description: "`UserGroup token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`UserGroup` response"
+          schema:
+            "$ref": "#/definitions/UserGroup"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+    patch:
+      operationId: updateGroup
+      summary: Update a group
+      description: Update a `Group` with the provided attributes
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/UpdateUserGroupRequestBody"
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: group_token
+        in: path
+        description: "`UserGroup token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`UserGroup` response"
+          schema:
+            "$ref": "#/definitions/UserGroup"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+definitions:
+  Account:
+    properties:
+      username:
+        type: string
+      name:
+        type: string
+      id:
+        type: integer
+      token:
+        type: string
+      email:
+        type: string
+      email_verified:
+        type: boolean
+      avatar:
+        "$ref": "#/definitions/Avatar"
+      user:
+        type: boolean
+      space_count:
+        type: integer
+      data_source_count:
+        type: integer
+      trial_state:
+        enum:
+        - pending
+        - active
+        - expired
+        type: string
+      membership_type:
+        enum:
+        - admin
+        - limited
+        - full
+        type: string
+      payment_method_confirmed:
+        type: boolean
+      private_definition_count:
+        type: integer
+      private_definition_limit:
+        type: integer
+      authorized_domains:
+        type: array
+        items:
+          type: string
+      plan_code:
+        enum:
+        - standard
+        - plus
+        - free
+        type: string
+      admin_data_source_connections_only:
+        type: boolean
+      _links:
+        "$ref": "#/definitions/AccountLinks"
+      _embedded:
+        "$ref": "#/definitions/AccountEmbeds"
+    required:
+    - _links
+    - username
+    - name
+    - id
+    - token
+    - avatar
+    - user
+  AccountLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      web:
+        "$ref": "#/definitions/Link"
+      web_settings:
+        "$ref": "#/definitions/Link"
+      web_data_sources_settings:
+        "$ref": "#/definitions/Link"
+      web_settings_slack:
+        "$ref": "#/definitions/Link"
+      web_public_datasource_home:
+        "$ref": "#/definitions/Link"
+      web_spaces:
+        "$ref": "#/definitions/Link"
+      web_groups:
+        "$ref": "#/definitions/Link"
+      web_new_organization:
+        "$ref": "#/definitions/Link"
+      web_membership_events:
+        "$ref": "#/definitions/Link"
+      web_member_sessions:
+        "$ref": "#/definitions/Link"
+      web_domain_users:
+        "$ref": "#/definitions/Link"
+      web_settings_themes:
+        "$ref": "#/definitions/Link"
+      web_trial_appointments:
+        "$ref": "#/definitions/Link"
+      data_sources:
+        "$ref": "#/definitions/Link"
+      data_source:
+        "$ref": "#/definitions/Link"
+      admins:
+        "$ref": "#/definitions/Link"
+      memberships:
+        "$ref": "#/definitions/Link"
+      home_web:
+        "$ref": "#/definitions/Link"
+      home_starred_web:
+        "$ref": "#/definitions/Link"
+      home_reports_web:
+        "$ref": "#/definitions/Link"
+      home_search_web:
+        "$ref": "#/definitions/Link"
+      home_discover_web:
+        "$ref": "#/definitions/Link"
+      select_data_sources_web:
+        "$ref": "#/definitions/Link"
+      new_invite_web:
+        "$ref": "#/definitions/Link"
+      new_upload_web:
+        "$ref": "#/definitions/Link"
+      billing_web:
+        "$ref": "#/definitions/Link"
+      public_data_sources:
+        "$ref": "#/definitions/Link"
+      organizations:
+        "$ref": "#/definitions/Link"
+      walkthrough:
+        "$ref": "#/definitions/Link"
+      preference:
+        "$ref": "#/definitions/Link"
+      table:
+        "$ref": "#/definitions/Link"
+      report:
+        "$ref": "#/definitions/Link"
+      reports:
+        "$ref": "#/definitions/Link"
+      archived_reports:
+        "$ref": "#/definitions/Link"
+      public_reports:
+        "$ref": "#/definitions/Link"
+      drafts_reports:
+        "$ref": "#/definitions/Link"
+      starred_reports:
+        "$ref": "#/definitions/Link"
+      by_ids_reports:
+        "$ref": "#/definitions/Link"
+      viewed_reports:
+        "$ref": "#/definitions/Link"
+      by_tokens_definitions:
+        "$ref": "#/definitions/Link"
+      bridges:
+        "$ref": "#/definitions/Link"
+      access_tokens:
+        "$ref": "#/definitions/Link"
+      new_report:
+        "$ref": "#/definitions/Link"
+      new_report_web:
+        "$ref": "#/definitions/Link"
+      validate_table:
+        "$ref": "#/definitions/Link"
+      report_views:
+        "$ref": "#/definitions/Link"
+      groups:
+        "$ref": "#/definitions/Link"
+      group:
+        "$ref": "#/definitions/Link"
+      spaces:
+        "$ref": "#/definitions/Link"
+      space:
+        "$ref": "#/definitions/Link"
+      all_spaces:
+        "$ref": "#/definitions/Link"
+      definitions:
+        "$ref": "#/definitions/Link"
+      definition:
+        "$ref": "#/definitions/Link"
+      color_palettes:
+        "$ref": "#/definitions/Link"
+      all_color_palettes:
+        "$ref": "#/definitions/Link"
+      color_palette:
+        "$ref": "#/definitions/Link"
+      web_color_palettes_settings:
+        "$ref": "#/definitions/Link"
+      validate_space_name:
+        "$ref": "#/definitions/Link"
+      validate_definition_name:
+        "$ref": "#/definitions/Link"
+      slack_app:
+        "$ref": "#/definitions/Link"
+      default_categorical_palette:
+        "$ref": "#/definitions/Link"
+      default_sequential_palette:
+        "$ref": "#/definitions/Link"
+      default_divergent_palette:
+        "$ref": "#/definitions/Link"
+      trial_appointment:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - web
+    - web_public_datasource_home
+    - web_groups
+    - web_new_organization
+    - home_web
+    - home_starred_web
+    - home_search_web
+    - new_invite_web
+    - new_upload_web
+    - report
+    - reports
+    - archived_reports
+    - public_reports
+    - drafts_reports
+    - starred_reports
+    - by_ids_reports
+    - viewed_reports
+    - all_color_palettes
+  AccountEmbeds:
+    properties:
+      data_sources:
+        "$ref": "#/definitions/DataSources"
+      spaces:
+        "$ref": "#/definitions/Spaces"
+      all_spaces:
+        "$ref": "#/definitions/Spaces"
+  RunReportRequestBody:
+    required:
+    - parameters
+    type: object
+    properties:
+      parameters:
+        description: A object of key/value pairs corresponding to custom report parameter
+          names and values
+        type: object
+        example:
+          user_id: 123
+          location: San Francisco
+  QueriesAttributes:
+    required:
+    - data_source_id
+    - create_query_run
+    properties:
+      name:
+        type: string
+        description: Name of the `Query`
+      data_source_id:
+        type: integer
+        description: Numeric ID of the `DataSource` which this `Query` should be associated
+          with
+      create_query_run:
+        type: boolean
+        description: Determines whether to include this `Query` when running the `Report`
+      limit:
+        type: boolean
+        description: Determines whether a limit of 100 will be automatically applied
+          to the `Query`
+        default: false
+      token:
+        type: string
+        description: Identifying token of the `Query`, if it has already been created
+      raw_query:
+        type: string
+        description: SQL to run
+  CreateOrUpdateReportFilterRequestBody:
+    required:
+    - report_filter
+    properties:
+      report_filter:
+        "$ref": "#/definitions/CreateOrUpdateReportFilterAttributes"
+  CreateOrUpdateReportFilterAttributes:
+    required:
+    - name
+    - formula
+    - data_type
+    - formula_type
+    - variable_type
+    - filter_type
+    - control_type
+    - options
+    properties:
+      name:
+        type: string
+        description: "`ReportFilter` name"
+      formula:
+        type: string
+        description: "`ReportFilter` formula"
+      data_type:
+        type: string
+        description: "`ReportFilter` data type"
+      formula_type:
+        type: string
+        description: "`ReportFilter` formula type"
+      filter_type:
+        enum:
+        - SINGLE
+        - MULTI
+        - RANGE
+        description: "`ReportFilter` type"
+      control_type:
+        enum:
+        - LIST
+        - DROPDOWN
+        - RANGE
+        description: "`ReportFilter` control type"
+      variable_type:
+        enum:
+        - CONTINUOUS
+        - DISCRETE
+        description: "`ReportFilter` variable type"
+      options:
+        "$ref": "#/definitions/ReportFilterOptions"
+      next_filter_token:
+        type: string
+        description: Token of the `ReportFilter` that should come after this one,
+          if manual ordering is desired
+  Link:
+    required:
+    - href
+    properties:
+      href:
+        type: string
+      templated:
+        type: boolean
+        default: false
+  Avatar:
+    required:
+    - type
+    properties:
+      type:
+        type: string
+  DataSourceCustomAttributes:
+    properties:
+      standard_sql:
+        type: boolean
+  ReportRunParameters: {}
+  ReportFilterOptions: {}
+  Pagination:
+    required:
+    - first_page
+    - last_page
+    - total_pages
+    - total_count
+    properties:
+      first_page:
+        type: string
+      last_page:
+        type: string
+      total_pages:
+        type: integer
+      total_count:
+        type: integer
+  CreateUserGroupMembershipRequestBody:
+    required:
+    - membership
+    type: object
+    properties:
+      membership:
+        description: The parameters for the new membership
+        type: object
+        required:
+        - member_token
+        properties:
+          member_token:
+            description: The token of the user to become a member
+            type: string
+  UpdateUserGroupRequestBody:
+    required:
+    - user_group
+    type: object
+    properties:
+      user_group:
+        description: The parameters for the updated user group
+        type: object
+        properties:
+          name:
+            description: The new name for the user group
+            type: string
+  CreateDataSourcePermissionGrantRequestBody:
+    required:
+    - grant
+    type: object
+    properties:
+      grant:
+        required:
+        - grantee_token
+        - grantee_type
+        description: The parameters for the new data source permission grant
+        type: object
+        example:
+          grantee_token: ashEaew72l
+          grantee_type: UserGroup
+        properties:
+          grantee_token:
+            description: The token of the recipient of the permission grant
+            type: string
+          grantee_type:
+            description: The type of the recipient of the permission grant, either
+              `User` for a user, or `UserGroup` for a user group
+            type: string
+  DataSourcePermissionGrant:
+    properties:
+      token:
+        type: string
+      grantee_token:
+        type: string
+      grantee_type:
+        type: string
+      grantee_id:
+        type: string
+      _links:
+        "$ref": "#/definitions/DataSourcePermissionGrantLinks"
+      _embedded:
+        "$ref": "#/definitions/DataSourcePermissionGrantEmbeds"
+    required:
+    - _links
+    - token
+    - grantee_token
+    - grantee_type
+    - grantee_id
+  DataSourcePermissionGrantLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      grantee:
+        "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
+      data_source:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - grantee
+    - creator
+    - data_source
+  DataSourcePermissionGrantEmbeds: {}
+  DataSourcePermissionGrants:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/DataSourcePermissionGrantsLinks"
+      _embedded:
+        "$ref": "#/definitions/DataSourcePermissionGrantsEmbeds"
+    required:
+    - _links
+  DataSourcePermissionGrantsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  DataSourcePermissionGrantsEmbeds: {}
+  DataSource:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      description:
+        type: string
+      token:
+        type: string
+      adapter:
+        enum:
+        - jdbc:hive
+        - jdbc:impala
+        - jdbc:mysql
+        - jdbc:oracle
+        - jdbc:postgresql
+        - jdbc:redshift
+        - jdbc:sqlserver
+        - jdbc:vertica
+        - jdbc:presto
+        - jdbc:treasuredata
+        - jdbc:bigquery
+        - jdbc:athena
+        - jdbc:snowflake
+        - jdbc:teradata
+        - jdbc:db2
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+      has_expensive_schema_updates:
+        type: boolean
+      public:
+        type: boolean
+      asleep:
+        type: boolean
+      queryable:
+        type: boolean
+      display_name:
+        type: string
+      account_id:
+        type: integer
+      account_username:
+        type: string
+      organization_token:
+        type: string
+      default:
+        type: boolean
+      default_for_organization_id:
+        type: boolean
+      database:
+        type: string
+      host:
+        type: string
+      port:
+        type: string
+      ssl:
+        type: boolean
+      username:
+        type: string
+      provider:
+        type: string
+      vendor:
+        type: string
+      ldap:
+        type: boolean
+      warehouse:
+        type: string
+      bridged:
+        type: boolean
+      adapter_version:
+        type: string
+      custom_attributes:
+        "$ref": "#/definitions/DataSourceCustomAttributes"
+      _links:
+        "$ref": "#/definitions/DataSourceLinks"
+      _embedded:
+        "$ref": "#/definitions/DataSourceEmbeds"
+    required:
+    - _links
+    - id
+    - name
+    - description
+    - token
+    - adapter
+    - created_at
+    - updated_at
+    - has_expensive_schema_updates
+    - public
+    - asleep
+    - queryable
+    - display_name
+    - custom_attributes
+  DataSourceLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      account:
+        "$ref": "#/definitions/Link"
+      data_source_grants:
+        "$ref": "#/definitions/Link"
+      web:
+        "$ref": "#/definitions/Link"
+      web_home:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - account
+    - web
+    - web_home
+  DataSourceEmbeds: {}
+  DataSources:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/DataSourcesLinks"
+      _embedded:
+        "$ref": "#/definitions/DataSourcesEmbeds"
+    required:
+    - _links
+  DataSourcesLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  DataSourcesEmbeds: {}
+  Definition:
+    properties:
+      id:
+        type: string
+      token:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      source:
+        type: string
+      data_source_id:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+      last_successful_sync_at:
+        type: string
+      github_link:
+        type: string
+      last_saved_at:
+        type: string
+      _links:
+        "$ref": "#/definitions/DefinitionLinks"
+      _embedded:
+        "$ref": "#/definitions/DefinitionEmbeds"
+    required:
+    - _links
+    - id
+    - token
+    - name
+    - description
+    - source
+    - data_source_id
+    - created_at
+    - updated_at
+    - last_successful_sync_at
+    - last_saved_at
+  DefinitionLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      last_run:
+        "$ref": "#/definitions/Link"
+      last_successful_github_sync:
+        "$ref": "#/definitions/Link"
+      web_edit:
+        "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - last_run
+    - last_successful_github_sync
+    - web_edit
+    - creator
+  DefinitionEmbeds: {}
+  Definitions:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/DefinitionsLinks"
+      _embedded:
+        "$ref": "#/definitions/DefinitionsEmbeds"
+    required:
+    - _links
+  DefinitionsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  DefinitionsEmbeds: {}
+  BadRequest:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - bad_request
+      message:
+        type: string
+  Forbidden:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - forbidden
+      message:
+        type: string
+  InternalServerError:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - internal_server_error
+      message:
+        type: string
+  NotFound:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - not_found
+      message:
+        type: string
+  ParamMissing:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - param_missing
+      message:
+        type: string
+  PayloadTooLarge:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - payload_too_large
+      message:
+        type: string
+  RateLimited:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - rate_limited
+      message:
+        type: string
+  ServiceUnavailable:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - service_unavailable
+      message:
+        type: string
+  Unauthorized:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - unauthorized
+      message:
+        type: string
+  Invite:
+    properties:
+      email:
+        type: string
+      message:
+        type: string
+      inviter_id:
+        type: string
+      invitee_id:
+        type: string
+      organization_id:
+        type: string
+      limited:
+        type: string
+      sent_at:
+        type: string
+      resent_at:
+        type: string
+      clicked_at:
+        type: string
+      accepted_at:
+        type: string
+      created_at:
+        type: string
+      _links:
+        "$ref": "#/definitions/InviteLinks"
+      _embedded:
+        "$ref": "#/definitions/InviteEmbeds"
+    required:
+    - _links
+    - email
+    - message
+    - inviter_id
+    - invitee_id
+    - organization_id
+    - limited
+    - created_at
+  InviteLinks:
+    properties:
+      inviter:
+        "$ref": "#/definitions/Link"
+      invitee:
+        "$ref": "#/definitions/Link"
+    required:
+    - inviter
+  InviteEmbeds: {}
+  Membership:
+    properties:
+      admin:
+        type: boolean
+      limited:
+        type: boolean
+      state:
+        type: string
+      _links:
+        "$ref": "#/definitions/MembershipLinks"
+      _embedded:
+        "$ref": "#/definitions/MembershipEmbeds"
+    required:
+    - _links
+    - admin
+    - state
+  MembershipLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      organization:
+        "$ref": "#/definitions/Link"
+      user:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - organization
+  MembershipEmbeds: {}
+  Memberships:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/MembershipsLinks"
+      _embedded:
+        "$ref": "#/definitions/MembershipsEmbeds"
+    required:
+    - _links
+  MembershipsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  MembershipsEmbeds: {}
+  QueryRuns:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/QueryRunsLinks"
+      _embedded:
+        "$ref": "#/definitions/QueryRunsEmbeds"
+    required:
+    - _links
+  QueryRunsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  QueryRunsEmbeds: {}
+  ReportFilter:
+    properties:
+      id:
+        type: integer
+      report_id:
+        type: integer
+      token:
+        type: string
+      name:
+        type: string
+      row_order:
+        type: integer
+      formula:
+        type: string
+      data_type:
+        type: string
+      formula_type:
+        type: string
+      filter_type:
+        enum:
+        - SINGLE
+        - MULTI
+        - RANGE
+        type: string
+      control_type:
+        enum:
+        - LIST
+        - DROPDOWN
+        - RANGE
+        type: string
+      variable_type:
+        enum:
+        - CONTINUOUS
+        - DISCRETE
+        type: string
+      options:
+        "$ref": "#/definitions/ReportFilterOptions"
+      created_at:
+        type: string
+      updated_at:
+        type: string
+      _links:
+        "$ref": "#/definitions/ReportFilterLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportFilterEmbeds"
+    required:
+    - _links
+    - id
+    - report_id
+    - token
+    - name
+    - row_order
+    - formula
+    - data_type
+    - formula_type
+    - filter_type
+    - control_type
+    - variable_type
+    - options
+    - created_at
+    - updated_at
+  ReportFilterLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      report:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - report
+  ReportFilterEmbeds: {}
+  ReportFilters:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/ReportFiltersLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportFiltersEmbeds"
+    required:
+    - _links
+  ReportFiltersLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  ReportFiltersEmbeds: {}
+  Report:
+    properties:
+      token:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      description:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+      edited_at:
+        type: string
+      theme_id:
+        type: integer
+      last_successful_sync_at:
+        type: string
+      last_saved_at:
+        type: string
+      archived:
+        type: boolean
+      space_token:
+        type: string
+      account_id:
+        type: integer
+      account_username:
+        type: string
+      public:
+        type: boolean
+      full_width:
+        type: boolean
+      manual_run_disabled:
+        type: boolean
+      run_privately:
+        type: boolean
+      drilldowns_enabled:
+        type: boolean
+      layout:
+        type: string
+      is_embedded:
+        type: boolean
+      is_signed:
+        type: boolean
+      shared:
+        type: boolean
+      expected_runtime:
+        type: number
+      last_successfully_run_at:
+        type: string
+      last_run_at:
+        type: string
+      web_preview_image:
+        type: string
+      last_successful_run_token:
+        type: string
+      flamingo_signature:
+        type: string
+      github_link:
+        type: string
+      _links:
+        "$ref": "#/definitions/ReportLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportEmbeds"
+    required:
+    - _links
+    - token
+    - id
+    - name
+    - created_at
+    - updated_at
+    - edited_at
+    - theme_id
+    - last_successful_sync_at
+    - last_saved_at
+    - archived
+    - account_id
+    - account_username
+    - public
+    - full_width
+    - manual_run_disabled
+    - run_privately
+    - drilldowns_enabled
+    - layout
+    - is_embedded
+    - is_signed
+    - shared
+    - expected_runtime
+    - last_successfully_run_at
+    - last_run_at
+    - web_preview_image
+    - last_successful_run_token
+  ReportLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      web:
+        "$ref": "#/definitions/Link"
+      web_edit:
+        "$ref": "#/definitions/Link"
+      web_external_url:
+        "$ref": "#/definitions/Link"
+      csv_export:
+        "$ref": "#/definitions/Link"
+      share:
+        "$ref": "#/definitions/Link"
+      web_report_runs:
+        "$ref": "#/definitions/Link"
+      account:
+        "$ref": "#/definitions/Link"
+      report_run:
+        "$ref": "#/definitions/Link"
+      star:
+        "$ref": "#/definitions/Link"
+      space:
+        "$ref": "#/definitions/Link"
+      space_links:
+        "$ref": "#/definitions/Link"
+      queries:
+        "$ref": "#/definitions/Link"
+      report_runs:
+        "$ref": "#/definitions/Link"
+      report_pins:
+        "$ref": "#/definitions/Link"
+      report_filters:
+        "$ref": "#/definitions/Link"
+      report_schedules:
+        "$ref": "#/definitions/Link"
+      report_subscriptions:
+        "$ref": "#/definitions/Link"
+      python_visualizations:
+        "$ref": "#/definitions/Link"
+      embed_key:
+        "$ref": "#/definitions/Link"
+      last_run:
+        "$ref": "#/definitions/Link"
+      last_successful_run:
+        "$ref": "#/definitions/Link"
+      python_notebook:
+        "$ref": "#/definitions/Link"
+      perspective_email_subscription_memberships:
+        "$ref": "#/definitions/Link"
+      validate_email_subscriber:
+        "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
+      report_theme:
+        "$ref": "#/definitions/Link"
+      last_successful_github_sync:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - web
+    - account
+    - report_run
+    - queries
+    - report_runs
+    - report_pins
+    - report_schedules
+    - python_visualizations
+    - embed_key
+    - last_run
+    - last_successful_run
+    - perspective_email_subscription_memberships
+    - report_theme
+    - last_successful_github_sync
+  ReportEmbeds: {}
+  ReportRun:
+    properties:
+      token:
+        type: string
+      state:
+        enum:
+        - pending
+        - enqueued
+        - cancelled
+        - failed
+        - succeeded
+        - completed
+        - running_notebook
+        type: string
+      parameters:
+        "$ref": "#/definitions/ReportRunParameters"
+      created_at:
+        type: string
+      updated_at:
+        type: string
+      completed_at:
+        type: string
+      python_state:
+        enum:
+        - none
+        - pending
+        - failed
+        - submitted
+        - succeeded
+        type: string
+      form_fields:
+        type: array
+      _links:
+        "$ref": "#/definitions/ReportRunLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportRunEmbeds"
+    required:
+    - _links
+    - token
+    - state
+    - parameters
+    - created_at
+    - updated_at
+    - completed_at
+    - python_state
+    - form_fields
+  ReportRunLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      content:
+        "$ref": "#/definitions/Link"
+      preview:
+        "$ref": "#/definitions/Link"
+      account:
+        "$ref": "#/definitions/Link"
+      report_schedule:
+        "$ref": "#/definitions/Link"
+      executed_by:
+        "$ref": "#/definitions/Link"
+      share:
+        "$ref": "#/definitions/Link"
+      embed:
+        "$ref": "#/definitions/Link"
+      report:
+        "$ref": "#/definitions/Link"
+      clone:
+        "$ref": "#/definitions/Link"
+      query_runs:
+        "$ref": "#/definitions/Link"
+      python_cell_runs:
+        "$ref": "#/definitions/Link"
+      pdf_export:
+        "$ref": "#/definitions/Link"
+      web_clone:
+        "$ref": "#/definitions/Link"
+      web_external_url:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - preview
+    - account
+    - report_schedule
+    - executed_by
+    - report
+    - clone
+    - query_runs
+    - python_cell_runs
+    - pdf_export
+  ReportRunEmbeds: {}
+  ReportRuns:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/ReportRunsLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportRunsEmbeds"
+    required:
+    - _links
+  ReportRunsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  ReportRunsEmbeds: {}
+  Reports:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/ReportsLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportsEmbeds"
+    required:
+    - _links
+  ReportsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  ReportsEmbeds: {}
+  Space:
+    properties:
+      token:
+        type: string
+      id:
+        type: integer
+      space_type:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      state:
+        type: string
+      restricted:
+        type: boolean
+      free_default:
+        type: string
+      _links:
+        "$ref": "#/definitions/SpaceLinks"
+      _embedded:
+        "$ref": "#/definitions/SpaceEmbeds"
+    required:
+    - _links
+    - token
+    - id
+    - space_type
+    - name
+    - description
+    - state
+    - restricted
+    - free_default
+  SpaceLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      detail:
+        "$ref": "#/definitions/Link"
+      space_report_pins:
+        "$ref": "#/definitions/Link"
+      web:
+        "$ref": "#/definitions/Link"
+      reports:
+        "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
+      user_space_membership:
+        "$ref": "#/definitions/Link"
+      space_memberships:
+        "$ref": "#/definitions/Link"
+      preview_space_memberships:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - detail
+    - reports
+    - creator
+  SpaceEmbeds: {}
+  Spaces:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/SpacesLinks"
+      _embedded:
+        "$ref": "#/definitions/SpacesEmbeds"
+    required:
+    - _links
+  SpacesLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  SpacesEmbeds: {}
+  UserGroupMembership:
+    properties:
+      token:
+        type: string
+      member_token:
+        type: string
+      _links:
+        "$ref": "#/definitions/UserGroupMembershipLinks"
+      _embedded:
+        "$ref": "#/definitions/UserGroupMembershipEmbeds"
+    required:
+    - _links
+    - token
+    - member_token
+  UserGroupMembershipLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
+      member:
+        "$ref": "#/definitions/Link"
+      user_group:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - creator
+    - member
+    - user_group
+  UserGroupMembershipEmbeds: {}
+  UserGroupMemberships:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/UserGroupMembershipsLinks"
+      _embedded:
+        "$ref": "#/definitions/UserGroupMembershipsEmbeds"
+    required:
+    - _links
+  UserGroupMembershipsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  UserGroupMembershipsEmbeds: {}
+  UserGroup:
+    properties:
+      token:
+        type: string
+      group_type:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      state:
+        type: string
+      member_count:
+        type: string
+      _links:
+        "$ref": "#/definitions/UserGroupLinks"
+      _embedded:
+        "$ref": "#/definitions/UserGroupEmbeds"
+    required:
+    - _links
+    - token
+    - group_type
+    - name
+    - description
+    - state
+    - member_count
+  UserGroupLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      web:
+        "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
+      group_memberships:
+        "$ref": "#/definitions/Link"
+      membership_by_id:
+        "$ref": "#/definitions/Link"
+      memberships_preview:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - web
+    - creator
+    - group_memberships
+    - membership_by_id
+    - memberships_preview
+  UserGroupEmbeds: {}
+  UserGroups:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/UserGroupsLinks"
+      _embedded:
+        "$ref": "#/definitions/UserGroupsEmbeds"
+    required:
+    - _links
+  UserGroupsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  UserGroupsEmbeds: {}
