@@ -211,6 +211,40 @@ paths:
           description: Bad request
           schema:
             "$ref": "#/definitions/BadRequest"
+  "/{account}/data_sources/{data_source}/schema_updates":
+    x-summary: Data Source Schema Updates
+    post:
+      operationId: createDataSourceSchemaUpdate
+      summary: Create a schema update for a data source
+      description: Creates and queues a `schema update` for a `data source`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`DataSource` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`DataSourceSchemaUpdate` response"
+          schema:
+            "$ref": "#/definitions/DataSourceSchemaUpdate"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: data_source
+        in: path
+        description: "`DataSource` token"
+        required: true
+        type: string
   "/{organization}/data_sources":
     x-summary: DataSources
     get:
@@ -271,7 +305,7 @@ paths:
     get:
       operationId: getDefinitions
       summary: Get list of definitions
-      description: Returns a list of `Definitions`s
+      description: Returns a list of `Definition`s
       responses:
         '401':
           description: Unauthorized
@@ -536,6 +570,181 @@ paths:
         description: "`Membership` token"
         required: true
         type: string
+  "/{account}/reports/{report}/queries":
+    x-summary: Queries
+    get:
+      operationId: getQueriesInReport
+      summary: Get list of queries for a report
+      description: Returns all `Queries` in a `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Query` collection response"
+          schema:
+            "$ref": "#/definitions/ReportQueries"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+    post:
+      operationId: createQueryInReport
+      summary: Create a query for a report
+      description: Creates a `Query` in a `Report`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateQueryRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Query` response"
+          schema:
+            "$ref": "#/definitions/Query"
+  "/{account}/reports/{report}/queries/{query}":
+    x-summary: Query
+    get:
+      operationId: getQueryInReport
+      summary: Get a query for a report
+      description: Returns a `Query` in a `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Query` response"
+          schema:
+            "$ref": "#/definitions/Query"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: query
+        in: path
+        description: "`Query` token"
+        required: true
+        type: string
+    patch:
+      operationId: updateQueryInReport
+      summary: Upate a query for a report
+      description: Updates a `Query` in a `Report`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/UpdateQueryRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: query
+        in: path
+        description: "`Query` token"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Query` response"
+          schema:
+            "$ref": "#/definitions/Query"
+    delete:
+      operationId: deleteQueryInReport
+      summary: Delete a query for a report
+      description: Deletes a `Query` in a `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Query` response"
+          schema:
+            "$ref": "#/definitions/Query"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: query
+        in: path
+        description: "`Query` token"
+        required: true
+        type: string
   "/{account}/reports/{report}/runs/{run}/query_runs":
     x-summary: Query Runs
     get:
@@ -645,6 +854,43 @@ paths:
             "$ref": "#/definitions/ReportFilter"
   "/{account}/reports/{report}/filters/{filter}":
     x-summary: Report Filter
+    get:
+      operationId: getReportFilter
+      summary: Get a report filter
+      description: Gets a `ReportFilter`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: filter
+        in: path
+        description: "`ReportFilter` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportFilter` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`ReportFilter` response"
+          schema:
+            "$ref": "#/definitions/ReportFilter"
     patch:
       operationId: updateReportFilter
       summary: Update a report filter
@@ -656,6 +902,43 @@ paths:
         required: true
         schema:
           "$ref": "#/definitions/CreateOrUpdateReportFilterRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: filter
+        in: path
+        description: "`ReportFilter` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportFilter` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`ReportFilter` response"
+          schema:
+            "$ref": "#/definitions/ReportFilter"
+    delete:
+      operationId: destroyReportFilter
+      summary: Destroy a report filter
+      description: Destroys a `ReportFilter`
+      parameters:
       - name: account
         in: path
         description: "`Account` (`Organization` or `User`) username"
@@ -779,7 +1062,7 @@ paths:
         required: true
         type: string
   "/{account}/reports/{report}/archive":
-    x-summary: Archive Report
+    x-summary: Report
     patch:
       operationId: archiveReport
       summary: Archive a report
@@ -813,7 +1096,7 @@ paths:
         required: true
         type: string
   "/{account}/reports/{report}/unarchive":
-    x-summary: Unarchive Report
+    x-summary: Report
     patch:
       operationId: unarchiveReport
       summary: Unarchive a report
@@ -915,7 +1198,7 @@ paths:
           schema:
             "$ref": "#/definitions/ReportRuns"
   "/{account}/reports/{report}/runs/{run}/clone":
-    x-summary: Clone Report Run
+    x-summary: Report Run
     post:
       operationId: cloneReportRun
       summary: Clones a report run
@@ -988,8 +1271,142 @@ paths:
           description: "`ReportRun` response"
           schema:
             "$ref": "#/definitions/ReportRun"
+  "/{account}/spaces/{space}/memberships":
+    x-summary: Space Memberships
+    post:
+      operationId: createSpaceMemberships
+      summary: Add a user or user group as a Space member
+      description: Returns all `Memberships` for a `Space`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`Space` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`SpaceMembership` response"
+          schema:
+            "$ref": "#/definitions/SpaceMembership"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: space
+        in: path
+        description: "`Space` token"
+        required: true
+        type: string
+    get:
+      operationId: getSpaceMemberships
+      summary: Get list of memberships for a Space
+      description: Returns all `Memberships` for a `Space`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`Space` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`SpaceMembership` collection response"
+          schema:
+            "$ref": "#/definitions/SpaceMemberships"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: space
+        in: path
+        description: "`Space` token"
+        required: true
+        type: string
+  "/{account}/spaces/{space}/memberships/{space_membership}":
+    x-summary: Space Membership
+    get:
+      operationId: getSpaceMembership
+      summary: Get a single membership for a Space
+      description: Returns a single `Membership` for a `Space`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Space Membership` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`SpaceMembership` response"
+          schema:
+            "$ref": "#/definitions/SpaceMembership"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: space
+        in: path
+        description: "`Space` token"
+        required: true
+        type: string
+      - name: space_membership
+        in: path
+        description: "`Space Membership` token"
+        required: true
+        type: string
+    delete:
+      operationId: deleteSpaceMembership
+      summary: Delete a single membership for a Space
+      description: Delets a single `Membership` for a `Space`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Space Membership` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`SpaceMembership` response"
+          schema:
+            "$ref": "#/definitions/SpaceMembership"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: space
+        in: path
+        description: "`Space` token"
+        required: true
+        type: string
+      - name: space_membership
+        in: path
+        description: "`Space Membership` token"
+        required: true
+        type: string
   "/{organization}/spaces":
-    x-summary: Spaces
+    x-summary: Space
     get:
       operationId: getSpaces
       summary: Get a list of spaces
@@ -1014,6 +1431,41 @@ paths:
         description: "`Organization` username"
         required: true
         type: string
+    post:
+      operationId: createSpace
+      summary: Create a space
+      description: Creates a `Space`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateOrUpdateSpaceRequestBody"
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Account` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`Space` response"
+          schema:
+            "$ref": "#/definitions/Space"
   "/{organization}/spaces/{space}":
     x-summary: Space
     get:
@@ -1072,6 +1524,46 @@ paths:
         description: "`Space` token"
         required: true
         type: string
+    post:
+      operationId: updateSpace
+      summary: Update a space
+      description: Updates a `Space`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateOrUpdateSpaceRequestBody"
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: space
+        in: path
+        description: "`Space` token"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Space` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '200':
+          description: "`Space` response"
+          schema:
+            "$ref": "#/definitions/Space"
   "/{organization}/groups/{group_token}/memberships":
     x-summary: GroupMemberships
     get:
@@ -1086,7 +1578,7 @@ paths:
         type: string
       - name: group_token
         in: path
-        description: "`UserGroup token"
+        description: "`UserGroup` token"
         required: true
         type: string
       responses:
@@ -1122,7 +1614,7 @@ paths:
         type: string
       - name: group_token
         in: path
-        description: "`UserGroup token"
+        description: "`UserGroup` token"
         required: true
         type: string
       responses:
@@ -1160,7 +1652,7 @@ paths:
         type: string
       - name: group_token
         in: path
-        description: "`UserGroup token"
+        description: "`UserGroup` token"
         required: true
         type: string
       - name: membership_token
@@ -1197,7 +1689,7 @@ paths:
         type: string
       - name: group_token
         in: path
-        description: "`UserGroup token"
+        description: "`UserGroup` token"
         required: true
         type: string
       - name: membership_token
@@ -1255,12 +1747,47 @@ paths:
           description: Forbidden
           schema:
             "$ref": "#/definitions/Forbidden"
+    post:
+      operationId: createGroup
+      summary: Create a group
+      description: Create a user `Group` with the provided attributes
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateUserGroupRequestBody"
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`UserGroup` response"
+          schema:
+            "$ref": "#/definitions/UserGroup"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
   "/{organization}/groups/{group_token}":
     x-summary: Group
     get:
       operationId: getGroup
       summary: Get a group
-      description: Gets a `Group` of `Users`
+      description: Gets a user `Group`
       parameters:
       - name: organization
         in: path
@@ -1269,7 +1796,39 @@ paths:
         type: string
       - name: group_token
         in: path
-        description: "`UserGroup token"
+        description: "`UserGroup` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Membership` not found for `Organization`"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`UserGroup` response"
+          schema:
+            "$ref": "#/definitions/UserGroup"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
+    delete:
+      operationId: deleteGroup
+      summary: Delete a group
+      description: Deletes a user `Group`
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: group_token
+        in: path
+        description: "`UserGroup` token"
         required: true
         type: string
       responses:
@@ -1292,7 +1851,7 @@ paths:
     patch:
       operationId: updateGroup
       summary: Update a group
-      description: Update a `Group` with the provided attributes
+      description: Update a user `Group` with the provided attributes
       parameters:
       - name: parameters
         in: body
@@ -1305,7 +1864,7 @@ paths:
         type: string
       - name: group_token
         in: path
-        description: "`UserGroup token"
+        description: "`UserGroup` token"
         required: true
         type: string
       responses:
@@ -1432,6 +1991,8 @@ definitions:
         "$ref": "#/definitions/Link"
       memberships:
         "$ref": "#/definitions/Link"
+      all_memberships:
+        "$ref": "#/definitions/Link"
       home_web:
         "$ref": "#/definitions/Link"
       home_starred_web:
@@ -1526,6 +2087,8 @@ definitions:
         "$ref": "#/definitions/Link"
       trial_appointment:
         "$ref": "#/definitions/Link"
+      member_session_timeout:
+        "$ref": "#/definitions/Link"
     required:
     - self
     - web
@@ -1592,6 +2155,51 @@ definitions:
       raw_query:
         type: string
         description: SQL to run
+  CreateQueryRequestBody:
+    required:
+    - query
+    type: object
+    properties:
+      query:
+        required:
+        - raw_query
+        - data_source_id
+        type: object
+        description: The parameters for the new `query`
+        properties:
+          data_source_id:
+            type: integer
+            minimum: 1
+            description: The id of the data source to use
+          raw_query:
+            type: string
+            example: SELECT * from the_way_down
+            description: The raw query to be executed
+          name:
+            type: string
+            example: Turtles
+            description: The name of the new `query`
+  UpdateQueryRequestBody:
+    required:
+    - query
+    type: object
+    properties:
+      query:
+        type: object
+        description: The updated parameters for the `query`
+        properties:
+          data_source_id:
+            type: integer
+            minimum: 1
+            description: The id of the data source to use
+          raw_query:
+            type: string
+            example: SELECT * FROM small_table;
+            description: The raw query to be executed
+          name:
+            type: string
+            example: All the small things
+            description: The name of the new `query`
   CreateOrUpdateReportFilterRequestBody:
     required:
     - report_filter
@@ -1644,6 +2252,27 @@ definitions:
         type: string
         description: Token of the `ReportFilter` that should come after this one,
           if manual ordering is desired
+  CreateOrUpdateSpaceRequestBody:
+    required:
+    - space
+    type: object
+    properties:
+      space:
+        required:
+        - space_type
+        - name
+        type: object
+        description: The parameters of the new or updated space
+        properties:
+          space_type:
+            type: string
+            description: The type of the `space`, the only option is `custom`
+          description:
+            type: string
+            description: Description of the `space`
+          name:
+            type: string
+            description: Name of the `space`
   Link:
     required:
     - href
@@ -1705,6 +2334,18 @@ definitions:
         properties:
           name:
             description: The new name for the user group
+            type: string
+  CreateUserGroupRequestBody:
+    required:
+    - user_group
+    type: object
+    properties:
+      user_group:
+        description: The parameters for the created user group
+        type: object
+        properties:
+          name:
+            description: The name for the new user group
             type: string
   CreateDataSourcePermissionGrantRequestBody:
     required:
@@ -1898,6 +2539,39 @@ definitions:
     - web
     - web_home
   DataSourceEmbeds: {}
+  DataSourceSchemaUpdate:
+    properties:
+      id:
+        type: string
+      token:
+        type: string
+      state:
+        type: string
+      content_length:
+        type: string
+      number_of_schemas:
+        type: string
+      number_of_tables:
+        type: string
+      _links:
+        "$ref": "#/definitions/DataSourceSchemaUpdateLinks"
+      _embedded:
+        "$ref": "#/definitions/DataSourceSchemaUpdateEmbeds"
+    required:
+    - _links
+    - id
+    - token
+    - state
+    - content_length
+    - number_of_schemas
+    - number_of_tables
+  DataSourceSchemaUpdateLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  DataSourceSchemaUpdateEmbeds: {}
   DataSources:
     properties:
       pagination:
@@ -2164,12 +2838,18 @@ definitions:
     properties:
       self:
         "$ref": "#/definitions/Link"
+      web_self:
+        "$ref": "#/definitions/Link"
+      web_self_unban:
+        "$ref": "#/definitions/Link"
       organization:
         "$ref": "#/definitions/Link"
       user:
         "$ref": "#/definitions/Link"
     required:
     - self
+    - web_self
+    - web_self_unban
     - organization
   MembershipEmbeds: {}
   Memberships:
@@ -2193,6 +2873,64 @@ definitions:
     required:
     - self
   MembershipsEmbeds: {}
+  Query:
+    properties:
+      id:
+        type: string
+      token:
+        type: string
+      raw_query:
+        type: string
+      created_at:
+        type: string
+      name:
+        type: string
+      last_run_id:
+        type: string
+      data_source_id:
+        type: string
+      mapping_id:
+        type: string
+      _links:
+        "$ref": "#/definitions/QueryLinks"
+      _embedded:
+        "$ref": "#/definitions/QueryEmbeds"
+    required:
+    - _links
+    - id
+    - token
+    - created_at
+    - name
+    - last_run_id
+    - data_source_id
+  QueryLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      report:
+        "$ref": "#/definitions/Link"
+      report_runs:
+        "$ref": "#/definitions/Link"
+      charts:
+        "$ref": "#/definitions/Link"
+      new_chart:
+        "$ref": "#/definitions/Link"
+      new_query_table:
+        "$ref": "#/definitions/Link"
+      query_tables:
+        "$ref": "#/definitions/Link"
+      query_runs:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - report
+    - report_runs
+    - charts
+    - new_chart
+    - new_query_table
+    - query_tables
+    - query_runs
+  QueryEmbeds: {}
   QueryRuns:
     properties:
       pagination:
@@ -2306,6 +3044,27 @@ definitions:
     required:
     - self
   ReportFiltersEmbeds: {}
+  ReportQueries:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/ReportQueriesLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportQueriesEmbeds"
+    required:
+    - _links
+  ReportQueriesLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  ReportQueriesEmbeds: {}
   Report:
     properties:
       token:
@@ -2324,6 +3083,8 @@ definitions:
         type: string
       theme_id:
         type: integer
+      color_mappings:
+        type: string
       last_successful_sync_at:
         type: string
       last_saved_at:
@@ -2368,6 +3129,12 @@ definitions:
         type: string
       github_link:
         type: string
+      query_count:
+        type: string
+      chart_count:
+        type: string
+      schedules_count:
+        type: string
       _links:
         "$ref": "#/definitions/ReportLinks"
       _embedded:
@@ -2381,6 +3148,7 @@ definitions:
     - updated_at
     - edited_at
     - theme_id
+    - color_mappings
     - last_successful_sync_at
     - last_saved_at
     - archived
@@ -2400,6 +3168,9 @@ definitions:
     - last_run_at
     - web_preview_image
     - last_successful_run_token
+    - query_count
+    - chart_count
+    - schedules_count
   ReportLinks:
     properties:
       self:
@@ -2497,6 +3268,10 @@ definitions:
         type: string
       completed_at:
         type: string
+      purge_started_at:
+        type: string
+      purge_completed_at:
+        type: string
       python_state:
         enum:
         - none
@@ -2519,6 +3294,8 @@ definitions:
     - created_at
     - updated_at
     - completed_at
+    - purge_started_at
+    - purge_completed_at
     - python_state
     - form_fields
   ReportRunLinks:
@@ -2607,6 +3384,62 @@ definitions:
     required:
     - self
   ReportsEmbeds: {}
+  SpaceMemberships:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/SpaceMembershipsLinks"
+      _embedded:
+        "$ref": "#/definitions/SpaceMembershipsEmbeds"
+    required:
+    - _links
+  SpaceMembershipsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  SpaceMembershipsEmbeds: {}
+  SpaceMembership:
+    properties:
+      token:
+        type: string
+      member_token:
+        type: string
+      member_type:
+        type: string
+      member_id:
+        type: string
+      email:
+        type: string
+      _links:
+        "$ref": "#/definitions/SpaceMembershipLinks"
+      _embedded:
+        "$ref": "#/definitions/SpaceMembershipEmbeds"
+    required:
+    - _links
+    - token
+    - member_token
+    - member_type
+    - member_id
+  SpaceMembershipLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      member:
+        "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - member
+    - creator
+  SpaceMembershipEmbeds: {}
   Space:
     properties:
       token:
