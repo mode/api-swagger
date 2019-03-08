@@ -55,7 +55,7 @@ paths:
           schema:
             "$ref": "#/definitions/Account"
   "/{organization}/data_sources/{data_source}/grants":
-    x-summary: PermissionGrants
+    x-summary: Permission Grants
     post:
       operationId: createDataSourcePermissionGrant
       summary: Create a data source permission grant
@@ -98,8 +98,8 @@ paths:
           schema:
             "$ref": "#/definitions/BadRequest"
     get:
-      operationId: getDataSourcePermissionGrants
-      summary: Get a list of data source permission grants
+      operationId: listDataSourcePermissionGrants
+      summary: List data source permission grants
       description: Gets a list of all the `PermissionGrants` to a limited `Data Source`
       parameters:
       - name: organization
@@ -130,7 +130,7 @@ paths:
           schema:
             "$ref": "#/definitions/Forbidden"
   "/{organization}/data_sources/{data_source}/grants/{grant_token}":
-    x-summary: PermissionGrant
+    x-summary: Permission Grant
     get:
       operationId: getDataSourcePermissionGrant
       summary: Get a data source permission grant
@@ -248,8 +248,8 @@ paths:
   "/{organization}/data_sources":
     x-summary: DataSources
     get:
-      operationId: getDataSources
-      summary: Get list of data sources
+      operationId: listDataSources
+      summary: List data sources
       description: Returns all `DataSource`s owned by an `Organization`
       responses:
         '401':
@@ -303,8 +303,8 @@ paths:
   "/{organization}/definitions":
     x-summary: Definitions
     get:
-      operationId: getDefinitions
-      summary: Get list of definitions
+      operationId: listDefinitions
+      summary: List definitions
       description: Returns a list of `Definition`s
       responses:
         '401':
@@ -364,7 +364,7 @@ paths:
     x-summary: Definition
     get:
       operationId: getDefinition
-      summary: Get list of definitions
+      summary: Get a definition
       description: Returns a representation of `Definition`
       responses:
         '401':
@@ -460,6 +460,16 @@ paths:
       operationId: createOrganizationInvite
       summary: Create an invitation
       description: Creates a `User` and invites `User` to `Organization`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateInviteRequestBody"
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
       responses:
         '401':
           description: Unauthorized
@@ -481,17 +491,11 @@ paths:
           description: "`OrganizationInvite` response"
           schema:
             "$ref": "#/definitions/Invite"
-      parameters:
-      - name: organization
-        in: path
-        description: "`Organization` username"
-        required: true
-        type: string
   "/{organization}/memberships":
-    x-summary: Memberships
+    x-summary: Organization Memberships
     get:
-      operationId: getMemberships
-      summary: Get list of memberships
+      operationId: listMemberships
+      summary: List memberships
       description: Returns a list of `Membership`s
       responses:
         '401':
@@ -509,7 +513,7 @@ paths:
         required: true
         type: string
   "/{organization}/memberships/{membership}":
-    x-summary: Membership
+    x-summary: Organization Membership
     get:
       operationId: getMembership
       summary: Get a membership
@@ -573,8 +577,8 @@ paths:
   "/{account}/reports/{report}/queries":
     x-summary: Queries
     get:
-      operationId: getQueriesInReport
-      summary: Get list of queries for a report
+      operationId: listQueriesInReport
+      summary: List queries for a report
       description: Returns all `Queries` in a `Report`
       responses:
         '401':
@@ -748,8 +752,8 @@ paths:
   "/{account}/reports/{report}/runs/{run}/query_runs":
     x-summary: Query Runs
     get:
-      operationId: getQueryRunsForReportRun
-      summary: " Get list of query runs"
+      operationId: listQueryRunsForReportRun
+      summary: List query runs
       description: Returns all `QueryRun`s for a single `ReportRun`
       parameters:
       - name: account
@@ -780,11 +784,50 @@ paths:
           description: "`QueryRun` collection response"
           schema:
             "$ref": "#/definitions/QueryRuns"
+  "/{account}/reports/{report}/runs/{run}/query_runs/{query_run}/results/content(.csv, .json)":
+    x-summary: Export
+    get:
+      operationId: getQueryRunContent
+      summary: Get content of a query run
+      description: Gets the content of a query run in the requested format (csv or
+        json)
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: run
+        in: path
+        description: "`ReportRun` token"
+        required: true
+        type: string
+      - name: query_run
+        in: path
+        description: "`Query Run` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportRun` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`Query Run` result content in the requested format"
   "/{account}/reports/{report}/filters":
     x-summary: Report Filters
     get:
-      operationId: getReportFilters
-      summary: Get list of report filters
+      operationId: listReportFilters
+      summary: List report filters
       description: Returns all `ReportFilter`s for a single `Report`
       parameters:
       - name: account
@@ -971,11 +1014,44 @@ paths:
           description: "`ReportFilter` response"
           schema:
             "$ref": "#/definitions/ReportFilter"
+  "/{account}/reports/{report}/exports/runs/{run}/format/download":
+    x-summary: Export
+    get:
+      operationId: getReportRunExport
+      summary: Get the pdf export of a report run
+      description: Gets exported pdf of the report run
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: run
+        in: path
+        description: "`ReportRun` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportRun` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: The data stream containing the exported pdf file
   "/{account}/spaces/{space}/reports":
     x-summary: Reports
     get:
-      operationId: getReportsInSpace
-      summary: Get list of reports for a space
+      operationId: listReportsInSpace
+      summary: List reports for a space
       description: Returns all `Report`s in a `Space`
       responses:
         '401':
@@ -1003,6 +1079,38 @@ paths:
         type: string
   "/{account}/reports/{report}":
     x-summary: Report
+    patch:
+      operationId: updateReport
+      summary: Update a report
+      description: Updates a single `report` with the provided attributes
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/UpdateReportRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Report` response"
+          schema:
+            "$ref": "#/definitions/Report"
     get:
       operationId: getReport
       summary: Get a report
@@ -1170,8 +1278,8 @@ paths:
           schema:
             "$ref": "#/definitions/ReportRun"
     get:
-      operationId: getReportRuns
-      summary: Get a list of report runs
+      operationId: listReportRuns
+      summary: List report runs
       description: Returns a list of `ReportRun`s for a `Report`
       parameters:
       - name: account
@@ -1277,6 +1385,21 @@ paths:
       operationId: createSpaceMemberships
       summary: Add a user or user group as a Space member
       description: Returns all `Memberships` for a `Space`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateSpaceMembershipRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: space
+        in: path
+        description: "`Space` token"
+        required: true
+        type: string
       responses:
         '401':
           description: Unauthorized
@@ -1294,20 +1417,9 @@ paths:
           description: "`SpaceMembership` response"
           schema:
             "$ref": "#/definitions/SpaceMembership"
-      parameters:
-      - name: account
-        in: path
-        description: "`Account` (`Organization` or `User`) username"
-        required: true
-        type: string
-      - name: space
-        in: path
-        description: "`Space` token"
-        required: true
-        type: string
     get:
-      operationId: getSpaceMemberships
-      summary: Get list of memberships for a Space
+      operationId: listSpaceMemberships
+      summary: List memberships for a Space
       description: Returns all `Memberships` for a `Space`
       responses:
         '401':
@@ -1408,8 +1520,8 @@ paths:
   "/{organization}/spaces":
     x-summary: Space
     get:
-      operationId: getSpaces
-      summary: Get a list of spaces
+      operationId: listSpaces
+      summary: List spaces
       description: Returns a representation of `Space`s in an `Organization` visible
         to the authenticated `User`
       responses:
@@ -1565,10 +1677,10 @@ paths:
           schema:
             "$ref": "#/definitions/Space"
   "/{organization}/groups/{group_token}/memberships":
-    x-summary: GroupMemberships
+    x-summary: Group Memberships
     get:
-      operationId: getGroupMemberships
-      summary: Get a list of group memberships
+      operationId: listGroupMemberships
+      summary: List group memberships
       description: Get all `Memberships` of a `Group`
       parameters:
       - name: organization
@@ -1639,7 +1751,7 @@ paths:
           schema:
             "$ref": "#/definitions/BadRequest"
   "/{organization}/groups/{group_token}/memberships/{membership_token}":
-    x-summary: GroupMembership
+    x-summary: Group Membership
     get:
       operationId: getGroupMembership
       summary: Get a group membership
@@ -1721,8 +1833,8 @@ paths:
   "/{organization}/groups":
     x-summary: Groups
     get:
-      operationId: getGroups
-      summary: Get a list of groups
+      operationId: listGroups
+      summary: List groups
       description: Get all `Group`s for an `Organization`
       parameters:
       - name: organization
@@ -2155,6 +2267,28 @@ definitions:
       raw_query:
         type: string
         description: SQL to run
+  CreateInviteRequestBody:
+    required:
+    - invite
+    type: object
+    properties:
+      invite:
+        required:
+        - invitee
+        - message
+        type: object
+        properties:
+          invitee:
+            required:
+            - email
+            type: object
+            properties:
+              email:
+                type: string
+                example: harold.ceramicist@example.com
+          message:
+            type: string
+            example: You're an analyist, Harry!
   CreateQueryRequestBody:
     required:
     - query
@@ -2200,6 +2334,27 @@ definitions:
             type: string
             example: All the small things
             description: The name of the new `query`
+  UpdateReportRequestBody:
+    required:
+    - report
+    type: object
+    properties:
+      report:
+        type: object
+        properties:
+          name:
+            type: string
+            description: The name of the report
+            example: Kanto Region Diaspora
+          description:
+            type: string
+            description: A description of the report in question
+            example: An analysis of all the creatures living in the region. Please
+              contribute any missing data. Pocket version coming soon.
+          space_token:
+            type: string
+            description: The token of the space this report will be moved to
+            example: 5a4177a2902c
   CreateOrUpdateReportFilterRequestBody:
     required:
     - report_filter
@@ -2252,6 +2407,26 @@ definitions:
         type: string
         description: Token of the `ReportFilter` that should come after this one,
           if manual ordering is desired
+  CreateSpaceMembershipRequestBody:
+    required:
+    - membership
+    type: object
+    properties:
+      membership:
+        required:
+        - member_type
+        - member_token
+        type: object
+        description: The attributes of the new member being added to the space
+        properties:
+          member_type:
+            type: string
+            description: The type of member, either `"User"` or `"UserGroup"`
+            example: User
+          member_token:
+            type: string
+            description: The token of the member being added
+            example: 2bd8236f8ae4
   CreateOrUpdateSpaceRequestBody:
     required:
     - space
