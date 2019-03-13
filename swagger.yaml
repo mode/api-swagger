@@ -19,7 +19,7 @@ info:
     will result in a `401 Unauthorized` response.
 
     [Create and Manage API Tokens](https://modeanalytics.com/settings/access_tokens)
-  termsOfService: https://about.modeanalytics.com/tos/
+  termsOfService: https://mode.com/tos/
   contact:
     name: Mode API Team
     email: support@modeanalytics.com
@@ -212,7 +212,7 @@ paths:
           schema:
             "$ref": "#/definitions/BadRequest"
   "/{account}/data_sources/{data_source}/schema_updates":
-    x-summary: Data Source Schema Updates
+    x-summary: DataSources
     post:
       operationId: createDataSourceSchemaUpdate
       summary: Create a schema update for a data source
@@ -3310,6 +3310,8 @@ definitions:
         type: string
       schedules_count:
         type: string
+      query_preview:
+        type: string
       _links:
         "$ref": "#/definitions/ReportLinks"
       _embedded:
@@ -3346,6 +3348,7 @@ definitions:
     - query_count
     - chart_count
     - schedules_count
+    - query_preview
   ReportLinks:
     properties:
       self:
