@@ -784,6 +784,46 @@ paths:
           description: "`QueryRun` collection response"
           schema:
             "$ref": "#/definitions/QueryRuns"
+  "/{account}/reports/{report}/runs/{run}/query_runs/{query_run}":
+    x-summary: Query Runs
+    get:
+      operationId: getQueryRunForReportRun
+      summary: Get a query run
+      description: Returns a `QueryRun` for a single `ReportRun`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: run
+        in: path
+        description: "`ReportRun` token"
+        required: true
+        type: string
+      - name: query_run
+        in: path
+        description: "`Query Run` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportRun` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`Query Run`response"
+          schema:
+            "$ref": "#/definitions/QueryRun"
   "/{account}/reports/{report}/runs/{run}/query_runs/{query_run}/results/content(.csv, .json)":
     x-summary: Export
     get:
@@ -1379,6 +1419,40 @@ paths:
           description: "`ReportRun` response"
           schema:
             "$ref": "#/definitions/ReportRun"
+  "/{account}/reports/{report}/runs/{run}/results/content(.csv, .json)":
+    x-summary: Export
+    get:
+      operationId: getReportRunContent
+      summary: Get report results
+      description: Gets the content of a report run in the requested format (csv or
+        json)
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: run
+        in: path
+        description: "`ReportRun` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportRun` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`Report Run` result content in the requested format"
   "/{account}/spaces/{space}/memberships":
     x-summary: Space Memberships
     post:
@@ -3106,6 +3180,75 @@ definitions:
     - query_tables
     - query_runs
   QueryEmbeds: {}
+  QueryRun:
+    properties:
+      id:
+        type: string
+      token:
+        type: string
+      raw_source:
+        type: string
+      statement_annotation:
+        type: string
+      state:
+        type: string
+      created_at:
+        type: string
+      completed_at:
+        type: string
+      data_source_id:
+        type: string
+      limit:
+        type: string
+      query_token:
+        type: string
+      parameters:
+        type: string
+      rendered_source:
+        type: string
+      _links:
+        "$ref": "#/definitions/QueryRunLinks"
+      _embedded:
+        "$ref": "#/definitions/QueryRunEmbeds"
+    required:
+    - _links
+    - id
+    - token
+    - state
+    - created_at
+    - completed_at
+    - data_source_id
+    - limit
+    - query_token
+    - parameters
+  QueryRunLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      query:
+        "$ref": "#/definitions/Link"
+      result:
+        "$ref": "#/definitions/Link"
+      result_web:
+        "$ref": "#/definitions/Link"
+      query_web:
+        "$ref": "#/definitions/Link"
+      report_run:
+        "$ref": "#/definitions/Link"
+      report_run_web:
+        "$ref": "#/definitions/Link"
+      executed_by:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - query
+    - result
+    - result_web
+    - query_web
+    - report_run
+    - report_run_web
+    - executed_by
+  QueryRunEmbeds: {}
   QueryRuns:
     properties:
       pagination:
