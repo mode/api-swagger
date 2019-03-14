@@ -58,7 +58,7 @@ paths:
     x-summary: Permission Grants
     post:
       operationId: createDataSourcePermissionGrant
-      summary: Create a data source permission grant
+      summary: Create a permission grant
       description: Creates a `PermissionGrant` for a `User` or `Group` to a limited
         `Data Source`
       parameters:
@@ -99,7 +99,7 @@ paths:
             "$ref": "#/definitions/BadRequest"
     get:
       operationId: listDataSourcePermissionGrants
-      summary: List data source permission grants
+      summary: List permission grants
       description: Gets a list of all the `PermissionGrants` to a limited `Data Source`
       parameters:
       - name: organization
@@ -133,7 +133,7 @@ paths:
     x-summary: Permission Grant
     get:
       operationId: getDataSourcePermissionGrant
-      summary: Get a data source permission grant
+      summary: Get a permission grant
       description: Gets the `PermissionGrant` for a `User` or `Group` to a limited
         `Data Source`
       parameters:
@@ -171,7 +171,7 @@ paths:
             "$ref": "#/definitions/Forbidden"
     delete:
       operationId: deleteDataSourcePermissionGrant
-      summary: Delete a data source permission grant
+      summary: Delete a permission grant
       description: Deletes the `PermissionGrant` for a `User` or `Group` from a limited
         `Data Source`
       parameters:
@@ -215,7 +215,7 @@ paths:
     x-summary: DataSources
     post:
       operationId: createDataSourceSchemaUpdate
-      summary: Create a schema update for a data source
+      summary: Update data source schema
       description: Creates and queues a `schema update` for a `data source`
       responses:
         '401':
@@ -544,7 +544,7 @@ paths:
         type: string
     delete:
       operationId: deleteMembership
-      summary: Delete a Membership
+      summary: Delete a membership
       description: Deletes a `Membership`
       responses:
         '401':
@@ -578,7 +578,7 @@ paths:
     x-summary: Queries
     get:
       operationId: listQueriesInReport
-      summary: List queries for a report
+      summary: List queries
       description: Returns all `Queries` in a `Report`
       responses:
         '401':
@@ -606,7 +606,7 @@ paths:
         type: string
     post:
       operationId: createQueryInReport
-      summary: Create a query for a report
+      summary: Create a query
       description: Creates a `Query` in a `Report`
       parameters:
       - name: parameters
@@ -644,7 +644,7 @@ paths:
     x-summary: Query
     get:
       operationId: getQueryInReport
-      summary: Get a query for a report
+      summary: Get a query
       description: Returns a `Query` in a `Report`
       responses:
         '401':
@@ -677,7 +677,7 @@ paths:
         type: string
     patch:
       operationId: updateQueryInReport
-      summary: Upate a query for a report
+      summary: Upate a query
       description: Updates a `Query` in a `Report`
       parameters:
       - name: parameters
@@ -718,7 +718,7 @@ paths:
             "$ref": "#/definitions/Query"
     delete:
       operationId: deleteQueryInReport
-      summary: Delete a query for a report
+      summary: Delete a query
       description: Deletes a `Query` in a `Report`
       responses:
         '401':
@@ -788,7 +788,7 @@ paths:
     x-summary: Export
     get:
       operationId: getQueryRunContent
-      summary: Get content of a query run
+      summary: Get query results
       description: Gets the content of a query run in the requested format (csv or
         json)
       parameters:
@@ -978,9 +978,9 @@ paths:
           schema:
             "$ref": "#/definitions/ReportFilter"
     delete:
-      operationId: destroyReportFilter
-      summary: Destroy a report filter
-      description: Destroys a `ReportFilter`
+      operationId: deleteReportFilter
+      summary: Delete a report filter
+      description: Deletes a `ReportFilter`
       parameters:
       - name: account
         in: path
@@ -1018,7 +1018,7 @@ paths:
     x-summary: Export
     get:
       operationId: getReportRunExport
-      summary: Get the pdf export of a report run
+      summary: Get PDF of a report run
       description: Gets exported pdf of the report run
       parameters:
       - name: account
@@ -1309,7 +1309,7 @@ paths:
     x-summary: Report Run
     post:
       operationId: cloneReportRun
-      summary: Clones a report run
+      summary: Clone a report run
       description: Returns a representation of the cloned `ReportRun`
       parameters:
       - name: account
@@ -1383,7 +1383,7 @@ paths:
     x-summary: Space Memberships
     post:
       operationId: createSpaceMemberships
-      summary: Add a user or user group as a Space member
+      summary: Create a space membership
       description: Returns all `Memberships` for a `Space`
       parameters:
       - name: parameters
@@ -1419,7 +1419,7 @@ paths:
             "$ref": "#/definitions/SpaceMembership"
     get:
       operationId: listSpaceMemberships
-      summary: List memberships for a Space
+      summary: List space memberships
       description: Returns all `Memberships` for a `Space`
       responses:
         '401':
@@ -1453,7 +1453,7 @@ paths:
     x-summary: Space Membership
     get:
       operationId: getSpaceMembership
-      summary: Get a single membership for a Space
+      summary: Get a space membership
       description: Returns a single `Membership` for a `Space`
       responses:
         '401':
@@ -1486,7 +1486,7 @@ paths:
         type: string
     delete:
       operationId: deleteSpaceMembership
-      summary: Delete a single membership for a Space
+      summary: Delete a space membership
       description: Delets a single `Membership` for a `Space`
       responses:
         '401':
@@ -1792,7 +1792,7 @@ paths:
     delete:
       operationId: deleteGroupMembership
       summary: Delete a group membership
-      description: Remove a `User` from a `Group` by destroying the `Membership`
+      description: Remove a `User` from a `Group` by deleting the `Membership`
       parameters:
       - name: organization
         in: path
