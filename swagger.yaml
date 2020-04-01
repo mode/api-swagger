@@ -54,6 +54,81 @@ paths:
           description: "`User` response"
           schema:
             "$ref": "#/definitions/Account"
+  "/{account}/reports/{report}/queries/{query}/charts":
+    x-summary: Charts
+    get:
+      operationId: listChartsInQuery
+      summary: List Charts for a Query
+      description: Returns all `Chart`s for a `Query`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Chart` collection response"
+          schema:
+            "$ref": "#/definitions/QueryCharts"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: query
+        in: path
+        description: "`Query` token"
+        required: true
+        type: string
+  "/{account}/reports/{report}/queries/{query}/charts/{chart}":
+    x-summary: Chart
+    get:
+      operationId: getChart
+      summary: Get a chart
+      description: Returns a representation of a single `Chart`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Chart` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Chart` response"
+          schema:
+            "$ref": "#/definitions/Chart"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: query
+        in: path
+        description: "`Query` token"
+        required: true
+        type: string
+      - name: chart
+        in: path
+        description: "`Chart` token"
+        required: true
+        type: string
   "/{organization}/data_sources/{data_source}/grants":
     x-summary: Permission Grants
     post:
@@ -1099,7 +1174,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Space` not found"
+          description: "`Report` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -1116,6 +1191,27 @@ paths:
         in: path
         description: "`Space` token"
         required: true
+        type: string
+      - name: filter
+        in: query
+        description: 'Returns a filtered list of `Report`s in a `Space` filtered by
+          whether their `created_at` or `updated_at` timestamps are `gt` (greater
+          than) or `lt` (less than) the datetime passed in (ISO8601 format). Example:
+          `?filter=created_at.gt.2019-10-23T06:23:01Z` returns all `Reports` in a
+          space created after that date.'
+        required: false
+        type: string
+      - name: order
+        in: query
+        description: 'With the `order_by` param, returns all `Report`s in a `Space`
+          ordered in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
+        required: false
+        type: string
+      - name: order_by
+        in: query
+        description: 'With the `order` param, returns all `Report`s in a `Space` ordered
+          by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
+        required: false
         type: string
   "/{account}/reports/{report}":
     x-summary: Report
@@ -1332,9 +1428,30 @@ paths:
         description: "`Report` token"
         required: true
         type: string
+      - name: filter
+        in: query
+        description: 'Returns a filtered list of `Runs`s for a `Report` filtered by
+          whether their `created_at` or `updated_at` timestamps are `gt` (greater
+          than) or `lt` (less than) the datetime passed in (ISO8601 format). Example:
+          `?filter=updated_at.lt.2019-10-23T06:23:01Z` returns all `Runs` in a space
+          created before that date.'
+        required: false
+        type: string
+      - name: order
+        in: query
+        description: With the `order` param, returns all `ReportRun`s for a `Report`
+          ordered by their `created_at` or `updated_at` timestamps
+        required: false
+        type: string
+      - name: order_by
+        in: query
+        description: With the `order_by` param, returns all `ReportRun`s for a `Report`
+          ordered in `asc` or `desc` order
+        required: false
+        type: string
       responses:
         '404':
-          description: "`Report` not found"
+          description: "`ReportRun` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '401':
@@ -2087,6 +2204,10 @@ definitions:
         type: string
       email:
         type: string
+      dataset_size_limit_mb:
+        type: string
+      query_run_size_limit_mb:
+        type: string
       email_verified:
         type: boolean
       avatar:
@@ -2137,6 +2258,8 @@ definitions:
     - name
     - id
     - token
+    - dataset_size_limit_mb
+    - query_run_size_limit_mb
     - avatar
     - user
   AccountLinks:
@@ -2163,8 +2286,6 @@ definitions:
         "$ref": "#/definitions/Link"
       web_member_sessions:
         "$ref": "#/definitions/Link"
-      web_domain_users:
-        "$ref": "#/definitions/Link"
       web_settings_themes:
         "$ref": "#/definitions/Link"
       web_trial_appointments:
@@ -2183,6 +2304,8 @@ definitions:
         "$ref": "#/definitions/Link"
       home_starred_web:
         "$ref": "#/definitions/Link"
+      home_explorations_web:
+        "$ref": "#/definitions/Link"
       home_reports_web:
         "$ref": "#/definitions/Link"
       home_search_web:
@@ -2190,6 +2313,8 @@ definitions:
       home_discover_web:
         "$ref": "#/definitions/Link"
       select_data_sources_web:
+        "$ref": "#/definitions/Link"
+      data_source_connection_request_web:
         "$ref": "#/definitions/Link"
       new_invite_web:
         "$ref": "#/definitions/Link"
@@ -2362,7 +2487,7 @@ definitions:
                 example: harold.ceramicist@example.com
           message:
             type: string
-            example: You're an analyist, Harry!
+            example: You are an analyst, Harry!
   CreateQueryRequestBody:
     required:
     - query
@@ -2522,6 +2647,55 @@ definitions:
           name:
             type: string
             description: Name of the `space`
+  VizViewVegas:
+    required:
+    - format
+    - encoding
+    - chartType
+    properties:
+      title:
+        type: string
+      format:
+        type: object
+      encoding:
+        type: object
+      chartType:
+        type: string
+        example: bigValue
+  VizView:
+    required:
+    - selectedChart
+    - bar
+    - bigNumber
+    - line
+    - linePlusBar
+    - scatter
+    - pie
+    - area
+    - pivotTable
+    properties:
+      selectedChart:
+        type: string
+      chartIcon:
+        type: string
+      chartTitle:
+        type: string
+      bar:
+        type: object
+      bigNumber:
+        type: object
+      line:
+        type: object
+      linePlusBar:
+        type: object
+      scatter:
+        type: object
+      pie:
+        type: object
+      area:
+        type: object
+      pivotTable:
+        type: object
   Link:
     required:
     - href
@@ -2618,6 +2792,75 @@ definitions:
             description: The type of the recipient of the permission grant, either
               `User` for a user, or `UserGroup` for a user group
             type: string
+  Chart:
+    properties:
+      view:
+        "$ref": "#/definitions/VizView"
+      view_version:
+        type: integer
+      view_vegas:
+        "$ref": "#/definitions/VizViewVegas"
+      token:
+        type: string
+      created_at:
+        type: string
+      color_palette_token:
+        type: string
+      _links:
+        "$ref": "#/definitions/ChartLinks"
+      _embedded:
+        "$ref": "#/definitions/ChartEmbeds"
+    required:
+    - _links
+    - view
+    - view_version
+    - view_vegas
+    - token
+    - created_at
+  ChartLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      color_palette:
+        "$ref": "#/definitions/Link"
+      report_viz_web:
+        "$ref": "#/definitions/Link"
+      preview:
+        "$ref": "#/definitions/Link"
+      report_run_viz_web:
+        "$ref": "#/definitions/Link"
+      last_successful_run_preview:
+        "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - report_viz_web
+    - preview
+    - report_run_viz_web
+    - creator
+  ChartEmbeds: {}
+  QueryCharts:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/QueryChartsLinks"
+      _embedded:
+        "$ref": "#/definitions/QueryChartsEmbeds"
+    required:
+    - _links
+  QueryChartsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  QueryChartsEmbeds: {}
   DataSourcePermissionGrant:
     properties:
       token:
@@ -2687,12 +2930,14 @@ definitions:
         type: string
       adapter:
         enum:
+        - jdbc:databricks
         - jdbc:hive
         - jdbc:impala
         - jdbc:mysql
         - jdbc:oracle
         - jdbc:postgresql
         - jdbc:redshift
+        - jdbc:spark
         - jdbc:sqlserver
         - jdbc:vertica
         - jdbc:presto
@@ -2751,6 +2996,8 @@ definitions:
         type: string
       custom_attributes:
         "$ref": "#/definitions/DataSourceCustomAttributes"
+      ssl_trusted_cert:
+        type: string
       _links:
         "$ref": "#/definitions/DataSourceLinks"
       _embedded:
@@ -2769,6 +3016,16 @@ definitions:
     - asleep
     - queryable
     - display_name
+    - database
+    - host
+    - port
+    - ssl
+    - username
+    - provider
+    - vendor
+    - ldap
+    - warehouse
+    - bridged
     - custom_attributes
   DataSourceLinks:
     properties:
@@ -2776,7 +3033,13 @@ definitions:
         "$ref": "#/definitions/Link"
       account:
         "$ref": "#/definitions/Link"
+      unrestrict:
+        "$ref": "#/definitions/Link"
+      restrict:
+        "$ref": "#/definitions/Link"
       data_source_grants:
+        "$ref": "#/definitions/Link"
+      permissions:
         "$ref": "#/definitions/Link"
       web:
         "$ref": "#/definitions/Link"
@@ -3043,6 +3306,8 @@ definitions:
         type: string
       accepted_at:
         type: string
+      expires_at:
+        type: string
       created_at:
         type: string
       _links:
@@ -3057,6 +3322,7 @@ definitions:
     - invitee_id
     - organization_id
     - limited
+    - expires_at
     - created_at
   InviteLinks:
     properties:
@@ -3064,8 +3330,11 @@ definitions:
         "$ref": "#/definitions/Link"
       invitee:
         "$ref": "#/definitions/Link"
+      web_self_resend:
+        "$ref": "#/definitions/Link"
     required:
     - inviter
+    - web_self_resend
   InviteEmbeds: {}
   Membership:
     properties:
@@ -3073,8 +3342,14 @@ definitions:
         type: boolean
       limited:
         type: boolean
+      invited:
+        type: boolean
       state:
         type: string
+      activated_at:
+        type: string
+      managed_by_scim:
+        type: boolean
       _links:
         "$ref": "#/definitions/MembershipLinks"
       _embedded:
@@ -3083,6 +3358,7 @@ definitions:
     - _links
     - admin
     - state
+    - activated_at
   MembershipLinks:
     properties:
       self:
@@ -3091,15 +3367,23 @@ definitions:
         "$ref": "#/definitions/Link"
       web_self_unban:
         "$ref": "#/definitions/Link"
+      web_self_approve:
+        "$ref": "#/definitions/Link"
       organization:
         "$ref": "#/definitions/Link"
       user:
         "$ref": "#/definitions/Link"
+      web_self_download_profile:
+        "$ref": "#/definitions/Link"
+      web_self_confirm_destroy:
+        "$ref": "#/definitions/Link"
+      groups:
+        "$ref": "#/definitions/Link"
     required:
     - self
     - web_self
-    - web_self_unban
     - organization
+    - groups
   MembershipEmbeds: {}
   Memberships:
     properties:
@@ -3170,6 +3454,8 @@ definitions:
         "$ref": "#/definitions/Link"
       query_runs:
         "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
     required:
     - self
     - report
@@ -3179,6 +3465,7 @@ definitions:
     - new_query_table
     - query_tables
     - query_runs
+    - creator
   QueryEmbeds: {}
   QueryRun:
     properties:
@@ -3206,6 +3493,16 @@ definitions:
         type: string
       rendered_source:
         type: string
+      max_result_bytes:
+        type: string
+      help_url:
+        type: string
+      error_code:
+        type: string
+      error_type:
+        type: string
+      error_message:
+        type: string
       _links:
         "$ref": "#/definitions/QueryRunLinks"
       _embedded:
@@ -3221,11 +3518,14 @@ definitions:
     - limit
     - query_token
     - parameters
+    - max_result_bytes
   QueryRunLinks:
     properties:
       self:
         "$ref": "#/definitions/Link"
       query:
+        "$ref": "#/definitions/Link"
+      view:
         "$ref": "#/definitions/Link"
       result:
         "$ref": "#/definitions/Link"
@@ -3397,6 +3697,8 @@ definitions:
         type: string
       updated_at:
         type: string
+      published_at:
+        type: string
       edited_at:
         type: string
       theme_id:
@@ -3449,11 +3751,17 @@ definitions:
         type: string
       query_count:
         type: string
+      max_query_count:
+        type: string
       chart_count:
+        type: string
+      runs_count:
         type: string
       schedules_count:
         type: string
       query_preview:
+        type: string
+      view_count:
         type: string
       _links:
         "$ref": "#/definitions/ReportLinks"
@@ -3466,6 +3774,7 @@ definitions:
     - name
     - created_at
     - updated_at
+    - published_at
     - edited_at
     - theme_id
     - color_mappings
@@ -3489,9 +3798,12 @@ definitions:
     - web_preview_image
     - last_successful_run_token
     - query_count
+    - max_query_count
     - chart_count
+    - runs_count
     - schedules_count
     - query_preview
+    - view_count
   ReportLinks:
     properties:
       self:
@@ -3550,6 +3862,8 @@ definitions:
         "$ref": "#/definitions/Link"
       last_successful_github_sync:
         "$ref": "#/definitions/Link"
+      report_index_web:
+        "$ref": "#/definitions/Link"
     required:
     - self
     - web
@@ -3566,6 +3880,7 @@ definitions:
     - perspective_email_subscription_memberships
     - report_theme
     - last_successful_github_sync
+    - report_index_web
   ReportEmbeds: {}
   ReportRun:
     properties:
@@ -3603,6 +3918,10 @@ definitions:
         type: string
       form_fields:
         type: array
+      flamingo_signature:
+        type: string
+      flamingo_host:
+        type: string
       _links:
         "$ref": "#/definitions/ReportRunLinks"
       _embedded:
@@ -3905,6 +4224,12 @@ definitions:
         type: string
       member_count:
         type: string
+      spaces_count:
+        type: string
+      data_sources_count:
+        type: string
+      managed:
+        type: string
       _links:
         "$ref": "#/definitions/UserGroupLinks"
       _embedded:
@@ -3917,6 +4242,9 @@ definitions:
     - description
     - state
     - member_count
+    - spaces_count
+    - data_sources_count
+    - managed
   UserGroupLinks:
     properties:
       self:
