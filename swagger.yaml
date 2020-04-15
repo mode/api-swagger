@@ -1373,6 +1373,371 @@ paths:
         description: "`Report` token"
         required: true
         type: string
+  "/{account}/reports/{report}/schedules":
+    x-summary: ReportSchedule
+    get:
+      operationId: listReportSchedules
+      summary: List schedules for a report
+      description: Returns all `Schedule`s for a `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: Report `Schedule` collection response
+          schema:
+            "$ref": "#/definitions/ReportSchedules"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+    post:
+      operationId: createReportSchedule
+      summary: Create a report schedule
+      description: Creates a `Report` `Schedule`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateReportScheduleRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: Report `Schedule` response
+          schema:
+            "$ref": "#/definitions/ReportSchedule"
+  "/{account}/reports/{report}/schedules/{schedule}":
+    x-summary: ReportSchedule
+    get:
+      operationId: getReportSchedule
+      summary: Get a report schedule
+      description: Returns a `Report`'s `Schedule`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`ReportSchedule` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: Report `Schedule` response
+          schema:
+            "$ref": "#/definitions/ReportSchedule"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: schedule
+        in: path
+        description: "`Schedule` token"
+        required: true
+        type: string
+    patch:
+      operationId: updateReportSchedule
+      summary: Update a report schedule
+      description: Updates a `Report`'s `Schedule`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/UpdateReportScheduleRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: schedule
+        in: path
+        description: "`Schedule` token"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`ReportSchedule` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: Report `Schedule` response
+          schema:
+            "$ref": "#/definitions/ReportSchedule"
+    delete:
+      operationId: deleteReportSchedule
+      summary: Delete a report schedule
+      description: Deletes a `Report`'s `Schedule`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`ReportSchedule` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: Empty body
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: schedule
+        in: path
+        description: "`Schedule` token"
+        required: true
+        type: string
+  "/{account}/reports/{report}/subscriptions":
+    x-summary: Report Subscription
+    get:
+      operationId: listSubscriptionsForReport
+      summary: List subscriptions
+      description: Returns all `Subscriptions` for a `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`ReportSubscription` collection response"
+          schema:
+            "$ref": "#/definitions/ReportSubscriptions"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+    post:
+      operationId: createSubscriptionForReport
+      summary: Create subscription
+      description: Creates and returns a `Subscription` for a `Report`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateorUpdateReportSubscriptionRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`ReportSubscription` response"
+          schema:
+            "$ref": "#/definitions/ReportSubscription"
+  "/{account}/reports/{report}/subscriptions/{subscription}":
+    x-summary: Report Subscription
+    get:
+      operationId: getSubscriptionForReport
+      summary: Get subscription
+      description: Returns a `Subscription` for a `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`ReportSubscription` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`ReportSubscription` response"
+          schema:
+            "$ref": "#/definitions/ReportSubscription"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: subscription
+        in: path
+        description: "`ReportSubscription` token"
+        required: true
+        type: string
+    patch:
+      operationId: updateSubscriptionForReport
+      summary: Update subscription
+      description: Updates and returns a `Subscription` for a `Report`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/CreateorUpdateReportSubscriptionRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: subscription
+        in: path
+        description: "`ReportSubscription` token"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`ReportSubscription` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`ReportSubscription` response"
+          schema:
+            "$ref": "#/definitions/ReportSubscription"
+    delete:
+      operationId: deleteSubscriptionForReport
+      summary: Delete subscription
+      description: Deletes a `Subscription` for a `Report`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`ReportSubscription` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: Empty body
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: subscription
+        in: path
+        description: "`ReportSubscription` token"
+        required: true
+        type: string
+  "/{account}/reports/{report}/schedules/{schedule}/subscriptions":
+    x-summary: Report Subscriptions
+    get:
+      operationId: listSubscriptionsForReportSchedule
+      summary: List schedule subscriptions
+      description: Returns all `subscriptions` for a `Report` `Schedule`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`ReportSchedule` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`ReportSubscription` collection response"
+          schema:
+            "$ref": "#/definitions/ReportSubscriptions"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: schedule
+        in: path
+        description: "`Schedule` token"
+        required: true
+        type: string
   "/{account}/reports/{report}/runs":
     x-summary: Report Runs
     post:
@@ -2606,6 +2971,373 @@ definitions:
         type: string
         description: Token of the `ReportFilter` that should come after this one,
           if manual ordering is desired
+  CreateReportScheduleRequestBody:
+    required:
+    - cron
+    properties:
+      cron:
+        "$ref": "#/definitions/ReportScheduleRequestBodyCronProperty"
+      timeout:
+        "$ref": "#/definitions/ReportScheduleRequestBodyTimeoutProperty"
+      params:
+        "$ref": "#/definitions/ReportScheduleRequestBodyParamsProperty"
+  UpdateReportScheduleRequestBody:
+    properties:
+      cron:
+        "$ref": "#/definitions/ReportScheduleRequestBodyCronProperty"
+      timeout:
+        "$ref": "#/definitions/ReportScheduleRequestBodyTimeoutProperty"
+      params:
+        "$ref": "#/definitions/ReportScheduleRequestBodyParamsProperty"
+  ReportScheduleRequestBodyTimeoutProperty:
+    type: integer
+    description: |-
+      How long, in seconds, the system should wait before it decides the schedule should run
+                                again even if the last run has not completed
+    example: 3600
+  ReportScheduleRequestBodyParamsProperty:
+    type: object
+    description: |-
+      A set of key/value pairs that match report parameter names and values, if the report for this
+                              schedule has any and you would like to schedule it with specific values
+    example:
+      foo: bar
+  ReportScheduleRequestBodyCronProperty:
+    type: object
+    description: 'CronLine attributes to determine your scheduled runtime. '
+    properties:
+      freq:
+        enum:
+        - every_15_minutes
+        - every_30_minutes
+        - hourly
+        - daily
+        - weekly
+        - monthly
+        description: How often this schedule repeats
+        example: hourly
+      day_of_month:
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+        - 12
+        - 13
+        - 14
+        - 15
+        - 16
+        - 17
+        - 18
+        - 19
+        - 20
+        - 21
+        - 22
+        - 23
+        - 24
+        - 25
+        - 26
+        - 27
+        - 28
+        - 29
+        - 30
+        - 31
+        description: The day of the month this schedule runs on
+        example: 15
+      day_of_week:
+        enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        description: The day of the week this schedule runs on (Sunday to Saturday)
+        example: 5
+      hour:
+        enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+        - 12
+        - 13
+        - 14
+        - 15
+        - 16
+        - 17
+        - 18
+        - 19
+        - 20
+        - 21
+        - 22
+        - 23
+        description: The hour of the day this schedule runs at (12am to 11pm)
+        example: 8
+      minute:
+        enum:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+        - 12
+        - 13
+        - 14
+        - 15
+        - 16
+        - 17
+        - 18
+        - 19
+        - 20
+        - 21
+        - 22
+        - 23
+        - 24
+        - 25
+        - 26
+        - 27
+        - 28
+        - 29
+        - 30
+        - 31
+        - 32
+        - 33
+        - 34
+        - 35
+        - 36
+        - 37
+        - 38
+        - 39
+        - 40
+        - 41
+        - 42
+        - 43
+        - 44
+        - 45
+        - 46
+        - 47
+        - 48
+        - 49
+        - 50
+        - 51
+        - 52
+        - 53
+        - 54
+        - 55
+        - 56
+        - 57
+        - 58
+        - 59
+        description: The minute of the hour this schedules runs at
+        example: 0
+      time_zone:
+        enum:
+        - International Date Line West
+        - Midway Island
+        - American Samoa
+        - Hawaii
+        - Alaska
+        - Pacific Time (US & Canada)
+        - Tijuana
+        - Mountain Time (US & Canada)
+        - Arizona
+        - Chihuahua
+        - Mazatlan
+        - Central Time (US & Canada)
+        - Saskatchewan
+        - Guadalajara
+        - Mexico City
+        - Monterrey
+        - Central America
+        - Eastern Time (US & Canada)
+        - Indiana (East)
+        - Bogota
+        - Lima
+        - Quito
+        - Atlantic Time (Canada)
+        - Caracas
+        - La Paz
+        - Santiago
+        - Newfoundland
+        - Brasilia
+        - Buenos Aires
+        - Montevideo
+        - Georgetown
+        - Puerto Rico
+        - Greenland
+        - Mid-Atlantic
+        - Azores
+        - Cape Verde Is.
+        - Dublin
+        - Edinburgh
+        - Lisbon
+        - London
+        - Casablanca
+        - Monrovia
+        - UTC
+        - Belgrade
+        - Bratislava
+        - Budapest
+        - Ljubljana
+        - Prague
+        - Sarajevo
+        - Skopje
+        - Warsaw
+        - Zagreb
+        - Brussels
+        - Copenhagen
+        - Madrid
+        - Paris
+        - Amsterdam
+        - Berlin
+        - Bern
+        - Zurich
+        - Rome
+        - Stockholm
+        - Vienna
+        - West Central Africa
+        - Bucharest
+        - Cairo
+        - Helsinki
+        - Kyiv
+        - Riga
+        - Sofia
+        - Tallinn
+        - Vilnius
+        - Athens
+        - Istanbul
+        - Minsk
+        - Jerusalem
+        - Harare
+        - Pretoria
+        - Kaliningrad
+        - Moscow
+        - St. Petersburg
+        - Volgograd
+        - Samara
+        - Kuwait
+        - Riyadh
+        - Nairobi
+        - Baghdad
+        - Tehran
+        - Abu Dhabi
+        - Muscat
+        - Baku
+        - Tbilisi
+        - Yerevan
+        - Kabul
+        - Ekaterinburg
+        - Islamabad
+        - Karachi
+        - Tashkent
+        - Chennai
+        - Kolkata
+        - Mumbai
+        - New Delhi
+        - Kathmandu
+        - Astana
+        - Dhaka
+        - Sri Jayawardenepura
+        - Almaty
+        - Novosibirsk
+        - Rangoon
+        - Bangkok
+        - Hanoi
+        - Jakarta
+        - Krasnoyarsk
+        - Beijing
+        - Chongqing
+        - Hong Kong
+        - Urumqi
+        - Kuala Lumpur
+        - Singapore
+        - Taipei
+        - Perth
+        - Irkutsk
+        - Ulaanbaatar
+        - Seoul
+        - Osaka
+        - Sapporo
+        - Tokyo
+        - Yakutsk
+        - Darwin
+        - Adelaide
+        - Canberra
+        - Melbourne
+        - Sydney
+        - Brisbane
+        - Hobart
+        - Vladivostok
+        - Guam
+        - Port Moresby
+        - Magadan
+        - Srednekolymsk
+        - Solomon Is.
+        - New Caledonia
+        - Fiji
+        - Kamchatka
+        - Marshall Is.
+        - Auckland
+        - Wellington
+        - Nuku'alofa
+        - Tokelau Is.
+        - Chatham Is.
+        - Samoa
+        description: The name of the time zone in which to evaluate the scheduled
+          time to run
+        example: Pacific Time (US & Canada)
+  CreateorUpdateReportSubscriptionRequestBody:
+    type: object
+    properties:
+      csv_attachments:
+        type: boolean
+        description: Whether or not to include Csv Attachments for subscribers to
+          the scheduled run
+        example: true
+      pdf_attachments:
+        type: boolean
+        description: Whether or not to include Pdf Attachments for subscribers to
+          the scheduled run
+        example: true
+      data_previews:
+        type: boolean
+        description: Whether or not to include Data Previews for subscribers to the
+          scheduled run
+        example: true
+      data_tables:
+        type: boolean
+        description: Whether or not to include Data Tables for subscribers to the
+          scheduled run
+        example: true
+      report_links:
+        type: boolean
+        description: Whether or not to include Report Links for subscribers to the
+          scheduled run
+        example: true
   CreateSpaceMembershipRequestBody:
     required:
     - membership
@@ -4024,6 +4756,162 @@ definitions:
     required:
     - self
   ReportsEmbeds: {}
+  ReportSchedule:
+    properties:
+      token:
+        type: string
+      state:
+        type: string
+      parameters:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+      retry_state:
+        type: string
+      retry_count:
+        type: string
+      retry_delay:
+        type: string
+      timeout:
+        type: string
+      last_run_at:
+        type: string
+      last_succeeded_at:
+        type: string
+      last_scheduled_run:
+        type: string
+      next_scheduled_run:
+        type: string
+      subscribed:
+        type: string
+      _links:
+        "$ref": "#/definitions/ReportScheduleLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportScheduleEmbeds"
+    required:
+    - _links
+    - token
+    - state
+    - parameters
+    - created_at
+    - updated_at
+    - retry_state
+    - retry_count
+    - retry_delay
+    - timeout
+    - last_run_at
+    - last_succeeded_at
+    - last_scheduled_run
+    - next_scheduled_run
+    - subscribed
+  ReportScheduleLinks:
+    properties:
+      account:
+        "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+      report:
+        "$ref": "#/definitions/Link"
+      report_runs:
+        "$ref": "#/definitions/Link"
+      report_subscriptions:
+        "$ref": "#/definitions/Link"
+    required:
+    - account
+    - creator
+    - self
+    - report
+    - report_runs
+    - report_subscriptions
+  ReportScheduleEmbeds: {}
+  ReportSchedules:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/ReportSchedulesLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportSchedulesEmbeds"
+    required:
+    - _links
+  ReportSchedulesLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  ReportSchedulesEmbeds: {}
+  ReportSubscription:
+    properties:
+      data_previews_enabled:
+        type: boolean
+      data_tables_enabled:
+        type: boolean
+      csv_attachments_enabled:
+        type: boolean
+      pdf_attachments_enabled:
+        type: boolean
+      report_links_enabled:
+        type: boolean
+      email_subscriber_count:
+        type: integer
+      _links:
+        "$ref": "#/definitions/ReportSubscriptionLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportSubscriptionEmbeds"
+    required:
+    - _links
+    - data_previews_enabled
+    - data_tables_enabled
+    - csv_attachments_enabled
+    - pdf_attachments_enabled
+    - report_links_enabled
+    - email_subscriber_count
+  ReportSubscriptionLinks:
+    properties:
+      self:
+        "$ref": "#/definitions/Link"
+      report_schedule:
+        "$ref": "#/definitions/Link"
+      email_subscription_memberships:
+        "$ref": "#/definitions/Link"
+      slack_subscription_memberships:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+    - report_schedule
+    - email_subscription_memberships
+    - slack_subscription_memberships
+  ReportSubscriptionEmbeds: {}
+  ReportSubscriptions:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      _links:
+        "$ref": "#/definitions/ReportSubscriptionsLinks"
+      _embedded:
+        "$ref": "#/definitions/ReportSubscriptionsEmbeds"
+    required:
+    - _links
+  ReportSubscriptionsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+      self:
+        "$ref": "#/definitions/Link"
+    required:
+    - self
+  ReportSubscriptionsEmbeds: {}
   SpaceMemberships:
     properties:
       pagination:
