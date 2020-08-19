@@ -1,0 +1,505 @@
+---
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: Mode
+  description: |
+    Mode provides a Metadata API for a few common objects, such as:
+
+    * Listing charts
+    * Listing reports
+    * Listing spaces
+    * Listing queries
+
+    ## Authentication
+
+    For most Mode API calls, the client must supply an API bearer token for
+    API token-based authentication.
+
+    Unauthenticated requests will result in a `401 Unauthorized` response.
+  termsOfService: https://mode.com/tos/
+  contact:
+    name: Mode API Team
+    email: support@modeanalytics.com
+  license:
+    name: MIT
+host: modeanalytics.com
+basePath: "/batch"
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+security:
+- accessTokenAuth: []
+securityDefinitions:
+  accessTokenAuth:
+    type: apiKey
+    name: api_key
+    in: header
+paths:
+  "/batch/{organization}/charts":
+    x-summary: Charts
+    get:
+      operationId: listChartsForAccount
+      summary: List charts for an account
+      description: Returns all `Chart`s for an `Account`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Organization` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Chart` collection response"
+          schema:
+            "$ref": "#/definitions/BatchApiRepresenters%3A%3ACharts"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+  "/batch/{organization}/queries":
+    x-summary: Queries
+    get:
+      operationId: listQueriesForAccount
+      summary: List queries for an account
+      description: Returns all `Query`s for an `Account`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Organization` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Query` collection response"
+          schema:
+            "$ref": "#/definitions/BatchApiRepresenters%3A%3AQueries"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+  "/batch/{organization}/reports":
+    x-summary: Reports
+    get:
+      operationId: listReportsForAccount
+      summary: List reports for an account
+      description: Returns all `Report`s for an `Account`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Organization` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Report` collection response"
+          schema:
+            "$ref": "#/definitions/BatchApiRepresenters%3A%3AReports"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+  "/batch/{organization}/signature_tokens":
+    x-summary: Signature Token
+    post:
+      operationId: createBatchSignatureToken
+      summary: Create a Signature Token
+      description: Returns a Signature Token
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Organization` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`SignatureToken` response"
+          schema:
+            "$ref": "#/definitions/BatchApiRepresenters%3A%3ASignatureToken"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+  "/batch/{organization}/signature_tokens/{signature_token}":
+    x-summary: Signature Token
+    delete:
+      operationId: deleteBatchSignatureToken
+      summary: Delete a Signature Token
+      description: Delete a Signature Token
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`SignatureToken` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`SignatureToken` response"
+          schema:
+            properties:
+              message:
+                type: :string
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: signature_token
+        in: path
+        description: "`Signature Token` token"
+        required: true
+        type: string
+  "/batch/{organization}/spaces":
+    x-summary: Spaces
+    get:
+      operationId: listSpacesForAccount
+      summary: List spaces for an account
+      description: Returns all `Space`s for an `Account`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Organization` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Space` collection response"
+          schema:
+            "$ref": "#/definitions/BatchApiRepresenters%3A%3ASpaces"
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+definitions:
+  Link:
+    required:
+    - href
+    properties:
+      href:
+        type: string
+      templated:
+        type: boolean
+        default: false
+  Pagination:
+    required:
+    - page
+    - per_page
+    - count
+    - total_pages
+    - total_count
+    properties:
+      page:
+        type: integer
+      per_page:
+        type: integer
+      count:
+        type: integer
+      total_pages:
+        type: integer
+      total_count:
+        type: integer
+  BatchApiRepresenters::Chart:
+    properties:
+      id:
+        type: integer
+      token:
+        type: string
+      chart_type:
+        type: string
+      chart_title:
+        type: string
+      query_id:
+        type: string
+      report_id:
+        type: string
+      space_id:
+        type: string
+      query_token:
+        type: string
+      report_token:
+        type: string
+      space_token:
+        type: string
+  BatchApiRepresenters::ChartLinks:
+    required: []
+  BatchApiRepresenters::Charts:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      charts:
+        type: array
+        items:
+          "$ref": "#/definitions/BatchApiRepresenters%3A%3AChart"
+      _links:
+        "$ref": "#/definitions/BatchApiRepresenters::ChartsLinks"
+  BatchApiRepresenters::ChartsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+    required:
+    - next_page
+    - prev_page
+  BatchApiRepresenters::Query:
+    properties:
+      id:
+        type: integer
+      token:
+        type: string
+      name:
+        type: string
+      raw_query:
+        type: string
+      report_id:
+        type: string
+      report_token:
+        type: string
+  BatchApiRepresenters::QueryLinks:
+    required: []
+  BatchApiRepresenters::Queries:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      queries:
+        type: array
+        items:
+          "$ref": "#/definitions/BatchApiRepresenters%3A%3AQuery"
+      _links:
+        "$ref": "#/definitions/BatchApiRepresenters::QueriesLinks"
+  BatchApiRepresenters::QueriesLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+    required:
+    - next_page
+    - prev_page
+  BatchApiRepresenters::Report:
+    properties:
+      id:
+        type: integer
+      token:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      created_at:
+        type: string
+      edited_at:
+        type: string
+      updated_at:
+        type: string
+      last_successfully_run_at:
+        type: string
+      report_url:
+        type: string
+  BatchApiRepresenters::ReportLinks:
+    required: []
+  BatchApiRepresenters::Reports:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      reports:
+        type: array
+        items:
+          "$ref": "#/definitions/BatchApiRepresenters%3A%3AReport"
+      _links:
+        "$ref": "#/definitions/BatchApiRepresenters::ReportsLinks"
+  BatchApiRepresenters::ReportsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+    required:
+    - next_page
+    - prev_page
+  BatchApiRepresenters::SignatureToken:
+    properties:
+      token:
+        type: string
+      name:
+        type: string
+      creator_id:
+        type: integer
+      organization_id:
+        type: integer
+      access_key:
+        type: string
+      access_secret:
+        type: string
+      created_at:
+        type: datetime
+      expires_at:
+        type: datetime
+      updated_at:
+        type: datetime
+      authentication_for:
+        type: string
+      authorization_type:
+        type: string
+  BatchApiRepresenters::SignatureTokenLinks:
+    required: []
+  BatchApiRepresenters::Space:
+    properties:
+      id:
+        type: integer
+      token:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      space_type:
+        type: string
+      space_url:
+        type: string
+  BatchApiRepresenters::SpaceLinks:
+    required: []
+  BatchApiRepresenters::Spaces:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      spaces:
+        type: array
+        items:
+          "$ref": "#/definitions/BatchApiRepresenters%3A%3ASpace"
+      _links:
+        "$ref": "#/definitions/BatchApiRepresenters::SpacesLinks"
+  BatchApiRepresenters::SpacesLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+    required:
+    - next_page
+    - prev_page
+  BadRequest:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - bad_request
+      message:
+        type: string
+  Forbidden:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - forbidden
+      message:
+        type: string
+  InternalServerError:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - internal_server_error
+      message:
+        type: string
+  NotFound:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - not_found
+      message:
+        type: string
+  ParamMissing:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - param_missing
+      message:
+        type: string
+  PayloadTooLarge:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - payload_too_large
+      message:
+        type: string
+  RateLimited:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - rate_limited
+      message:
+        type: string
+  ServiceUnavailable:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - service_unavailable
+      message:
+        type: string
+  Unauthorized:
+    required:
+    - id
+    - message
+    properties:
+      id:
+        type: string
+        enum:
+        - unauthorized
+      message:
+        type: string
