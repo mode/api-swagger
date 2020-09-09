@@ -246,6 +246,8 @@ definitions:
         type: string
       space_token:
         type: string
+      report_creator_email:
+        type: string
   BatchApiRepresenters::ChartLinks:
     required: []
   BatchApiRepresenters::Charts:
@@ -277,9 +279,17 @@ definitions:
         type: string
       raw_query:
         type: string
+      creator_email:
+        type: string
+      data_source_token:
+        type: string
       report_id:
         type: string
       report_token:
+        type: string
+      space_id:
+        type: string
+      space_token:
         type: string
   BatchApiRepresenters::QueryLinks:
     required: []
