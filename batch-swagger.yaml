@@ -59,11 +59,22 @@ paths:
           schema:
             "$ref": "#/definitions/BatchApiRepresenters%3A%3ACharts"
       parameters:
+      - in: query
+        name: include_spaces
+        description: With`?include_spaces=all`, the endpoint will include Charts in
+          members' personal spaces. By default Charts in members personal spaces are
+          excluded.
+        type: string
       - name: organization
         in: path
         description: "`Organization` username"
         required: true
         type: string
+      - in: query
+        name: per_page
+        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+          \nNote: `per_page` must be greater than `0` and less than `1000`."
+        type: integer
   "/batch/{organization}/members":
     x-summary: Members
     get:
@@ -89,6 +100,11 @@ paths:
         description: "`Organization` username"
         required: true
         type: string
+      - in: query
+        name: per_page
+        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+          \nNote: `per_page` must be greater than `0` and less than `1000`."
+        type: integer
   "/batch/{organization}/queries":
     x-summary: Queries
     get:
@@ -109,11 +125,22 @@ paths:
           schema:
             "$ref": "#/definitions/BatchApiRepresenters%3A%3AQueries"
       parameters:
+      - in: query
+        name: include_spaces
+        description: With`?include_spaces=all`, the endpoint will include Queries
+          in members' personal spaces. By default Queries in members personal spaces
+          are excluded.
+        type: string
       - name: organization
         in: path
         description: "`Organization` username"
         required: true
         type: string
+      - in: query
+        name: per_page
+        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+          \nNote: `per_page` must be greater than `0` and less than `1000`."
+        type: integer
   "/batch/{organization}/reports":
     x-summary: Reports
     get:
@@ -134,11 +161,22 @@ paths:
           schema:
             "$ref": "#/definitions/BatchApiRepresenters%3A%3AReports"
       parameters:
+      - in: query
+        name: include_spaces
+        description: With`?include_spaces=all`, the endpoint will include Reports
+          in members' personal spaces. By default Reports in members personal spaces
+          are excluded.
+        type: string
       - name: organization
         in: path
         description: "`Organization` username"
         required: true
         type: string
+      - in: query
+        name: per_page
+        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+          \nNote: `per_page` must be greater than `0` and less than `1000`."
+        type: integer
   "/batch/{organization}/signature_tokens":
     x-summary: Signature Token
     post:
@@ -221,6 +259,11 @@ paths:
         description: "`Organization` username"
         required: true
         type: string
+      - in: query
+        name: per_page
+        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+          \nNote: `per_page` must be greater than `0` and less than `1000`."
+        type: integer
 definitions:
   Link:
     required:
