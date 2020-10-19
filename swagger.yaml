@@ -1825,8 +1825,8 @@ paths:
           description: Bad request
           schema:
             "$ref": "#/definitions/BadRequest"
-        '200':
-          description: "`ReportRun` response"
+        '202':
+          description: "`ReportRun` Accepted"
           schema:
             "$ref": "#/definitions/ReportRun"
     get:
@@ -1948,8 +1948,8 @@ paths:
           description: Unauthorized
           schema:
             "$ref": "#/definitions/Unauthorized"
-        '200':
-          description: "`ReportRun` response"
+        '202':
+          description: "`ReportRun` Accepted"
           schema:
             "$ref": "#/definitions/ReportRun"
   "/{account}/reports/{report}/runs/{run}/results/content(.csv, .json)":
@@ -2828,6 +2828,8 @@ definitions:
         "$ref": "#/definitions/Link"
       scim_token:
         "$ref": "#/definitions/Link"
+      memberships_lite:
+        "$ref": "#/definitions/Link"
     required:
     - self
     - web
@@ -2836,6 +2838,7 @@ definitions:
     - web_new_organization
     - home_web
     - home_starred_web
+    - home_explorations_web
     - home_search_web
     - new_invite_web
     - new_upload_web
@@ -3725,23 +3728,23 @@ definitions:
         type: string
       adapter:
         enum:
+        - jdbc:athena
+        - jdbc:bigquery
         - jdbc:databricks
+        - jdbc:db2
         - jdbc:hive
         - jdbc:impala
         - jdbc:mysql
         - jdbc:oracle
         - jdbc:postgresql
+        - jdbc:presto
         - jdbc:redshift
+        - jdbc:snowflake
         - jdbc:spark
         - jdbc:sqlserver
-        - jdbc:vertica
-        - jdbc:presto
-        - jdbc:treasuredata
-        - jdbc:bigquery
-        - jdbc:athena
-        - jdbc:snowflake
         - jdbc:teradata
-        - jdbc:db2
+        - jdbc:treasuredata
+        - jdbc:vertica
         type: string
       created_at:
         type: string
@@ -4751,6 +4754,8 @@ definitions:
     - purge_completed_at
     - python_state
     - form_fields
+    - flamingo_signature
+    - flamingo_host
   ReportRunLinks:
     properties:
       self:
