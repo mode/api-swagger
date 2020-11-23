@@ -10,6 +10,7 @@ info:
     * Listing reports
     * Listing spaces
     * Listing queries
+    * Listing members
 
     ## Authentication
 
@@ -177,6 +178,42 @@ paths:
         description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
+  "/batch/{organization}/report_stats":
+    x-summary: Report Stats
+    get:
+      operationId: listReportStatsForAccount
+      summary: List report stats for an account
+      description: Returns all `ReportStat`s for an `Account`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Organization` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`ReportStat` collection response"
+          schema:
+            "$ref": "#/definitions/BatchApiRepresenters%3A%3AReportStats"
+      parameters:
+      - in: query
+        name: include_spaces
+        description: With`?include_spaces=all`, the endpoint will include ReportStats
+          in members' personal spaces. By default ReportStats in members personal
+          spaces are excluded.
+        type: string
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - in: query
+        name: per_page
+        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+          \nNote: `per_page` must be greater than `0` and less than `1000`."
+        type: integer
   "/batch/{organization}/signature_tokens":
     x-summary: Signature Token
     post:
@@ -316,6 +353,8 @@ definitions:
         type: string
       report_creator_email:
         type: string
+      exploration_url:
+        type: string
   BatchApiRepresenters::ChartLinks:
     required: []
   BatchApiRepresenters::Charts:
@@ -360,6 +399,14 @@ definitions:
       last_report_viewed_at:
         type: string
       last_report_run_at:
+        type: string
+      last_day_enagaged:
+        type: string
+      last_day_api_engaged:
+        type: string
+      last_day_in_app_engaged:
+        type: string
+      total_days_engaged:
         type: string
       last_exploration_created_at:
         type: string
@@ -453,16 +500,6 @@ definitions:
         type: string
       last_run_state:
         type: string
-      active_schedules_count:
-        type: integer
-      explorations_count:
-        type: integer
-      report_manual_run_creators_emails:
-        type: array
-      report_scheduled_run_creators_emails:
-        type: array
-      report_editors_emails:
-        type: array
       creator_email:
         type: string
       space_id:
@@ -484,6 +521,53 @@ definitions:
       _links:
         "$ref": "#/definitions/BatchApiRepresenters%3A%3AReportsLinks"
   BatchApiRepresenters::ReportsLinks:
+    properties:
+      next_page:
+        "$ref": "#/definitions/Link"
+      prev_page:
+        "$ref": "#/definitions/Link"
+    required:
+    - next_page
+    - prev_page
+  BatchApiRepresenters::ReportStat:
+    properties:
+      report_id:
+        type: integer
+      report_token:
+        type: string
+      active_schedules_count:
+        type: integer
+      explorations_count:
+        type: integer
+      total_views_count:
+        type: integer
+      recent_manual_run_creators_emails:
+        type: array
+        items:
+          type: string
+      scheduled_run_creators_emails:
+        type: array
+        items:
+          type: string
+      editors_emails:
+        type: array
+        items:
+          type: string
+      _links:
+        "$ref": "#/definitions/BatchApiRepresenters%3A%3AReportStatLinks"
+  BatchApiRepresenters::ReportStatLinks:
+    required: []
+  BatchApiRepresenters::ReportStats:
+    properties:
+      pagination:
+        "$ref": "#/definitions/Pagination"
+      report_stats:
+        type: array
+        items:
+          "$ref": "#/definitions/BatchApiRepresenters%3A%3AReportStat"
+      _links:
+        "$ref": "#/definitions/BatchApiRepresenters%3A%3AReportStatsLinks"
+  BatchApiRepresenters::ReportStatsLinks:
     properties:
       next_page:
         "$ref": "#/definitions/Link"
