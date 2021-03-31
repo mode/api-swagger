@@ -375,6 +375,39 @@ paths:
         description: "`DataSource` token"
         required: true
         type: string
+  "/{organization}/data_sources/{data_source}/purge":
+    x-summary: Data Source
+    post:
+      operationId: purgeForDataSource
+      summary: Purge report results
+      description: Removes all report results that use a data source
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`DataSource` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '202':
+          description: Accepted
+          schema: {}
+      parameters:
+      - name: organization
+        in: path
+        description: "`Organization` username"
+        required: true
+        type: string
+      - name: data_source
+        in: path
+        description: "`DataSource` token"
+        required: true
+        type: string
   "/{organization}/definitions":
     x-summary: Definitions
     get:
@@ -1424,6 +1457,34 @@ paths:
         description: "`Report` token"
         required: true
         type: string
+  "/{account}/reports/purge":
+    x-summary: Report
+    post:
+      operationId: purgeAllReports
+      summary: Purge all report results
+      description: Removes all report results for an organization
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`Account` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '202':
+          description: Accepted
+          schema: {}
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Organization` or `User`) username"
+        required: true
+        type: string
   "/{account}/reports/{report}/schedules":
     x-summary: ReportSchedule
     get:
@@ -2125,7 +2186,7 @@ paths:
         required: true
         type: string
   "/{organization}/spaces":
-    x-summary: Space
+    x-summary: Collection
     get:
       operationId: listSpaces
       summary: List spaces
@@ -2186,7 +2247,7 @@ paths:
           schema:
             "$ref": "#/definitions/Space"
   "/{organization}/spaces/{space}":
-    x-summary: Space
+    x-summary: Collection
     get:
       operationId: getSpace
       summary: Get a space
@@ -2643,7 +2704,6 @@ definitions:
       membership_type:
         enum:
         - admin
-        - limited
         - full
         type: string
       payment_method_confirmed:
@@ -3602,7 +3662,11 @@ definitions:
         type: string
       created_at:
         type: string
+      updated_at:
+        type: string
       color_palette_token:
+        type: string
+      switch_view_token:
         type: string
       _links:
         "$ref": "#/definitions/ChartLinks"
@@ -3615,6 +3679,7 @@ definitions:
     - view_vegas
     - token
     - created_at
+    - updated_at
   ChartLinks:
     properties:
       self:
@@ -3626,8 +3691,6 @@ definitions:
       preview:
         "$ref": "#/definitions/Link"
       report_run_viz_web:
-        "$ref": "#/definitions/Link"
-      last_successful_run_preview:
         "$ref": "#/definitions/Link"
       creator:
         "$ref": "#/definitions/Link"
@@ -3732,6 +3795,7 @@ definitions:
         - jdbc:bigquery
         - jdbc:databricks
         - jdbc:db2
+        - jdbc:druid
         - jdbc:hive
         - jdbc:impala
         - jdbc:mysql
@@ -4144,8 +4208,6 @@ definitions:
     properties:
       admin:
         type: boolean
-      limited:
-        type: boolean
       invited:
         type: boolean
       state:
@@ -4305,6 +4367,10 @@ definitions:
         type: string
       query_token:
         type: string
+      query_name:
+        type: string
+      query_created_at:
+        type: string
       parameters:
         type: string
       rendered_source:
@@ -4333,6 +4399,8 @@ definitions:
     - data_source_id
     - limit
     - query_token
+    - query_name
+    - query_created_at
     - parameters
     - max_result_bytes
   QueryRunLinks:
@@ -4404,6 +4472,8 @@ definitions:
         type: string
       formula_type:
         type: string
+      hide_select_all:
+        type: string
       filter_type:
         enum:
         - SINGLE
@@ -4441,6 +4511,7 @@ definitions:
     - formula
     - data_type
     - formula_type
+    - hide_select_all
     - filter_type
     - control_type
     - variable_type
@@ -4738,6 +4809,12 @@ definitions:
         type: string
       flamingo_host:
         type: string
+      is_latest_report_run:
+        type: string
+      is_latest_successful_report_run:
+        type: string
+      report_has_failures_since_last_success:
+        type: string
       _links:
         "$ref": "#/definitions/ReportRunLinks"
       _embedded:
@@ -4756,8 +4833,13 @@ definitions:
     - form_fields
     - flamingo_signature
     - flamingo_host
+    - is_latest_report_run
+    - is_latest_successful_report_run
+    - report_has_failures_since_last_success
   ReportRunLinks:
     properties:
+      latest_successful_report_run_api_url:
+        "$ref": "#/definitions/Link"
       self:
         "$ref": "#/definitions/Link"
       content:
@@ -5074,6 +5156,8 @@ definitions:
         type: string
       viewable?:
         type: string
+      default_access_level:
+        type: string
       _links:
         "$ref": "#/definitions/SpaceLinks"
       _embedded:
@@ -5109,11 +5193,14 @@ definitions:
         "$ref": "#/definitions/Link"
       preview_space_memberships:
         "$ref": "#/definitions/Link"
+      search_space_permissions:
+        "$ref": "#/definitions/Link"
     required:
     - self
     - detail
     - reports
     - creator
+    - search_space_permissions
   SpaceEmbeds: {}
   Spaces:
     properties:
