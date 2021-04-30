@@ -129,163 +129,6 @@ paths:
         description: "`Chart` token"
         required: true
         type: string
-  "/{organization}/data_sources/{data_source}/grants":
-    x-summary: Permission Grants
-    post:
-      operationId: createDataSourcePermissionGrant
-      summary: Create a permission grant
-      description: Creates a `PermissionGrant` for a `User` or `Group` to a limited
-        `Data Source`
-      parameters:
-      - name: parameters
-        in: body
-        schema:
-          "$ref": "#/definitions/CreateDataSourcePermissionGrantRequestBody"
-      - name: organization
-        in: path
-        description: "`Organization` username"
-        required: true
-        type: string
-      - name: data_source
-        in: path
-        description: "`DataSource` token"
-        required: true
-        type: string
-      responses:
-        '404':
-          description: "`Membership` not found for `Organization`"
-          schema:
-            "$ref": "#/definitions/NotFound"
-        '200':
-          description: "`DataSourcePermissionGrant` response"
-          schema:
-            "$ref": "#/definitions/DataSourcePermissionGrant"
-        '401':
-          description: Unauthorized
-          schema:
-            "$ref": "#/definitions/Unauthorized"
-        '403':
-          description: Forbidden
-          schema:
-            "$ref": "#/definitions/Forbidden"
-        '400':
-          description: Bad request
-          schema:
-            "$ref": "#/definitions/BadRequest"
-    get:
-      operationId: listDataSourcePermissionGrants
-      summary: List permission grants
-      description: Gets a list of all the `PermissionGrants` to a limited `Data Source`
-      parameters:
-      - name: organization
-        in: path
-        description: "`Organization` username"
-        required: true
-        type: string
-      - name: data_source
-        in: path
-        description: "`DataSource` token"
-        required: true
-        type: string
-      responses:
-        '404':
-          description: "`Membership` not found for `Organization`"
-          schema:
-            "$ref": "#/definitions/NotFound"
-        '200':
-          description: "`DataSourcePermissionGrant` collection response"
-          schema:
-            "$ref": "#/definitions/DataSourcePermissionGrants"
-        '401':
-          description: Unauthorized
-          schema:
-            "$ref": "#/definitions/Unauthorized"
-        '403':
-          description: Forbidden
-          schema:
-            "$ref": "#/definitions/Forbidden"
-  "/{organization}/data_sources/{data_source}/grants/{grant_token}":
-    x-summary: Permission Grant
-    get:
-      operationId: getDataSourcePermissionGrant
-      summary: Get a permission grant
-      description: Gets the `PermissionGrant` for a `User` or `Group` to a limited
-        `Data Source`
-      parameters:
-      - name: organization
-        in: path
-        description: "`Organization` username"
-        required: true
-        type: string
-      - name: data_source
-        in: path
-        description: "`DataSource` token"
-        required: true
-        type: string
-      - name: grant_token
-        in: path
-        description: "`DataSourcePermissionGrant` token"
-        required: true
-        type: string
-      responses:
-        '404':
-          description: "`Membership` not found for `Organization`"
-          schema:
-            "$ref": "#/definitions/NotFound"
-        '200':
-          description: "`DataSourcePermissionGrant` response"
-          schema:
-            "$ref": "#/definitions/DataSourcePermissionGrant"
-        '401':
-          description: Unauthorized
-          schema:
-            "$ref": "#/definitions/Unauthorized"
-        '403':
-          description: Forbidden
-          schema:
-            "$ref": "#/definitions/Forbidden"
-    delete:
-      operationId: deleteDataSourcePermissionGrant
-      summary: Delete a permission grant
-      description: Deletes the `PermissionGrant` for a `User` or `Group` from a limited
-        `Data Source`
-      parameters:
-      - name: organization
-        in: path
-        description: "`Organization` username"
-        required: true
-        type: string
-      - name: data_source
-        in: path
-        description: "`DataSource` token"
-        required: true
-        type: string
-      - name: grant_token
-        in: path
-        description: "`DataSourcePermissionGrant` token"
-        required: true
-        type: string
-      responses:
-        '404':
-          description: "`Membership` not found for `Organization`"
-          schema:
-            "$ref": "#/definitions/NotFound"
-        '200':
-          description: "`DataSourcePermissionGrant` response"
-          schema:
-            "$ref": "#/definitions/DataSourcePermissionGrant"
-        '401':
-          description: Unauthorized
-          schema:
-            "$ref": "#/definitions/Unauthorized"
-        '403':
-          description: Forbidden
-          schema:
-            "$ref": "#/definitions/Forbidden"
-        '400':
-          description: Bad request
-          schema:
-            "$ref": "#/definitions/BadRequest"
   "/{account}/data_sources/{data_source}/schema_updates":
     x-summary: DataSources
     post:
@@ -3628,28 +3471,6 @@ definitions:
           name:
             description: The name for the new user group
             type: string
-  CreateDataSourcePermissionGrantRequestBody:
-    required:
-    - grant
-    type: object
-    properties:
-      grant:
-        required:
-        - grantee_token
-        - grantee_type
-        description: The parameters for the new data source permission grant
-        type: object
-        example:
-          grantee_token: ashEaew72l
-          grantee_type: UserGroup
-        properties:
-          grantee_token:
-            description: The token of the recipient of the permission grant
-            type: string
-          grantee_type:
-            description: The type of the recipient of the permission grant, either
-              `User` for a user, or `UserGroup` for a user group
-            type: string
   Chart:
     properties:
       view:
@@ -3722,63 +3543,6 @@ definitions:
     required:
     - self
   QueryChartsEmbeds: {}
-  DataSourcePermissionGrant:
-    properties:
-      token:
-        type: string
-      grantee_token:
-        type: string
-      grantee_type:
-        type: string
-      grantee_id:
-        type: string
-      _links:
-        "$ref": "#/definitions/DataSourcePermissionGrantLinks"
-      _embedded:
-        "$ref": "#/definitions/DataSourcePermissionGrantEmbeds"
-    required:
-    - _links
-    - token
-    - grantee_token
-    - grantee_type
-    - grantee_id
-  DataSourcePermissionGrantLinks:
-    properties:
-      self:
-        "$ref": "#/definitions/Link"
-      grantee:
-        "$ref": "#/definitions/Link"
-      creator:
-        "$ref": "#/definitions/Link"
-      data_source:
-        "$ref": "#/definitions/Link"
-    required:
-    - self
-    - grantee
-    - creator
-    - data_source
-  DataSourcePermissionGrantEmbeds: {}
-  DataSourcePermissionGrants:
-    properties:
-      pagination:
-        "$ref": "#/definitions/Pagination"
-      _links:
-        "$ref": "#/definitions/DataSourcePermissionGrantsLinks"
-      _embedded:
-        "$ref": "#/definitions/DataSourcePermissionGrantsEmbeds"
-    required:
-    - _links
-  DataSourcePermissionGrantsLinks:
-    properties:
-      next_page:
-        "$ref": "#/definitions/Link"
-      prev_page:
-        "$ref": "#/definitions/Link"
-      self:
-        "$ref": "#/definitions/Link"
-    required:
-    - self
-  DataSourcePermissionGrantsEmbeds: {}
   DataSource:
     properties:
       id:
@@ -3897,12 +3661,6 @@ definitions:
       self:
         "$ref": "#/definitions/Link"
       account:
-        "$ref": "#/definitions/Link"
-      unrestrict:
-        "$ref": "#/definitions/Link"
-      restrict:
-        "$ref": "#/definitions/Link"
-      data_source_grants:
         "$ref": "#/definitions/Link"
       permissions:
         "$ref": "#/definitions/Link"
