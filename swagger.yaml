@@ -163,12 +163,12 @@ paths:
         description: "`DataSource` token"
         required: true
         type: string
-  "/{organization}/data_sources":
+  "/{workspace}/data_sources":
     x-summary: DataSources
     get:
       operationId: listDataSources
       summary: List data sources
-      description: Returns all `DataSource`s owned by an `Organization`
+      description: Returns all `DataSource`s owned by a `Workspace`
       responses:
         '401':
           description: Unauthorized
@@ -188,7 +188,7 @@ paths:
         description: "`Organization` username"
         required: true
         type: string
-  "/{organization}/data_sources/{data_source}":
+  "/{workspace}/data_sources/{data_source}":
     x-summary: DataSource
     get:
       operationId: getDataSource
@@ -218,7 +218,7 @@ paths:
         description: "`DataSource` token"
         required: true
         type: string
-  "/{organization}/data_sources/{data_source}/purge":
+  "/{workspace}/data_sources/{data_source}/purge":
     x-summary: Data Source
     post:
       operationId: purgeForDataSource
@@ -251,7 +251,7 @@ paths:
         description: "`DataSource` token"
         required: true
         type: string
-  "/{organization}/definitions":
+  "/{workspace}/definitions":
     x-summary: Definitions
     get:
       operationId: listDefinitions
@@ -311,7 +311,7 @@ paths:
         description: "`Organization` username"
         required: true
         type: string
-  "/{organization}/definitions/{definition}":
+  "/{workspace}/definitions/{definition}":
     x-summary: Definition
     get:
       operationId: getDefinition
@@ -405,12 +405,12 @@ paths:
         description: "`Definition` token"
         required: true
         type: string
-  "/{organization}/invites":
+  "/{workspace}/invites":
     x-summary: Invite
     post:
       operationId: createOrganizationInvite
       summary: Create an invitation
-      description: Creates a `User` and invites `User` to `Organization`
+      description: Creates a `User` and invites `User` to `Workspace`
       parameters:
       - name: parameters
         in: body
@@ -442,8 +442,8 @@ paths:
           description: "`OrganizationInvite` response"
           schema:
             "$ref": "#/definitions/Invite"
-  "/{organization}/memberships":
-    x-summary: Organization Memberships
+  "/{workspace}/memberships":
+    x-summary: Workspace Memberships
     get:
       operationId: listMemberships
       summary: List memberships
@@ -463,8 +463,8 @@ paths:
         description: "`Organization` username"
         required: true
         type: string
-  "/{organization}/memberships/{membership}":
-    x-summary: Organization Membership
+  "/{workspace}/memberships/{membership}":
+    x-summary: Workspace Membership
     get:
       operationId: getMembership
       summary: Get a membership
@@ -2028,13 +2028,13 @@ paths:
         description: "`Space Membership` token"
         required: true
         type: string
-  "/{organization}/spaces":
+  "/{workspace}/spaces":
     x-summary: Collection
     get:
       operationId: listSpaces
       summary: List spaces
-      description: Returns a representation of `Space`s in an `Organization` visible
-        to the authenticated `User`
+      description: Returns a representation of `Space`s in a `Workspace` visible to
+        the authenticated `User`
       responses:
         '401':
           description: Unauthorized
@@ -2089,7 +2089,7 @@ paths:
           description: "`Space` response"
           schema:
             "$ref": "#/definitions/Space"
-  "/{organization}/spaces/{space}":
+  "/{workspace}/spaces/{space}":
     x-summary: Collection
     get:
       operationId: getSpace
@@ -2187,7 +2187,7 @@ paths:
           description: "`Space` response"
           schema:
             "$ref": "#/definitions/Space"
-  "/{organization}/groups/{group_token}/memberships":
+  "/{workspace}/groups/{group_token}/memberships":
     x-summary: Group Memberships
     get:
       operationId: listGroupMemberships
@@ -2261,7 +2261,7 @@ paths:
           description: Bad request
           schema:
             "$ref": "#/definitions/BadRequest"
-  "/{organization}/groups/{group_token}/memberships/{membership_token}":
+  "/{workspace}/groups/{group_token}/memberships/{membership_token}":
     x-summary: Group Membership
     get:
       operationId: getGroupMembership
@@ -2341,12 +2341,12 @@ paths:
           description: Bad request
           schema:
             "$ref": "#/definitions/BadRequest"
-  "/{organization}/groups":
+  "/{workspace}/groups":
     x-summary: Groups
     get:
       operationId: listGroups
       summary: List groups
-      description: Get all `Group`s for an `Organization`
+      description: Get all `Group`s for a `Workspace`
       parameters:
       - name: organization
         in: path
@@ -2405,7 +2405,7 @@ paths:
           description: Bad request
           schema:
             "$ref": "#/definitions/BadRequest"
-  "/{organization}/groups/{group_token}":
+  "/{workspace}/groups/{group_token}":
     x-summary: Group
     get:
       operationId: getGroup
@@ -4350,6 +4350,8 @@ definitions:
         type: integer
       color_mappings:
         type: string
+      type:
+        type: string
       last_successful_sync_at:
         type: string
       last_saved_at:
@@ -4420,33 +4422,20 @@ definitions:
     - created_at
     - updated_at
     - published_at
-    - edited_at
-    - theme_id
-    - color_mappings
-    - last_successful_sync_at
-    - last_saved_at
+    - type
     - archived
     - account_id
     - account_username
     - public
-    - full_width
-    - manual_run_disabled
     - run_privately
     - drilldowns_enabled
-    - layout
-    - is_embedded
-    - is_signed
-    - shared
     - expected_runtime
     - last_successfully_run_at
     - last_run_at
-    - web_preview_image
     - last_successful_run_token
     - query_count
     - max_query_count
-    - chart_count
     - runs_count
-    - schedules_count
     - query_preview
     - view_count
   ReportLinks:
@@ -4516,15 +4505,8 @@ definitions:
     - report_run
     - queries
     - report_runs
-    - report_pins
-    - report_schedules
-    - python_visualizations
-    - embed_key
     - last_run
     - last_successful_run
-    - perspective_email_subscription_memberships
-    - report_theme
-    - last_successful_github_sync
     - report_index_web
   ReportEmbeds: {}
   ReportRun:
@@ -4581,14 +4563,11 @@ definitions:
     - _links
     - token
     - state
-    - parameters
     - created_at
     - updated_at
     - completed_at
     - purge_started_at
     - purge_completed_at
-    - python_state
-    - form_fields
     - flamingo_signature
     - flamingo_host
     - is_latest_report_run
@@ -4630,15 +4609,11 @@ definitions:
         "$ref": "#/definitions/Link"
     required:
     - self
-    - preview
     - account
-    - report_schedule
     - executed_by
     - report
     - clone
     - query_runs
-    - python_cell_runs
-    - pdf_export
   ReportRunEmbeds: {}
   ReportRuns:
     properties:
@@ -4914,6 +4889,8 @@ definitions:
         type: string
       viewable?:
         type: string
+      viewed?:
+        type: string
       default_access_level:
         type: string
       _links:
@@ -4952,6 +4929,8 @@ definitions:
       preview_space_memberships:
         "$ref": "#/definitions/Link"
       search_space_permissions:
+        "$ref": "#/definitions/Link"
+      viewed:
         "$ref": "#/definitions/Link"
     required:
     - self
