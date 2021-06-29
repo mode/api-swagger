@@ -388,19 +388,19 @@ definitions:
         type: string
       member_token:
         type: string
+      member_username:
+        type: string
       banned_at:
         type: string
       activated_at:
         type: string
       last_report_created_at:
         type: string
-      last_report_edited_at:
-        type: string
       last_report_viewed_at:
         type: string
       last_report_run_at:
         type: string
-      last_day_enagaged:
+      last_day_engaged:
         type: string
       last_day_api_engaged:
         type: string
@@ -496,6 +496,8 @@ definitions:
         type: string
       last_viewed_at:
         type: string
+      last_run_at:
+        type: string
       last_run_token:
         type: string
       last_run_state:
@@ -539,7 +541,7 @@ definitions:
         type: integer
       explorations_count:
         type: integer
-      total_views_count:
+      view_count:
         type: integer
       recent_manual_run_creators_emails:
         type: array
