@@ -76,7 +76,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -111,7 +111,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -155,7 +155,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: data_source
@@ -175,7 +175,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Organization` not found"
+          description: "`Workspace` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -183,9 +183,9 @@ paths:
           schema:
             "$ref": "#/definitions/DataSources"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
   "/{workspace}/data_sources/{data_source}":
@@ -208,9 +208,9 @@ paths:
           schema:
             "$ref": "#/definitions/DataSource"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: data_source
@@ -241,9 +241,9 @@ paths:
           description: Accepted
           schema: {}
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: data_source
@@ -271,9 +271,9 @@ paths:
           schema:
             "$ref": "#/definitions/Definitions"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - in: query
@@ -306,9 +306,9 @@ paths:
           schema:
             "$ref": "#/definitions/BadRequest"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
   "/{workspace}/definitions/{definition}":
@@ -331,9 +331,9 @@ paths:
           schema:
             "$ref": "#/definitions/Definition"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: definition
@@ -363,9 +363,9 @@ paths:
           schema:
             "$ref": "#/definitions/BadRequest"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: definition
@@ -395,9 +395,9 @@ paths:
           schema:
             "$ref": "#/definitions/BadRequest"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: definition
@@ -416,9 +416,9 @@ paths:
         in: body
         schema:
           "$ref": "#/definitions/CreateInviteRequestBody"
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       responses:
@@ -427,7 +427,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Membership` not found for `Organization`"
+          description: "`Membership` not found for `Workspace`"
           schema:
             "$ref": "#/definitions/NotFound"
         '403':
@@ -439,7 +439,7 @@ paths:
           schema:
             "$ref": "#/definitions/BadRequest"
         '200':
-          description: "`OrganizationInvite` response"
+          description: "`WorkspaceInvite` response"
           schema:
             "$ref": "#/definitions/Invite"
   "/{workspace}/memberships":
@@ -454,13 +454,13 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Organization` not found"
+          description: "`Workspace` not found"
           schema:
             "$ref": "#/definitions/NotFound"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
   "/{workspace}/memberships/{membership}":
@@ -483,9 +483,9 @@ paths:
           schema:
             "$ref": "#/definitions/Membership"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: membership
@@ -515,9 +515,9 @@ paths:
           schema:
             "$ref": "#/definitions/Membership"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: membership
@@ -547,7 +547,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -566,7 +566,7 @@ paths:
           "$ref": "#/definitions/CreateQueryRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -613,7 +613,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -637,7 +637,7 @@ paths:
           "$ref": "#/definitions/UpdateQueryRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -687,7 +687,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -709,7 +709,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -744,7 +744,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -785,7 +785,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -823,7 +823,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -861,7 +861,7 @@ paths:
           "$ref": "#/definitions/CreateOrUpdateReportFilterRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -895,7 +895,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -938,7 +938,7 @@ paths:
           "$ref": "#/definitions/CreateOrUpdateReportFilterRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -975,7 +975,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1014,7 +1014,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1060,7 +1060,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: space
@@ -1111,7 +1111,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: data_source
@@ -1153,7 +1153,7 @@ paths:
           "$ref": "#/definitions/UpdateReportRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1194,7 +1194,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1224,7 +1224,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1258,7 +1258,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1292,7 +1292,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1325,7 +1325,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
   "/{account}/reports/{report}/schedules":
@@ -1350,7 +1350,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1369,7 +1369,7 @@ paths:
           "$ref": "#/definitions/CreateReportScheduleRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1412,7 +1412,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1436,7 +1436,7 @@ paths:
           "$ref": "#/definitions/UpdateReportScheduleRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1480,7 +1480,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1515,7 +1515,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1534,7 +1534,7 @@ paths:
           "$ref": "#/definitions/CreateorUpdateReportSubscriptionRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1577,7 +1577,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1601,7 +1601,7 @@ paths:
           "$ref": "#/definitions/CreateorUpdateReportSubscriptionRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1645,7 +1645,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1680,7 +1680,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1708,7 +1708,7 @@ paths:
           "$ref": "#/definitions/RunReportRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1740,7 +1740,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1791,7 +1791,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1830,7 +1830,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1866,7 +1866,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: report
@@ -1903,7 +1903,7 @@ paths:
           "$ref": "#/definitions/CreateSpaceMembershipRequestBody"
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: space
@@ -1952,7 +1952,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: space
@@ -1982,7 +1982,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: space
@@ -2015,7 +2015,7 @@ paths:
       parameters:
       - name: account
         in: path
-        description: "`Account` (`Organization` or `User`) username"
+        description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
       - name: space
@@ -2041,7 +2041,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Organization` not found"
+          description: "`Workspace` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -2049,9 +2049,9 @@ paths:
           schema:
             "$ref": "#/definitions/Spaces"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
     post:
@@ -2063,9 +2063,9 @@ paths:
         in: body
         schema:
           "$ref": "#/definitions/CreateOrUpdateSpaceRequestBody"
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       responses:
@@ -2109,9 +2109,9 @@ paths:
           schema:
             "$ref": "#/definitions/Space"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: space
@@ -2137,9 +2137,9 @@ paths:
           schema:
             "$ref": "#/definitions/Space"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: space
@@ -2156,9 +2156,9 @@ paths:
         in: body
         schema:
           "$ref": "#/definitions/CreateOrUpdateSpaceRequestBody"
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: space
@@ -2194,9 +2194,9 @@ paths:
       summary: List group memberships
       description: Get all `Memberships` of a `Group`
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: group_token
@@ -2206,7 +2206,7 @@ paths:
         type: string
       responses:
         '404':
-          description: "`Membership` not found for `Organization`"
+          description: "`Membership` not found for `Workspace`"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -2230,9 +2230,9 @@ paths:
         in: body
         schema:
           "$ref": "#/definitions/CreateUserGroupMembershipRequestBody"
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: group_token
@@ -2242,7 +2242,7 @@ paths:
         type: string
       responses:
         '404':
-          description: "`Membership` not found for `Organization`"
+          description: "`Membership` not found for `Workspace`"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -2268,9 +2268,9 @@ paths:
       summary: Get a group membership
       description: Get the `Group` `Membership` of a `User`
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: group_token
@@ -2285,7 +2285,7 @@ paths:
         type: string
       responses:
         '404':
-          description: "`Membership` not found for `Organization`"
+          description: "`Membership` not found for `Workspace`"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -2305,9 +2305,9 @@ paths:
       summary: Delete a group membership
       description: Remove a `User` from a `Group` by deleting the `Membership`
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: group_token
@@ -2322,7 +2322,7 @@ paths:
         type: string
       responses:
         '404':
-          description: "`Membership` not found for `Organization`"
+          description: "`Membership` not found for `Workspace`"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -2348,14 +2348,14 @@ paths:
       summary: List groups
       description: Get all `Group`s for a `Workspace`
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       responses:
         '404':
-          description: "`Membership` not found for `Organization`"
+          description: "`Membership` not found for `Workspace`"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -2379,14 +2379,14 @@ paths:
         in: body
         schema:
           "$ref": "#/definitions/CreateUserGroupRequestBody"
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       responses:
         '404':
-          description: "`Membership` not found for `Organization`"
+          description: "`Membership` not found for `Workspace`"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -2412,9 +2412,9 @@ paths:
       summary: Get a group
       description: Gets a user `Group`
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: group_token
@@ -2424,7 +2424,7 @@ paths:
         type: string
       responses:
         '404':
-          description: "`Membership` not found for `Organization`"
+          description: "`Membership` not found for `Workspace`"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -2444,9 +2444,9 @@ paths:
       summary: Delete a group
       description: Deletes a user `Group`
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: group_token
@@ -2456,7 +2456,7 @@ paths:
         type: string
       responses:
         '404':
-          description: "`Membership` not found for `Organization`"
+          description: "`Membership` not found for `Workspace`"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -2480,9 +2480,9 @@ paths:
         in: body
         schema:
           "$ref": "#/definitions/UpdateUserGroupRequestBody"
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: group_token
@@ -2492,7 +2492,7 @@ paths:
         type: string
       responses:
         '404':
-          description: "`Membership` not found for `Organization`"
+          description: "`Membership` not found for `Workspace`"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -4096,10 +4096,6 @@ definitions:
     - self
     - report
     - report_runs
-    - charts
-    - new_chart
-    - new_query_table
-    - query_tables
     - query_runs
     - creator
   QueryEmbeds: {}
