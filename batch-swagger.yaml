@@ -40,7 +40,7 @@ securityDefinitions:
     name: api_key
     in: header
 paths:
-  "/batch/{organization}/charts":
+  "/batch/{workspace}/charts":
     x-summary: Charts
     get:
       operationId: listChartsForAccount
@@ -76,7 +76,7 @@ paths:
         description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
-  "/batch/{organization}/members":
+  "/batch/{workspace}/members":
     x-summary: Members
     get:
       operationId: listMembersForAccount
@@ -106,7 +106,7 @@ paths:
         description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
-  "/batch/{organization}/queries":
+  "/batch/{workspace}/queries":
     x-summary: Queries
     get:
       operationId: listQueriesForAccount
@@ -142,7 +142,7 @@ paths:
         description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
-  "/batch/{organization}/reports":
+  "/batch/{workspace}/reports":
     x-summary: Reports
     get:
       operationId: listReportsForAccount
@@ -178,7 +178,7 @@ paths:
         description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
-  "/batch/{organization}/report_stats":
+  "/batch/{workspace}/report_stats":
     x-summary: Report Stats
     get:
       operationId: listReportStatsForAccount
@@ -214,7 +214,7 @@ paths:
         description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
-  "/batch/{organization}/signature_tokens":
+  "/batch/{workspace}/signature_tokens":
     x-summary: Signature Token
     post:
       operationId: createBatchSignatureToken
@@ -239,7 +239,7 @@ paths:
         description: "`Workspace` username"
         required: true
         type: string
-  "/batch/{organization}/signature_tokens/{signature_token}":
+  "/batch/{workspace}/signature_tokens/{signature_token}":
     x-summary: Signature Token
     delete:
       operationId: deleteBatchSignatureToken
@@ -271,7 +271,7 @@ paths:
         description: "`Signature Token` token"
         required: true
         type: string
-  "/batch/{organization}/spaces":
+  "/batch/{workspace}/spaces":
     x-summary: Spaces
     get:
       operationId: listSpacesForAccount
