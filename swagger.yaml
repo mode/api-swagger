@@ -4419,6 +4419,7 @@ definitions:
     - updated_at
     - published_at
     - type
+    - last_saved_at
     - archived
     - account_id
     - account_username

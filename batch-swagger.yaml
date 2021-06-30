@@ -52,7 +52,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Organization` not found"
+          description: "`Workspace` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -66,9 +66,9 @@ paths:
           members' personal spaces. By default Charts in members personal spaces are
           excluded.
         type: string
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - in: query
@@ -88,7 +88,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Organization` not found"
+          description: "`Workspace` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -96,9 +96,9 @@ paths:
           schema:
             "$ref": "#/definitions/BatchApiRepresenters%3A%3AMemberships"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - in: query
@@ -118,7 +118,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Organization` not found"
+          description: "`Workspace` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -132,9 +132,9 @@ paths:
           in members' personal spaces. By default Queries in members personal spaces
           are excluded.
         type: string
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - in: query
@@ -154,7 +154,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Organization` not found"
+          description: "`Workspace` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -168,9 +168,9 @@ paths:
           in members' personal spaces. By default Reports in members personal spaces
           are excluded.
         type: string
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - in: query
@@ -190,7 +190,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Organization` not found"
+          description: "`Workspace` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -204,9 +204,9 @@ paths:
           in members' personal spaces. By default ReportStats in members personal
           spaces are excluded.
         type: string
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - in: query
@@ -226,7 +226,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Organization` not found"
+          description: "`Workspace` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -234,9 +234,9 @@ paths:
           schema:
             "$ref": "#/definitions/BatchApiRepresenters%3A%3ASignatureToken"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
   "/batch/{organization}/signature_tokens/{signature_token}":
@@ -261,9 +261,9 @@ paths:
               message:
                 type: string
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: signature_token
@@ -283,7 +283,7 @@ paths:
           schema:
             "$ref": "#/definitions/Unauthorized"
         '404':
-          description: "`Organization` not found"
+          description: "`Workspace` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '200':
@@ -291,9 +291,9 @@ paths:
           schema:
             "$ref": "#/definitions/BatchApiRepresenters%3A%3ASpaces"
       parameters:
-      - name: organization
+      - name: workspace
         in: path
-        description: "`Organization` username"
+        description: "`Workspace` username"
         required: true
         type: string
       - in: query
