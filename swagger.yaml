@@ -2031,9 +2031,9 @@ paths:
   "/{workspace}/spaces":
     x-summary: Collection
     get:
-      operationId: listSpaces
-      summary: List spaces
-      description: Returns a representation of `Space`s in a `Workspace` visible to
+      operationId: listCollections
+      summary: List Collections
+      description: Returns a representation of `Collection`s in a `Workspace` visible to
         the authenticated `User`
       responses:
         '401':
@@ -2055,9 +2055,9 @@ paths:
         required: true
         type: string
     post:
-      operationId: createSpace
-      summary: Create a space
-      description: Creates a `Space`
+      operationId: createCollection
+      summary: Create a Collection
+      description: Creates a `Collection`
       parameters:
       - name: parameters
         in: body
@@ -2092,9 +2092,9 @@ paths:
   "/{workspace}/spaces/{space}":
     x-summary: Collection
     get:
-      operationId: getSpace
-      summary: Get a space
-      description: Returns a representation of a single `Space`
+      operationId: getCollection
+      summary: Get a Collection
+      description: Returns a representation of a single `Collection`
       responses:
         '401':
           description: Unauthorized
@@ -2120,9 +2120,9 @@ paths:
         required: true
         type: string
     delete:
-      operationId: deleteSpace
-      summary: Delete a space
-      description: Deletes a single `Space`
+      operationId: deleteCollection
+      summary: Delete a Collection
+      description: Deletes a single `Collection`
       responses:
         '401':
           description: Unauthorized
@@ -2148,9 +2148,9 @@ paths:
         required: true
         type: string
     post:
-      operationId: updateSpace
-      summary: Update a space
-      description: Updates a `Space`
+      operationId: updateCollection
+      summary: Update a Collection
+      description: Updates a `Collection`
       parameters:
       - name: parameters
         in: body
