@@ -2033,7 +2033,7 @@ paths:
     get:
       operationId: listCollections
       summary: List Collections
-      description: Returns a representation of `Collections`s in a `Workspace` visible
+      description: Returns a representation of `Collection`s in a `Workspace` visible
         to the authenticated `User`
       responses:
         '401':
