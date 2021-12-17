@@ -2033,8 +2033,8 @@ paths:
     get:
       operationId: listCollections
       summary: List Collections
-      description: Returns a representation of `Collection`s in a `Workspace` visible to
-        the authenticated `User`
+      description: Returns a representation of `Collection`s in a `Workspace` visible
+        to the authenticated `User`
       responses:
         '401':
           description: Unauthorized
@@ -2049,6 +2049,14 @@ paths:
           schema:
             "$ref": "#/definitions/Spaces"
       parameters:
+      - in: query
+        name: filter
+        description: 'Returns a filtered list of `Collection`s. Valid options include
+          `all`. The default returns a list of `Collection`''s that do not include
+          other user''s personal collections. Example: `?filter=all` returns all `Collections`
+          including personal collections.'
+        required: false
+        type: string
       - name: workspace
         in: path
         description: "`Workspace` username"
@@ -2538,6 +2546,8 @@ definitions:
         type: integer
       data_source_count:
         type: integer
+      organizations_count:
+        type: string
       trial_state:
         enum:
         - pending
@@ -2569,6 +2579,8 @@ definitions:
         type: boolean
       scim_enabled:
         type: string
+      created_at:
+        type: string
       _links:
         "$ref": "#/definitions/AccountLinks"
       _embedded:
@@ -2583,6 +2595,7 @@ definitions:
     - query_run_size_limit_mb
     - avatar
     - user
+    - created_at
   AccountLinks:
     properties:
       self:
@@ -2647,8 +2660,6 @@ definitions:
         "$ref": "#/definitions/Link"
       organizations:
         "$ref": "#/definitions/Link"
-      walkthrough:
-        "$ref": "#/definitions/Link"
       preference:
         "$ref": "#/definitions/Link"
       table:
@@ -2668,6 +2679,18 @@ definitions:
       by_ids_reports:
         "$ref": "#/definitions/Link"
       viewed_reports:
+        "$ref": "#/definitions/Link"
+      starred_datasets:
+        "$ref": "#/definitions/Link"
+      by_ids_datasets:
+        "$ref": "#/definitions/Link"
+      viewed_datasets:
+        "$ref": "#/definitions/Link"
+      starred_base_reports:
+        "$ref": "#/definitions/Link"
+      by_ids_base_reports:
+        "$ref": "#/definitions/Link"
+      viewed_base_reports:
         "$ref": "#/definitions/Link"
       by_tokens_definitions:
         "$ref": "#/definitions/Link"
@@ -2696,6 +2719,8 @@ definitions:
       space:
         "$ref": "#/definitions/Link"
       custom_spaces:
+        "$ref": "#/definitions/Link"
+      move_to_spaces:
         "$ref": "#/definitions/Link"
       definitions:
         "$ref": "#/definitions/Link"
@@ -3334,14 +3359,10 @@ definitions:
     properties:
       space:
         required:
-        - space_type
         - name
         type: object
         description: The parameters of the new or updated space
         properties:
-          space_type:
-            type: string
-            description: The type of the `space`, the only option is `custom`
           description:
             type: string
             description: Description of the `space`
@@ -3558,19 +3579,19 @@ definitions:
         - jdbc:athena
         - jdbc:bigquery
         - jdbc:databricks
-        - jdbc:db2
+        - jdbc:transform
         - jdbc:druid
         - jdbc:hive
         - jdbc:impala
         - jdbc:mysql
         - jdbc:oracle
+        - jdbc:oracleadb
         - jdbc:postgresql
         - jdbc:presto
         - jdbc:redshift
         - jdbc:snowflake
         - jdbc:spark
         - jdbc:sqlserver
-        - jdbc:teradata
         - jdbc:treasuredata
         - jdbc:vertica
         type: string
@@ -3702,7 +3723,6 @@ definitions:
     - content_length
     - number_of_schemas
     - number_of_tables
-    - last_succesful_refresh_at
   DataSourceSchemaUpdateLinks:
     properties:
       self:
@@ -4418,12 +4438,14 @@ definitions:
     - created_at
     - updated_at
     - published_at
+    - edited_at
     - type
     - last_saved_at
     - archived
     - account_id
     - account_username
     - public
+    - manual_run_disabled
     - run_privately
     - drilldowns_enabled
     - expected_runtime
@@ -4502,9 +4524,9 @@ definitions:
     - report_run
     - queries
     - report_runs
+    - report_pins
     - last_run
     - last_successful_run
-    - report_index_web
   ReportEmbeds: {}
   ReportRun:
     properties:
@@ -4609,7 +4631,6 @@ definitions:
     - account
     - executed_by
     - report
-    - clone
     - query_runs
   ReportRunEmbeds: {}
   ReportRuns:
