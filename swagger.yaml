@@ -189,7 +189,7 @@ paths:
         required: true
         type: string
   "/{workspace}/data_sources/{data_source}":
-    x-summary: DataSource
+    x-summary: Data Source
     get:
       operationId: getDataSource
       summary: Get a data source
@@ -218,6 +218,42 @@ paths:
         description: "`DataSource` token"
         required: true
         type: string
+    patch:
+      operationId: updateDataSource
+      summary: Update a data source
+      description: Updates a `DataSource`
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/UpdateDataSourceRequestBody"
+      - name: workspace
+        in: path
+        description: "`Workspace` username"
+        required: true
+        type: string
+      - name: data_source
+        in: path
+        description: "`DataSource` token"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '404':
+          description: "`DataSource` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`DataSource` response"
+          schema:
+            "$ref": "#/definitions/DataSource"
   "/{workspace}/data_sources/{data_source}/purge":
     x-summary: Data Source
     post:
@@ -3369,6 +3405,33 @@ definitions:
           name:
             type: string
             description: Name of the `space`
+  UpdateDataSourceRequestBody:
+    required:
+    - data_source
+    type: object
+    properties:
+      data_source:
+        type: object
+        description: The parameters of the data source to update
+        properties:
+          name:
+            type: string
+            description: Name of the `data source`
+            example: Redshift Database
+          description:
+            type: string
+            description: Description of the `data source`
+            example: Marketing data
+          password:
+            type: string
+            description: Password for the `data source`
+            example: redshift_db_pw
+          certificate:
+            type: file
+          key:
+            type: file
+          wallet:
+            type: file
   VizViewVegas:
     required:
     - format
