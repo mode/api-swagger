@@ -3426,6 +3426,15 @@ definitions:
             type: string
             description: Password for the `data source`
             example: redshift_db_pw
+          custom_attributes:
+            required:
+            - connection_string
+            type: object
+            properties:
+              connection_string:
+                type: string
+                description: Required for Oracle Autonomous Database connected via
+                  bridge
           certificate:
             type: file
           key:
