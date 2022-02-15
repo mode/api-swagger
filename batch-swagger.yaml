@@ -275,7 +275,7 @@ paths:
     x-summary: Spaces
     get:
       operationId: listSpacesForAccount
-      summary: List spaces for an account
+      summary: List collections for an account
       description: Returns all `Space`s for an `Account`
       responses:
         '401':
