@@ -3690,7 +3690,6 @@ definitions:
         - jdbc:athena
         - jdbc:bigquery
         - jdbc:databricks
-        - jdbc:dbtmetrics
         - jdbc:transform
         - jdbc:druid
         - jdbc:hive
