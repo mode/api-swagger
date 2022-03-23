@@ -1041,7 +1041,7 @@ paths:
           description: "`ReportFilter` response"
           schema:
             "$ref": "#/definitions/ReportFilter"
-  "/{account}/reports/{report}/exports/runs/{run}/format/download":
+  "/{account}/reports/{report}/exports/runs/{run}/pdf/download":
     x-summary: Export
     get:
       operationId: getReportRunExport
@@ -4209,6 +4209,8 @@ definitions:
         type: string
       explorations_count:
         type: string
+      report_imports_count:
+        type: string
       mapping_id:
         type: string
       _links:
@@ -4225,6 +4227,7 @@ definitions:
     - last_run_id
     - data_source_id
     - explorations_count
+    - report_imports_count
   QueryLinks:
     properties:
       self:
