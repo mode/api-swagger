@@ -73,7 +73,7 @@ paths:
         type: string
       - in: query
         name: per_page
-        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+        description: "The number of objects to return `per_page`. \nExample: `per_page=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
   "/batch/{workspace}/members":
@@ -103,7 +103,7 @@ paths:
         type: string
       - in: query
         name: per_page
-        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+        description: "The number of objects to return `per_page`. \nExample: `per_page=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
   "/batch/{workspace}/queries":
@@ -139,7 +139,7 @@ paths:
         type: string
       - in: query
         name: per_page
-        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+        description: "The number of objects to return `per_page`. \nExample: `per_page=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
   "/batch/{workspace}/reports":
@@ -175,7 +175,7 @@ paths:
         type: string
       - in: query
         name: per_page
-        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+        description: "The number of objects to return `per_page`. \nExample: `per_page=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
   "/batch/{workspace}/report_stats":
@@ -211,7 +211,7 @@ paths:
         type: string
       - in: query
         name: per_page
-        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+        description: "The number of objects to return `per_page`. \nExample: `per_page=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
   "/batch/{workspace}/signature_tokens":
@@ -298,7 +298,7 @@ paths:
         type: string
       - in: query
         name: per_page
-        description: "The number of objects to return `per_page`. \nExample: `per_page?=100`.
+        description: "The number of objects to return `per_page`. \nExample: `per_page=100`.
           \nNote: `per_page` must be greater than `0` and less than `1000`."
         type: integer
 definitions:
@@ -355,8 +355,7 @@ definitions:
         type: string
       exploration_url:
         type: string
-  BatchApiRepresenters::ChartLinks:
-    required: []
+  BatchApiRepresenters::ChartLinks: {}
   BatchApiRepresenters::Charts:
     properties:
       pagination:
@@ -412,8 +411,7 @@ definitions:
         type: string
       last_exploration_updated_at:
         type: string
-  BatchApiRepresenters::MembershipLinks:
-    required: []
+  BatchApiRepresenters::MembershipLinks: {}
   BatchApiRepresenters::Memberships:
     properties:
       pagination:
@@ -455,8 +453,7 @@ definitions:
         type: string
       space_token:
         type: string
-  BatchApiRepresenters::QueryLinks:
-    required: []
+  BatchApiRepresenters::QueryLinks: {}
   BatchApiRepresenters::Queries:
     properties:
       pagination:
@@ -510,8 +507,7 @@ definitions:
         type: string
       report_url:
         type: string
-  BatchApiRepresenters::ReportLinks:
-    required: []
+  BatchApiRepresenters::ReportLinks: {}
   BatchApiRepresenters::Reports:
     properties:
       pagination:
@@ -557,8 +553,7 @@ definitions:
           type: string
       _links:
         "$ref": "#/definitions/BatchApiRepresenters%3A%3AReportStatLinks"
-  BatchApiRepresenters::ReportStatLinks:
-    required: []
+  BatchApiRepresenters::ReportStatLinks: {}
   BatchApiRepresenters::ReportStats:
     properties:
       pagination:
@@ -602,8 +597,7 @@ definitions:
         type: string
       authorization_type:
         type: string
-  BatchApiRepresenters::SignatureTokenLinks:
-    required: []
+  BatchApiRepresenters::SignatureTokenLinks: {}
   BatchApiRepresenters::Space:
     properties:
       id:
@@ -618,8 +612,7 @@ definitions:
         type: string
       space_url:
         type: string
-  BatchApiRepresenters::SpaceLinks:
-    required: []
+  BatchApiRepresenters::SpaceLinks: {}
   BatchApiRepresenters::Spaces:
     properties:
       pagination:
