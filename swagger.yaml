@@ -3690,6 +3690,7 @@ definitions:
         - jdbc:athena
         - jdbc:bigquery
         - jdbc:databricks
+        - jdbc:dbtmetrics
         - jdbc:transform
         - jdbc:druid
         - jdbc:hive
@@ -3698,6 +3699,7 @@ definitions:
         - jdbc:oracle
         - jdbc:oracleadb
         - jdbc:postgresql
+        - jdbc:trino
         - jdbc:presto
         - jdbc:redshift
         - jdbc:snowflake
