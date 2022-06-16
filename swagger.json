@@ -4395,9 +4395,6 @@
         "cron"
       ],
       "properties": {
-        "name": {
-          "$ref": "#/definitions/ReportScheduleRequestBodyNameProperty"
-        },
         "cron": {
           "$ref": "#/definitions/ReportScheduleRequestBodyCronProperty"
         },
@@ -4411,9 +4408,6 @@
     },
     "UpdateReportScheduleRequestBody": {
       "properties": {
-        "name": {
-          "$ref": "#/definitions/ReportScheduleRequestBodyNameProperty"
-        },
         "cron": {
           "$ref": "#/definitions/ReportScheduleRequestBodyCronProperty"
         },
@@ -4424,11 +4418,6 @@
           "$ref": "#/definitions/ReportScheduleRequestBodyParamsProperty"
         }
       }
-    },
-    "ReportScheduleRequestBodyNameProperty": {
-      "type": "string",
-      "description": "The name of the schedule",
-      "example": "Qui Officia"
     },
     "ReportScheduleRequestBodyTimeoutProperty": {
       "type": "integer",
@@ -6823,9 +6812,6 @@
     "ReportSchedule": {
       "properties": {
         "token": {
-          "type": "string"
-        },
-        "name": {
           "type": "string"
         },
         "parameters": {
