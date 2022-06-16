@@ -3066,8 +3066,8 @@ definitions:
         "$ref": "#/definitions/ReportScheduleRequestBodyParamsProperty"
   ReportScheduleRequestBodyNameProperty:
     type: string
-    description: The name of the schedule
-    example: Qui Officia
+    description: 'The name of the schedule'
+    example: 'Qui Officia'
   ReportScheduleRequestBodyTimeoutProperty:
     type: integer
     description: |-
