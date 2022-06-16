@@ -5253,6 +5253,9 @@
         "default": {
           "type": "boolean"
         },
+        "default_for_organization_id": {
+          "type": "boolean"
+        },
         "database": {
           "type": "string"
         },
