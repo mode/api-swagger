@@ -3048,6 +3048,8 @@ definitions:
     properties:
       cron:
         "$ref": "#/definitions/ReportScheduleRequestBodyCronProperty"
+      name:
+        "$ref": "#/definitions/ReportScheduleRequestBodyNameProperty"
       timeout:
         "$ref": "#/definitions/ReportScheduleRequestBodyTimeoutProperty"
       params:
@@ -3056,10 +3058,16 @@ definitions:
     properties:
       cron:
         "$ref": "#/definitions/ReportScheduleRequestBodyCronProperty"
+      name:
+        "$ref": "#/definitions/ReportScheduleRequestBodyNameProperty"
       timeout:
         "$ref": "#/definitions/ReportScheduleRequestBodyTimeoutProperty"
       params:
         "$ref": "#/definitions/ReportScheduleRequestBodyParamsProperty"
+  ReportScheduleRequestBodyNameProperty:
+    type: string
+    description: The name of the schedule
+    example: Qui Officia
   ReportScheduleRequestBodyTimeoutProperty:
     type: integer
     description: |-
@@ -4815,6 +4823,8 @@ definitions:
   ReportsEmbeds: {}
   ReportSchedule:
     properties:
+      name:
+        type: string
       token:
         type: string
       parameters:
@@ -4847,6 +4857,7 @@ definitions:
         "$ref": "#/definitions/ReportScheduleEmbeds"
     required:
     - _links
+    - name
     - token
     - parameters
     - created_at
