@@ -134,7 +134,7 @@ paths:
     get:
       operationId: listDatasetsInSpace
       summary: List datasets for a space
-      description: Returns all `Datasets`s in a `Space`
+      description: Returns all `Dataset`s in a `Space`
       responses:
         '401':
           description: Unauthorized
@@ -163,20 +163,20 @@ paths:
         in: query
         description: 'Returns a filtered list of `Dataset`s in a `Space` filtered
           by whether their `created_at` or `updated_at` timestamps are `gt` (greater
-          than) or `lt` (less than) the datetime passed in (ISO8601 format). Example:
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
           `?filter=created_at.gt.2019-10-23T06:23:01Z` returns all `Datasets` in a
           space created after that date.'
         required: false
         type: string
       - name: order
         in: query
-        description: 'With the `order_by` param, returns all `Dataset`s in a `Space`
+        description: 'With the `order` param, returns all `Dataset`s in a `Space`
           ordered in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
         required: false
         type: string
       - name: order_by
         in: query
-        description: 'With the `order` param, returns all `Dataset`s in a `Space`
+        description: 'With the `order_by` param, returns all `Dataset`s in a `Space`
           ordered by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
         required: false
         type: string
@@ -214,20 +214,20 @@ paths:
         in: query
         description: 'Returns a filtered list of `Dataset`s in a `Space` filtered
           by whether their `created_at` or `updated_at` timestamps are `gt` (greater
-          than) or `lt` (less than) the datetime passed in (ISO8601 format). Example:
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
           `?filter=created_at.gt.2019-10-23T06:23:01Z` returns all `Datasets` in a
           space created after that date.'
         required: false
         type: string
       - name: order
         in: query
-        description: 'With the `order_by` param, returns all `Dataset`s in a `Space`
+        description: 'With the `order` param, returns all `Dataset`s in a `Space`
           ordered in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
         required: false
         type: string
       - name: order_by
         in: query
-        description: 'With the `order` param, returns all `Dataset`s in a `Space`
+        description: 'With the `order_by` param, returns all `Dataset`s in a `Space`
           ordered by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
         required: false
         type: string
@@ -1210,21 +1210,21 @@ paths:
         in: query
         description: 'Returns a filtered list of `Report`s in a `Space` filtered by
           whether their `created_at` or `updated_at` timestamps are `gt` (greater
-          than) or `lt` (less than) the datetime passed in (ISO8601 format). Example:
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
           `?filter=created_at.gt.2019-10-23T06:23:01Z` returns all `Reports` in a
           space created after that date.'
         required: false
         type: string
       - name: order
         in: query
-        description: 'With the `order_by` param, returns all `Report`s in a `Space`
-          ordered in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
+        description: 'With the `order` param, returns all `Report`s in a `Space` ordered
+          in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
         required: false
         type: string
       - name: order_by
         in: query
-        description: 'With the `order` param, returns all `Report`s in a `Space` ordered
-          by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
+        description: 'With the `order_by` param, returns all `Report`s in a `Space`
+          ordered by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
         required: false
         type: string
   "/{account}/data_sources/{data_source}/reports":
@@ -1261,21 +1261,21 @@ paths:
         in: query
         description: 'Returns a filtered list of `Report`s in a `Space` filtered by
           whether their `created_at` or `updated_at` timestamps are `gt` (greater
-          than) or `lt` (less than) the datetime passed in (ISO8601 format). Example:
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
           `?filter=created_at.gt.2019-10-23T06:23:01Z` returns all `Reports` in a
           space created after that date.'
         required: false
         type: string
       - name: order
         in: query
-        description: 'With the `order_by` param, returns all `Report`s in a `Space`
-          ordered in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
+        description: 'With the `order` param, returns all `Report`s in a `Space` ordered
+          in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
         required: false
         type: string
       - name: order_by
         in: query
-        description: 'With the `order` param, returns all `Report`s in a `Space` ordered
-          by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
+        description: 'With the `order_by` param, returns all `Report`s in a `Space`
+          ordered by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
         required: false
         type: string
   "/{account}/reports/{report}":
@@ -1888,9 +1888,9 @@ paths:
         type: string
       - name: filter
         in: query
-        description: 'Returns a filtered list of `Runs`s for a `Report` filtered by
+        description: 'Returns a filtered list of `Run`s for a `Report` filtered by
           whether their `created_at` or `updated_at` timestamps are `gt` (greater
-          than) or `lt` (less than) the datetime passed in (ISO8601 format). Example:
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
           `?filter=updated_at.lt.2019-10-23T06:23:01Z` returns all `Runs` in a space
           created before that date.'
         required: false
