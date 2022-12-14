@@ -129,6 +129,108 @@ paths:
         description: "`Chart` token"
         required: true
         type: string
+  "/{account}/spaces/{space}/datasets":
+    x-summary: Datasets
+    get:
+      operationId: listDatasetsInSpace
+      summary: List datasets for a space
+      description: Returns all `Dataset`s in a `Space`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Dataset` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Dataset` collection response"
+          schema:
+            "$ref": "#/definitions/Datasets"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: space
+        in: path
+        description: "`Space` token"
+        required: true
+        type: string
+      - name: filter
+        in: query
+        description: 'Returns a filtered list of `Dataset`s in a `Space` filtered
+          by whether their `created_at` or `updated_at` timestamps are `gt` (greater
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
+          `?filter=created_at.gt.2019-10-23T06:23:01Z` returns all `Datasets` in a
+          space created after that date.'
+        required: false
+        type: string
+      - name: order
+        in: query
+        description: 'With the `order` param, returns all `Dataset`s in a `Space`
+          ordered in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
+        required: false
+        type: string
+      - name: order_by
+        in: query
+        description: 'With the `order_by` param, returns all `Dataset`s in a `Space`
+          ordered by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
+        required: false
+        type: string
+  "/{account}/data_sources/{data_source}/datasets":
+    x-summary: Datasets
+    get:
+      operationId: listDatasetsUsingDataSource
+      summary: List datasets using a data source
+      description: Returns all `Dataset`s using a `DataSource`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Dataset` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Dataset` collection response"
+          schema:
+            "$ref": "#/definitions/Datasets"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: data_source
+        in: path
+        description: "`DataSource` token"
+        required: true
+        type: string
+      - name: filter
+        in: query
+        description: 'Returns a filtered list of `Dataset`s in a `Space` filtered
+          by whether their `created_at` or `updated_at` timestamps are `gt` (greater
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
+          `?filter=created_at.gt.2019-10-23T06:23:01Z` returns all `Datasets` in a
+          space created after that date.'
+        required: false
+        type: string
+      - name: order
+        in: query
+        description: 'With the `order` param, returns all `Dataset`s in a `Space`
+          ordered in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
+        required: false
+        type: string
+      - name: order_by
+        in: query
+        description: 'With the `order_by` param, returns all `Dataset`s in a `Space`
+          ordered by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
+        required: false
+        type: string
   "/{account}/data_sources/{data_source}/schema_updates":
     x-summary: DataSources
     post:
@@ -1108,21 +1210,21 @@ paths:
         in: query
         description: 'Returns a filtered list of `Report`s in a `Space` filtered by
           whether their `created_at` or `updated_at` timestamps are `gt` (greater
-          than) or `lt` (less than) the datetime passed in (ISO8601 format). Example:
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
           `?filter=created_at.gt.2019-10-23T06:23:01Z` returns all `Reports` in a
           space created after that date.'
         required: false
         type: string
       - name: order
         in: query
-        description: 'With the `order_by` param, returns all `Report`s in a `Space`
-          ordered in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
+        description: 'With the `order` param, returns all `Report`s in a `Space` ordered
+          in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
         required: false
         type: string
       - name: order_by
         in: query
-        description: 'With the `order` param, returns all `Report`s in a `Space` ordered
-          by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
+        description: 'With the `order_by` param, returns all `Report`s in a `Space`
+          ordered by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
         required: false
         type: string
   "/{account}/data_sources/{data_source}/reports":
@@ -1159,21 +1261,21 @@ paths:
         in: query
         description: 'Returns a filtered list of `Report`s in a `Space` filtered by
           whether their `created_at` or `updated_at` timestamps are `gt` (greater
-          than) or `lt` (less than) the datetime passed in (ISO8601 format). Example:
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
           `?filter=created_at.gt.2019-10-23T06:23:01Z` returns all `Reports` in a
           space created after that date.'
         required: false
         type: string
       - name: order
         in: query
-        description: 'With the `order_by` param, returns all `Report`s in a `Space`
-          ordered in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
+        description: 'With the `order` param, returns all `Report`s in a `Space` ordered
+          in `asc` or `desc` order. Example: `?order=asc&order_by=created_at`'
         required: false
         type: string
       - name: order_by
         in: query
-        description: 'With the `order` param, returns all `Report`s in a `Space` ordered
-          by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
+        description: 'With the `order_by` param, returns all `Report`s in a `Space`
+          ordered by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
         required: false
         type: string
   "/{account}/reports/{report}":
@@ -1786,9 +1888,9 @@ paths:
         type: string
       - name: filter
         in: query
-        description: 'Returns a filtered list of `Runs`s for a `Report` filtered by
+        description: 'Returns a filtered list of `Run`s for a `Report` filtered by
           whether their `created_at` or `updated_at` timestamps are `gt` (greater
-          than) or `lt` (less than) the datetime passed in (ISO8601 format). Example:
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
           `?filter=updated_at.lt.2019-10-23T06:23:01Z` returns all `Runs` in a space
           created before that date.'
         required: false
@@ -2621,6 +2723,8 @@ definitions:
         type: integer
       data_source_count:
         type: integer
+      default_data_source_token:
+        type: string
       organizations_count:
         type: string
       trial_state:
@@ -2650,6 +2754,8 @@ definitions:
         - plus
         - free
         type: string
+      seat_limit_reached:
+        type: boolean
       admin_data_source_connections_only:
         type: boolean
       scim_enabled:
@@ -2816,12 +2922,6 @@ definitions:
       validate_definition_name:
         "$ref": "#/definitions/Link"
       slack_app:
-        "$ref": "#/definitions/Link"
-      default_categorical_palette:
-        "$ref": "#/definitions/Link"
-      default_sequential_palette:
-        "$ref": "#/definitions/Link"
-      default_divergent_palette:
         "$ref": "#/definitions/Link"
       trial_appointment:
         "$ref": "#/definitions/Link"
@@ -3699,6 +3799,7 @@ definitions:
         - jdbc:bigquery
         - jdbc:databricks
         - jdbc:dbtmetrics
+        - jdbc:denodo
         - jdbc:transform
         - jdbc:druid
         - jdbc:hive
@@ -3709,6 +3810,7 @@ definitions:
         - jdbc:postgresql
         - jdbc:trino
         - jdbc:presto
+        - jdbc:clickhouse
         - jdbc:redshift
         - jdbc:snowflake
         - jdbc:spark
@@ -3728,6 +3830,8 @@ definitions:
         type: boolean
       queryable:
         type: boolean
+      soft_deleted:
+        type: boolean
       display_name:
         type: string
       account_id:
@@ -3736,10 +3840,8 @@ definitions:
         type: string
       organization_token:
         type: string
-      default:
-        type: boolean
-      default_for_organization_id:
-        type: boolean
+      organization_plan_code:
+        type: string
       database:
         type: string
       host:
@@ -3785,6 +3887,7 @@ definitions:
     - public
     - asleep
     - queryable
+    - soft_deleted
     - display_name
     - database
     - host
@@ -3802,6 +3905,8 @@ definitions:
     properties:
       self:
         "$ref": "#/definitions/Link"
+      creator:
+        "$ref": "#/definitions/Link"
       account:
         "$ref": "#/definitions/Link"
       permissions:
@@ -3812,6 +3917,7 @@ definitions:
         "$ref": "#/definitions/Link"
     required:
     - self
+    - creator
     - account
     - web
     - web_home
@@ -4221,6 +4327,10 @@ definitions:
         type: string
       report_imports_count:
         type: string
+      dbt_metric_id:
+        type: string
+      dbt_metric_token:
+        type: string
       mapping_id:
         type: string
       _links:
@@ -4238,6 +4348,7 @@ definitions:
     - data_source_id
     - explorations_count
     - report_imports_count
+    - dbt_metric_id
   QueryLinks:
     properties:
       self:
@@ -4257,6 +4368,8 @@ definitions:
       query_runs:
         "$ref": "#/definitions/Link"
       creator:
+        "$ref": "#/definitions/Link"
+      metric:
         "$ref": "#/definitions/Link"
     required:
     - self
@@ -4291,6 +4404,10 @@ definitions:
         type: string
       query_created_at:
         type: string
+      dbt_metric_id:
+        type: string
+      dbt_metric_token:
+        type: string
       parameters:
         type: string
       rendered_source:
@@ -4321,6 +4438,7 @@ definitions:
     - query_token
     - query_name
     - query_created_at
+    - dbt_metric_id
     - parameters
     - max_result_bytes
   QueryRunLinks:
@@ -4554,8 +4672,6 @@ definitions:
         type: string
       last_successful_run_token:
         type: string
-      flamingo_signature:
-        type: string
       github_link:
         type: string
       query_count:
@@ -4601,6 +4717,7 @@ definitions:
     - query_count
     - max_query_count
     - runs_count
+    - schedules_count
     - query_preview
     - view_count
   ReportLinks:
@@ -4641,6 +4758,8 @@ definitions:
         "$ref": "#/definitions/Link"
       report_subscriptions:
         "$ref": "#/definitions/Link"
+      dataset_dependencies:
+        "$ref": "#/definitions/Link"
       python_visualizations:
         "$ref": "#/definitions/Link"
       embed_key:
@@ -4663,6 +4782,8 @@ definitions:
         "$ref": "#/definitions/Link"
       report_index_web:
         "$ref": "#/definitions/Link"
+      dbt_metadata:
+        "$ref": "#/definitions/Link"
     required:
     - self
     - web
@@ -4671,8 +4792,10 @@ definitions:
     - queries
     - report_runs
     - report_pins
+    - report_schedules
     - last_run
     - last_successful_run
+    - perspective_email_subscription_memberships
   ReportEmbeds: {}
   ReportRun:
     properties:
@@ -4710,10 +4833,6 @@ definitions:
         type: string
       form_fields:
         type: array
-      flamingo_signature:
-        type: string
-      flamingo_host:
-        type: string
       is_latest_report_run:
         type: string
       is_latest_successful_report_run:
@@ -4733,8 +4852,6 @@ definitions:
     - completed_at
     - purge_started_at
     - purge_completed_at
-    - flamingo_signature
-    - flamingo_host
     - is_latest_report_run
     - is_latest_successful_report_run
     - report_has_failures_since_last_success
