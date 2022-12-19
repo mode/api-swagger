@@ -231,6 +231,70 @@ paths:
           ordered by their `created_at` or `updated_at` timestamps. Example: `?order_by=created_at&order=asc`'
         required: false
         type: string
+  "/{account}/datasets/{dataset}":
+    x-summary: Datasets
+    patch:
+      operationId: updateDataset
+      summary: Update a dataset
+      description: Updates a single `dataset` with the provided attributes
+      parameters:
+      - name: parameters
+        in: body
+        schema:
+          "$ref": "#/definitions/UpdateReportRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: dataset
+        in: path
+        description: "`Dataset` token"
+        required: true
+        type: string
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Dataset` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Dataset` response"
+          schema:
+            "$ref": "#/definitions/Report"
+  "/{account}/datsets/{datsets}":
+    x-summary: Dataset
+    get:
+      operationId: getDataset
+      summary: Get a dataset
+      description: Returns a representation of a single `Dataset`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`Dataset` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: "`Dataset` response"
+          schema:
+            "$ref": "#/definitions/Report"
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: dataset
+        in: path
+        description: "`Dataset` token"
+        required: true
+        type: string
   "/{account}/data_sources/{data_source}/schema_updates":
     x-summary: DataSources
     post:
