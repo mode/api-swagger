@@ -265,7 +265,7 @@ paths:
           description: "`Dataset` response"
           schema:
             "$ref": "#/definitions/Report"
-  "/{account}/datsets/{datsets}":
+  "/{account}/datasets/{datasets}":
     x-summary: Dataset
     get:
       operationId: getDataset
