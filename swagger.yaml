@@ -232,7 +232,7 @@ paths:
         required: false
         type: string
   "/{account}/datasets/{dataset}":
-    x-summary: Datasets
+    x-summary: Dataset
     patch:
       operationId: updateDataset
       summary: Update a Dataset
@@ -265,8 +265,6 @@ paths:
           description: "`Dataset` response"
           schema:
             "$ref": "#/definitions/Report"
-  "/{account}/datasets/{datasets}":
-    x-summary: Dataset
     get:
       operationId: getDataset
       summary: Get a Dataset
