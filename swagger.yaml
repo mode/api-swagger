@@ -133,7 +133,7 @@ paths:
     x-summary: Datasets
     get:
       operationId: listDatasetsInSpace
-      summary: List datasets for a space
+      summary: List Datasets for a space
       description: Returns all `Dataset`s in a `Space`
       responses:
         '401':
@@ -184,7 +184,7 @@ paths:
     x-summary: Datasets
     get:
       operationId: listDatasetsUsingDataSource
-      summary: List datasets using a data source
+      summary: List Datasets using a data source
       description: Returns all `Dataset`s using a `DataSource`
       responses:
         '401':
@@ -235,8 +235,8 @@ paths:
     x-summary: Datasets
     patch:
       operationId: updateDataset
-      summary: Update a dataset
-      description: Updates a single `dataset` with the provided attributes
+      summary: Update a Dataset
+      description: Updates a single `Dataset` with the provided attributes
       parameters:
       - name: parameters
         in: body
@@ -269,7 +269,7 @@ paths:
     x-summary: Dataset
     get:
       operationId: getDataset
-      summary: Get a dataset
+      summary: Get a Dataset
       description: Returns a representation of a single `Dataset`
       responses:
         '401':
