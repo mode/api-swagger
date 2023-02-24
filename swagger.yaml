@@ -1894,45 +1894,7 @@ paths:
         required: true
         type: string
   "/{account}/reports/{report}/runs":
-    x-summary: Report Runs
-    post:
-      operationId: runReport
-      summary: Create a report run
-      description: Runs a single `Report` and returns a representation of the resulting
-        `ReportRun`
-      parameters:
-      - name: parameters
-        in: body
-        description: Custom parameter attributes
-        schema:
-          "$ref": "#/definitions/RunReportRequestBody"
-      - name: account
-        in: path
-        description: "`Account` (`Workspace` or `User`) username"
-        required: true
-        type: string
-      - name: report
-        in: path
-        description: "`Report` token"
-        required: true
-        type: string
-      responses:
-        '404':
-          description: "`Report` not found"
-          schema:
-            "$ref": "#/definitions/NotFound"
-        '401':
-          description: Unauthorized
-          schema:
-            "$ref": "#/definitions/Unauthorized"
-        '400':
-          description: Bad request
-          schema:
-            "$ref": "#/definitions/BadRequest"
-        '202':
-          description: "`ReportRun` Accepted"
-          schema:
-            "$ref": "#/definitions/ReportRun"
+    x-summary: Report Run
     get:
       operationId: listReportRuns
       summary: List report runs
@@ -1971,7 +1933,7 @@ paths:
         type: string
       responses:
         '404':
-          description: "`ReportRun` not found"
+          description: "`Report` not found"
           schema:
             "$ref": "#/definitions/NotFound"
         '401':
@@ -1982,6 +1944,165 @@ paths:
           description: "`ReportRun` collection response"
           schema:
             "$ref": "#/definitions/ReportRuns"
+    post:
+      operationId: runReport
+      summary: Create a report run
+      description: Runs a single `Report` and returns a representation of the resulting
+        `ReportRun`
+      parameters:
+      - name: parameters
+        in: body
+        description: Custom parameter attributes
+        schema:
+          "$ref": "#/definitions/RunReportRequestBody"
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Report` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '202':
+          description: "`ReportRun` Accepted"
+          schema:
+            "$ref": "#/definitions/ReportRun"
+  "/{account}/datasets/{dataset}/runs":
+    x-summary: Dataset Runs
+    get:
+      operationId: listDatasetRuns
+      summary: List dataset runs
+      description: Returns a list of `DatasetRun`s for a `Dataset`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: dataset
+        in: path
+        description: "`Dataset` token"
+        required: true
+        type: string
+      - name: filter
+        in: query
+        description: 'Returns a filtered list of `Run`s for a `Dataset` filtered by
+          whether their `created_at` or `updated_at` timestamps are `gt` (greater
+          than) or `lt` (less than) the datetime passed in ISO8601 format. Example:
+          `?filter=updated_at.lt.2019-10-23T06:23:01Z` returns all `Runs` in a space
+          created before that date.'
+        required: false
+        type: string
+      - name: order
+        in: query
+        description: With the `order` param, returns all `DatasetRun`s for a `Dataset`
+          ordered by their `created_at` or `updated_at` timestamps
+        required: false
+        type: string
+      - name: order_by
+        in: query
+        description: With the `order_by` param, returns all `DatasetRun`s for a `Dataset`
+          ordered in `asc` or `desc` order
+        required: false
+        type: string
+      responses:
+        '404':
+          description: "`Dataset` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`DatasetRun` collection response"
+          schema:
+            "$ref": "#/definitions/ReportRuns"
+  "/{account}/reports/{report}/runs/{run}":
+    x-summary: Report Run
+    get:
+      operationId: getReportRun
+      summary: Get a report run
+      description: Returns a representation of a single `ReportRun`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: run
+        in: path
+        description: "`ReportRun` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`ReportRun` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`ReportRun` response"
+          schema:
+            "$ref": "#/definitions/ReportRun"
+  "/{account}/datasets/{dataset}/runs/{run}":
+    x-summary: Dataset Run
+    get:
+      operationId: getDatasetRun
+      summary: Get a dataset run
+      description: Returns a representation of a single `DatasetRun`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: dataset
+        in: path
+        description: "`Dataset` token"
+        required: true
+        type: string
+      - name: run
+        in: path
+        description: "`DatasetRun` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`DatasetRun` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`DatasetRun` response"
+          schema:
+            "$ref": "#/definitions/ReportRun"
   "/{account}/reports/{report}/runs/{run}/clone":
     x-summary: Report Run
     post:
@@ -2060,41 +2181,6 @@ paths:
           description: "`FormField` collection response"
           schema:
             "$ref": "#/definitions/FormField"
-  "/{account}/reports/{report}/runs/{run}":
-    x-summary: Report Run
-    get:
-      operationId: getReportRun
-      summary: Get a report run
-      description: Returns a representation of a single `ReportRun`
-      parameters:
-      - name: account
-        in: path
-        description: "`Account` (`Workspace` or `User`) username"
-        required: true
-        type: string
-      - name: report
-        in: path
-        description: "`Report` token"
-        required: true
-        type: string
-      - name: run
-        in: path
-        description: "`ReportRun` token"
-        required: true
-        type: string
-      responses:
-        '404':
-          description: "`ReportRun` not found"
-          schema:
-            "$ref": "#/definitions/NotFound"
-        '401':
-          description: Unauthorized
-          schema:
-            "$ref": "#/definitions/Unauthorized"
-        '200':
-          description: "`ReportRun` response"
-          schema:
-            "$ref": "#/definitions/ReportRun"
   "/{account}/reports/{report}/runs/{run}/results/content(.csv, .json)":
     x-summary: Export
     get:
@@ -4764,6 +4850,7 @@ definitions:
     - published_at
     - edited_at
     - type
+    - last_successful_sync_at
     - last_saved_at
     - archived
     - account_id
@@ -4858,6 +4945,7 @@ definitions:
     - last_run
     - last_successful_run
     - perspective_email_subscription_memberships
+    - last_successful_github_sync
   ReportEmbeds: {}
   ReportRun:
     properties:
