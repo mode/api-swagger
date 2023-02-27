@@ -295,7 +295,7 @@ paths:
         type: string
     delete:
       operationId: deleteDataset
-      summary: Delete a dataset
+      summary: Delete a Dataset
       description: Deletes a single `Dataset`
       responses:
         '401':
