@@ -359,7 +359,7 @@ paths:
       operationId: runDataset
       summary: Create a Dataset run
       description: Runs a single `Dataset` and returns a representation of the resulting
-        `DatasetReportRun`
+        `DatasetRun`
       parameters:
       - name: account
         in: path
@@ -4054,21 +4054,21 @@ definitions:
     required:
     - self
   QueryChartsEmbeds: {}
-  DatasetReportRun:
+  DatasetRun:
     properties:
       created_at:
         type: string
       completed_at:
         type: string
-      is_latest_report_run:
+      is_latest_dataset_run:
         type: string
-      is_latest_successful_report_run:
+      is_latest_successful_dataset_run:
         type: string
       purge_completed_at:
         type: string
       purge_started_at:
         type: string
-      report_has_failures_since_last_success:
+      dataset_has_failures_since_last_success:
         type: string
       state:
         enum:
@@ -4084,22 +4084,22 @@ definitions:
       updated_at:
         type: string
       _links:
-        "$ref": "#/definitions/DatasetReportRunLinks"
+        "$ref": "#/definitions/DatasetRunLinks"
       _embedded:
-        "$ref": "#/definitions/DatasetReportRunEmbeds"
+        "$ref": "#/definitions/DatasetRunEmbeds"
     required:
     - _links
     - created_at
     - completed_at
-    - is_latest_report_run
-    - is_latest_successful_report_run
+    - is_latest_dataset_run
+    - is_latest_successful_dataset_run
     - purge_completed_at
     - purge_started_at
-    - report_has_failures_since_last_success
+    - dataset_has_failures_since_last_success
     - state
     - token
     - updated_at
-  DatasetReportRunLinks:
+  DatasetRunLinks:
     properties:
       self:
         "$ref": "#/definitions/Link"
@@ -4107,9 +4107,9 @@ definitions:
         "$ref": "#/definitions/Link"
       executed_by:
         "$ref": "#/definitions/Link"
-      latest_successful_report_run_api_url:
+      latest_successful_dataset_run_api_url:
         "$ref": "#/definitions/Link"
-      dataset_report:
+      dataset:
         "$ref": "#/definitions/Link"
       query_runs:
         "$ref": "#/definitions/Link"
@@ -4119,9 +4119,9 @@ definitions:
     - self
     - account
     - executed_by
-    - dataset_report
+    - dataset
     - query_runs
-  DatasetReportRunEmbeds: {}
+  DatasetRunEmbeds: {}
   DataSource:
     properties:
       id:
