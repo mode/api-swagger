@@ -2068,7 +2068,7 @@ paths:
         required: true
         type: string
   "/{account}/reports/{report}/runs":
-    x-summary: Report Run
+    x-summary: Datasets
     get:
       operationId: listReportRuns
       summary: List report runs
@@ -2119,16 +2119,16 @@ paths:
           schema:
             "$ref": "#/definitions/ReportRuns"
     post:
-      operationId: runReport
-      summary: Create a report run
-      description: Runs a single `Report` and returns a representation of the resulting
-        `ReportRun`
+      operationId: refreshDataset
+      summary: Refresh a Dataset in a report
+      description: Pulls in the latest run available in Mode for the `Dataset` in
+        a specified report and does not re-run the `Dataset`
       parameters:
-      - name: parameters
+      - name: report
         in: body
-        description: Custom parameter attributes
+        description: Imported `Dataset` tokens to refresh
         schema:
-          "$ref": "#/definitions/RunReportRequestBody"
+          "$ref": "#/definitions/RefreshImportedDatasetRequestBody"
       - name: account
         in: path
         description: "`Account` (`Workspace` or `User`) username"
@@ -3361,6 +3361,18 @@ definitions:
             type: string
             description: The token of the space this report will be moved to
             example: 5a4177a2902c
+  RefreshImportedDatasetRequestBody:
+    required:
+    - report
+    type: object
+    properties:
+      report:
+        type: object
+        properties:
+          dataset_tokens:
+            type: array
+            description: An array of `Dataset` objects containing only their token
+            example: "[{ token: '5a4177a2902c' }]"
   CreateOrUpdateReportFilterRequestBody:
     required:
     - report_filter
