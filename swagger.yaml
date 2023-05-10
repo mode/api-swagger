@@ -4032,8 +4032,6 @@ definitions:
         "$ref": "#/definitions/Link"
       report_viz_web:
         "$ref": "#/definitions/Link"
-      preview:
-        "$ref": "#/definitions/Link"
       report_run_viz_web:
         "$ref": "#/definitions/Link"
       creator:
@@ -4041,7 +4039,6 @@ definitions:
     required:
     - self
     - report_viz_web
-    - preview
     - report_run_viz_web
     - creator
   ChartEmbeds: {}
