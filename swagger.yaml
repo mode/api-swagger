@@ -3029,6 +3029,8 @@ definitions:
         type: boolean
       admin_data_source_connections_only:
         type: boolean
+      admin_collection_creation_only:
+        type: boolean
       scim_enabled:
         type: string
       created_at:
@@ -3205,6 +3207,10 @@ definitions:
       scim_token:
         "$ref": "#/definitions/Link"
       memberships_lite:
+        "$ref": "#/definitions/Link"
+      schedules:
+        "$ref": "#/definitions/Link"
+      api_keys:
         "$ref": "#/definitions/Link"
     required:
     - self
@@ -3424,7 +3430,8 @@ definitions:
       next_filter_token:
         type: string
         description: Token of the `ReportFilter` that should come after this one,
-          if manual ordering is desired
+          if manual ordering is desired. To move a ReportFilter to the bottom of the
+          list use an empty string, `""`
   CreateReportScheduleRequestBody:
     required:
     - cron
@@ -4032,6 +4039,8 @@ definitions:
         "$ref": "#/definitions/Link"
       report_viz_web:
         "$ref": "#/definitions/Link"
+      preview:
+        "$ref": "#/definitions/Link"
       report_run_viz_web:
         "$ref": "#/definitions/Link"
       creator:
@@ -4039,8 +4048,8 @@ definitions:
     required:
     - self
     - report_viz_web
+    - preview
     - report_run_viz_web
-    - creator
   ChartEmbeds: {}
   QueryCharts:
     properties:
@@ -4127,7 +4136,6 @@ definitions:
     required:
     - self
     - account
-    - executed_by
     - dataset
     - query_runs
   DatasetRunEmbeds: {}
@@ -4383,7 +4391,6 @@ definitions:
     - last_run
     - last_successful_github_sync
     - web_edit
-    - creator
   DefinitionEmbeds: {}
   Definitions:
     properties:
@@ -4724,7 +4731,6 @@ definitions:
     - report
     - report_runs
     - query_runs
-    - creator
   QueryEmbeds: {}
   QueryRun:
     properties:
@@ -4817,7 +4823,6 @@ definitions:
     - query_web
     - report_run
     - report_run_web
-    - executed_by
   QueryRunEmbeds: {}
   QueryRuns:
     properties:
@@ -5244,7 +5249,6 @@ definitions:
     required:
     - self
     - account
-    - executed_by
     - report
     - query_runs
   ReportRunEmbeds: {}
@@ -5318,7 +5322,13 @@ definitions:
         type: string
       next_scheduled_run:
         type: string
+      report_name:
+        type: string
+      report_token:
+        type: string
       subscribed:
+        type: string
+      subscriber_count:
         type: string
       _links:
         "$ref": "#/definitions/ReportScheduleLinks"
@@ -5339,7 +5349,10 @@ definitions:
     - last_succeeded_at
     - last_scheduled_run
     - next_scheduled_run
+    - report_name
+    - report_token
     - subscribed
+    - subscriber_count
   ReportScheduleLinks:
     properties:
       account:
@@ -5350,15 +5363,17 @@ definitions:
         "$ref": "#/definitions/Link"
       report:
         "$ref": "#/definitions/Link"
+      report_web:
+        "$ref": "#/definitions/Link"
       report_runs:
         "$ref": "#/definitions/Link"
       report_subscriptions:
         "$ref": "#/definitions/Link"
     required:
     - account
-    - creator
     - self
     - report
+    - report_web
     - report_runs
     - report_subscriptions
   ReportScheduleEmbeds: {}
@@ -5500,7 +5515,6 @@ definitions:
     required:
     - self
     - member
-    - creator
   SpaceMembershipEmbeds: {}
   Space:
     properties:
@@ -5569,7 +5583,6 @@ definitions:
     - self
     - detail
     - reports
-    - creator
     - search_space_permissions
   SpaceEmbeds: {}
   Spaces:
@@ -5619,7 +5632,6 @@ definitions:
         "$ref": "#/definitions/Link"
     required:
     - self
-    - creator
     - member
     - user_group
   UserGroupMembershipEmbeds: {}
@@ -5696,7 +5708,6 @@ definitions:
     required:
     - self
     - web
-    - creator
     - group_memberships
     - membership_by_id
     - memberships_preview
