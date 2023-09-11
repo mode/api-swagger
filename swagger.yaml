@@ -129,6 +129,36 @@ paths:
         description: "`Chart` token"
         required: true
         type: string
+  "/{account}/datasets/{dataset}/fields":
+    x-summary: Datasets
+    get:
+      operationId: getDatasetFields
+      summary: Get latest fields for a dataset
+      description: Returns a list of the latest fields for a `Dataset`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: dataset
+        in: path
+        description: "`Dataset` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Dataset` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`DatasetField` collection response"
+          schema:
+            "$ref": "#/definitions/DatasetFields"
   "/{account}/spaces/{space}/datasets":
     x-summary: Datasets
     get:
@@ -3106,6 +3136,8 @@ definitions:
         type: string
       seat_limit_reached:
         type: boolean
+      org_seat_limit_reached:
+        type: boolean
       admin_data_source_connections_only:
         type: boolean
       admin_collection_creation_only:
@@ -5416,6 +5448,8 @@ definitions:
         type: string
       report_token:
         type: string
+      report_type:
+        type: string
       subscribed:
         type: string
       subscriber_count:
@@ -5441,6 +5475,7 @@ definitions:
     - next_scheduled_run
     - report_name
     - report_token
+    - report_type
     - subscribed
     - subscriber_count
   ReportScheduleLinks:
