@@ -130,10 +130,10 @@ paths:
         required: true
         type: string
   "/{account}/datasets/{dataset}/fields":
-    x-summary: Datasets
+    x-summary: Dataset Field Descriptions
     get:
       operationId: getDatasetFields
-      summary: Get latest fields for a dataset
+      summary: Get fields for a Dataset
       description: Returns a list of the latest fields for a `Dataset`
       parameters:
       - name: account
@@ -159,6 +159,144 @@ paths:
           description: "`DatasetField` collection response"
           schema:
             "$ref": "#/definitions/DatasetFields"
+  "/{account}/datasets/{dataset}/field_descriptions":
+    x-summary: Dataset Field Descriptions
+    get:
+      operationId: getDatasetFieldDescriptions
+      summary: Get field descriptions for a Dataset
+      description: Returns a list of field descriptions for a `Dataset`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: dataset
+        in: path
+        description: "`Dataset` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Dataset` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`DatasetFieldDescriptions` collection response"
+          schema:
+            "$ref": "#/definitions/DatasetFieldDescriptions"
+    post:
+      operationId: createDatasetFieldDescriptions
+      summary: Create a field description for a Dataset
+      description: Create a field description for a `Dataset` with the provided parameters
+      parameters:
+      - name: parameters
+        in: body
+        description: Dataset field description parameters
+        required: true
+        schema:
+          "$ref": "#/definitions/CreateDatasetFieldDescriptionBody"
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: dataset
+        in: path
+        description: "`Dataset` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`Dataset` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`DatasetFieldDescription` response"
+          schema:
+            "$ref": "#/definitions/DatasetFieldDescription"
+  "/{account}/datasets/{dataset}/field_descriptions/{field_description}":
+    x-summary: Dataset Field Descriptions
+    patch:
+      operationId: updateDatasetFieldDescription
+      summary: Update a field description for a Dataset
+      description: Updates a field description for a `Dataset` with the provided parameters
+      parameters:
+      - name: parameters
+        in: body
+        description: Dataset field description parameters
+        required: true
+        schema:
+          "$ref": "#/definitions/UpdateDatasetFieldDescriptionBody"
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: dataset
+        in: path
+        description: "`Dataset` token"
+        required: true
+        type: string
+      - name: field description
+        in: path
+        description: "`DatasetFieldDescription` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`DatasetFieldDescription` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`DatasetFieldDescription` response"
+          schema:
+            "$ref": "#/definitions/DatasetFieldDescription"
+    delete:
+      operationId: deleteDatasetFieldDescription
+      summary: Delete a field description for a Dataset
+      description: Deletes a field description for a `Dataset`
+      parameters:
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
+      - name: dataset
+        in: path
+        description: "`Dataset` token"
+        required: true
+        type: string
+      - name: field description
+        in: path
+        description: "`DatasetFieldDescription` token"
+        required: true
+        type: string
+      responses:
+        '404':
+          description: "`DatasetFieldDescription` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '200':
+          description: "`DatasetFieldDescription` response"
+          schema:
+            "$ref": "#/definitions/DatasetFieldDescription"
   "/{account}/spaces/{space}/datasets":
     x-summary: Datasets
     get:
@@ -4111,6 +4249,33 @@ definitions:
         properties:
           name:
             description: The name for the new user group
+            type: string
+  CreateDatasetFieldDescriptionBody:
+    required:
+    - field_description
+    type: object
+    properties:
+      field_description:
+        type: object
+        description: The parameters for updating the field description
+        properties:
+          desc:
+            description: The description of the field
+            type: string
+          name:
+            description: The name of the field
+            type: string
+  UpdateDatasetFieldDescriptionBody:
+    required:
+    - field_description
+    type: object
+    properties:
+      field_description:
+        type: object
+        description: The parameters for updating the field description
+        properties:
+          desc:
+            description: The description of the field
             type: string
   Chart:
     properties:
