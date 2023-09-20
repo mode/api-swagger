@@ -219,6 +219,10 @@ paths:
           description: Unauthorized
           schema:
             "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
         '200':
           description: "`DatasetFieldDescription` response"
           schema:
@@ -260,6 +264,10 @@ paths:
           description: Unauthorized
           schema:
             "$ref": "#/definitions/Unauthorized"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
         '200':
           description: "`DatasetFieldDescription` response"
           schema:
@@ -289,6 +297,10 @@ paths:
           description: "`DatasetFieldDescription` not found"
           schema:
             "$ref": "#/definitions/NotFound"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
         '401':
           description: Unauthorized
           schema:
@@ -4450,6 +4462,7 @@ definitions:
         - jdbc:vertica
         - jdbc:salesforce
         - jdbc:dbtsemanticlayer
+        - jdbc:looker
         type: string
       created_at:
         type: string
