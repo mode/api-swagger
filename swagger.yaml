@@ -1931,7 +1931,7 @@ paths:
         description: "`Account` (`Workspace` or `User`) username"
         required: true
         type: string
-  "/{account}/reports/{report}/schedules":
+  "/{workspace}/reports/{report}/schedules":
     x-summary: ReportSchedule
     get:
       operationId: listReportSchedules
@@ -1951,9 +1951,9 @@ paths:
           schema:
             "$ref": "#/definitions/ReportSchedules"
       parameters:
-      - name: account
+      - name: workspace
         in: path
-        description: "`Account` (`Workspace` or `User`) username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: report
@@ -1970,9 +1970,9 @@ paths:
         in: body
         schema:
           "$ref": "#/definitions/CreateReportScheduleRequestBody"
-      - name: account
+      - name: workspace
         in: path
-        description: "`Account` (`Workspace` or `User`) username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: report
@@ -1993,7 +1993,7 @@ paths:
           description: Report `Schedule` response
           schema:
             "$ref": "#/definitions/ReportSchedule"
-  "/{account}/datasets/{dataset}/schedules":
+  "/{workspace}/datasets/{dataset}/schedules":
     x-summary: DatasetSchedules
     get:
       operationId: listDatasetSchedules
@@ -2013,9 +2013,9 @@ paths:
           schema:
             "$ref": "#/definitions/DatasetSchedules"
       parameters:
-      - name: account
+      - name: workspace
         in: path
-        description: "`Account` (`Workspace` or `User`) username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: dataset
@@ -2023,7 +2023,7 @@ paths:
         description: "`Dataset` token"
         required: true
         type: string
-  "/{account}/reports/{report}/schedules/{schedule}":
+  "/{workspace}/reports/{report}/schedules/{schedule}":
     x-summary: ReportSchedule
     get:
       operationId: getReportSchedule
@@ -2043,9 +2043,9 @@ paths:
           schema:
             "$ref": "#/definitions/ReportSchedule"
       parameters:
-      - name: account
+      - name: workspace
         in: path
-        description: "`Account` (`Workspace` or `User`) username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: report
@@ -2067,9 +2067,9 @@ paths:
         in: body
         schema:
           "$ref": "#/definitions/UpdateReportScheduleRequestBody"
-      - name: account
+      - name: workspace
         in: path
-        description: "`Account` (`Workspace` or `User`) username"
+        description: "`Workspace` username"
         required: true
         type: string
       - name: report
@@ -2111,9 +2111,42 @@ paths:
         '200':
           description: Empty body
       parameters:
-      - name: account
+      - name: workspace
         in: path
-        description: "`Account` (`Workspace` or `User`) username"
+        description: "`Workspace` username"
+        required: true
+        type: string
+      - name: report
+        in: path
+        description: "`Report` token"
+        required: true
+        type: string
+      - name: schedule
+        in: path
+        description: "`Schedule` token"
+        required: true
+        type: string
+  "/{workspace}/reports/schedules/v1/bulk_delete":
+    x-summary: BulkDeleteReportSchedule
+    delete:
+      operationId: bulkDeleteReportSchedule
+      summary: Delete of multiple report schedule
+      description: Deletes multiple `Report`'s `Schedule`
+      responses:
+        '401':
+          description: Unauthorized
+          schema:
+            "$ref": "#/definitions/Unauthorized"
+        '404':
+          description: "`ReportSchedule` not found"
+          schema:
+            "$ref": "#/definitions/NotFound"
+        '200':
+          description: Empty body
+      parameters:
+      - name: workspace
+        in: path
+        description: "`Workspace` username"
         required: true
         type: string
       - name: report
@@ -3288,6 +3321,8 @@ definitions:
         type: boolean
       org_seat_limit_reached:
         type: boolean
+      python_performance_first_tier:
+        type: boolean
       admin_data_source_connections_only:
         type: boolean
       admin_collection_creation_only:
@@ -3320,6 +3355,8 @@ definitions:
       web:
         "$ref": "#/definitions/Link"
       web_settings:
+        "$ref": "#/definitions/Link"
+      web_google_account:
         "$ref": "#/definitions/Link"
       web_data_sources_settings:
         "$ref": "#/definitions/Link"
@@ -3493,6 +3530,12 @@ definitions:
     - starred_reports
     - by_ids_reports
     - viewed_reports
+    - starred_datasets
+    - by_ids_datasets
+    - viewed_datasets
+    - starred_base_reports
+    - by_ids_base_reports
+    - viewed_base_reports
     - all_color_palettes
   AccountEmbeds:
     properties:
@@ -5162,6 +5205,8 @@ definitions:
         type: string
       hide_select_all:
         type: string
+      show_relevant_values_only:
+        type: boolean
       filter_type:
         enum:
         - SINGLE
@@ -5200,6 +5245,7 @@ definitions:
     - data_type
     - formula_type
     - hide_select_all
+    - show_relevant_values_only
     - filter_type
     - control_type
     - variable_type
@@ -5624,6 +5670,8 @@ definitions:
         type: string
       report_name:
         type: string
+      delivery:
+        type: string
       report_token:
         type: string
       report_type:
@@ -5652,6 +5700,7 @@ definitions:
     - last_scheduled_run
     - next_scheduled_run
     - report_name
+    - delivery
     - report_token
     - report_type
     - subscribed
