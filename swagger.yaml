@@ -43,7 +43,7 @@ paths:
     x-summary: User
     get:
       operationId: getCurrentUser
-      summary: Get authorizing user
+      summary: "(Not Supported) Get authorizing user"
       description: Returns a representation of the authorizing `User`
       responses:
         '401':
@@ -3295,6 +3295,8 @@ definitions:
         - pending
         - active
         - expired
+        type: string
+      organization_restricted:
         type: string
       membership_type:
         enum:
