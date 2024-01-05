@@ -399,12 +399,6 @@ definitions:
         type: string
       last_report_run_at:
         type: string
-      last_day_engaged:
-        type: string
-      last_day_api_engaged:
-        type: string
-      last_day_in_app_engaged:
-        type: string
       total_days_engaged:
         type: string
       last_exploration_created_at:
@@ -609,6 +603,8 @@ definitions:
       description:
         type: string
       space_type:
+        type: string
+      default_access:
         type: string
       space_url:
         type: string
