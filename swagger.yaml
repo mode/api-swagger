@@ -2802,6 +2802,16 @@ paths:
         description: "`Workspace` username"
         required: true
         type: string
+      - name: page
+        in: path
+        description: Page of results
+        required: false
+        type: integer
+      - name: per_page
+        in: path
+        description: Results per page
+        required: false
+        type: integer
     post:
       operationId: createCollection
       summary: Create a Collection
