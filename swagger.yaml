@@ -1152,7 +1152,7 @@ paths:
         type: string
     patch:
       operationId: updateQueryInReport
-      summary: Upate a query
+      summary: Update a query
       description: Updates a `Query` in a `Report`
       parameters:
       - name: parameters
