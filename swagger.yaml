@@ -1624,6 +1624,11 @@ paths:
         description: "`ReportRun` token"
         required: true
         type: string
+      - in: query
+        name: collection_id
+        required: false
+        type: string
+        description: 'The token of a collection. Example: collection_id=875a93v22b93'
       responses:
         '404':
           description: "`ReportRun` not found"
@@ -4457,6 +4462,8 @@ definitions:
         type: string
       updated_at:
         type: string
+      pusher_channel_name:
+        type: string
       _links:
         "$ref": "#/definitions/DatasetRunLinks"
       _embedded:
@@ -5567,6 +5574,8 @@ definitions:
         type: string
       report_has_failures_since_last_success:
         type: string
+      pusher_channel_name:
+        type: string
       _links:
         "$ref": "#/definitions/ReportRunLinks"
       _embedded:
@@ -5612,6 +5621,8 @@ definitions:
       python_cell_runs:
         "$ref": "#/definitions/Link"
       pdf_export:
+        "$ref": "#/definitions/Link"
+      web_edit_dataset:
         "$ref": "#/definitions/Link"
       web_clone:
         "$ref": "#/definitions/Link"
