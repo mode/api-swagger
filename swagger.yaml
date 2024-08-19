@@ -1914,6 +1914,18 @@ paths:
       operationId: purgeAllReports
       summary: Purge all report results
       description: Removes all report results for an organization
+      parameters:
+      - name: in_progress
+        in: query
+        description: Includes reports that are already in the process of purging.
+          Defaults to `true`.
+        required: false
+        type: boolean
+      - name: account
+        in: path
+        description: "`Account` (`Workspace` or `User`) username"
+        required: true
+        type: string
       responses:
         '401':
           description: Unauthorized
@@ -1930,12 +1942,6 @@ paths:
         '202':
           description: Accepted
           schema: {}
-      parameters:
-      - name: account
-        in: path
-        description: "`Account` (`Workspace` or `User`) username"
-        required: true
-        type: string
   "/{workspace}/reports/{report}/schedules":
     x-summary: ReportSchedule
     get:
@@ -4538,6 +4544,8 @@ definitions:
         - jdbc:salesforce
         - jdbc:dbtsemanticlayer
         - jdbc:looker
+        - jdbc:arrowflightsql
+        - jdbc:modedatasets
         type: string
       created_at:
         type: string
