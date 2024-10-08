@@ -1915,6 +1915,19 @@ paths:
       summary: Purge all report results
       description: Removes all report results for an organization
       parameters:
+      - name: time
+        in: query
+        description: All records older than the date ("YYYY-MM-DD") which should be
+          purged.
+        required: true
+        type: date
+      - name: end_time
+        in: query
+        description: Purge records up to and including the end date ("YYYY-MM-DD").
+          Purging a large number of reports can result in error, so use the `end_time`
+          to break up the purging into smaller requests.
+        required: false
+        type: date
       - name: in_progress
         in: query
         description: Includes reports that are already in the process of purging.
@@ -3315,6 +3328,8 @@ definitions:
       avatar:
         "$ref": "#/definitions/Avatar"
       user:
+        type: boolean
+      thoughtspot_integrated:
         type: boolean
       space_count:
         type: integer
@@ -5428,6 +5443,8 @@ definitions:
         type: string
       view_count:
         type: string
+      thoughtspot_published_at:
+        type: string
       _links:
         "$ref": "#/definitions/ReportLinks"
       _embedded:
@@ -5462,6 +5479,7 @@ definitions:
     - schedules_count
     - query_preview
     - view_count
+    - thoughtspot_published_at
   ReportLinks:
     properties:
       self:
