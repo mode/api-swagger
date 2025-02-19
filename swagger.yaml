@@ -776,7 +776,7 @@ paths:
         required: true
         type: string
   "/{workspace}/audit_logs":
-    x-summary: Retrieve audit logs
+    x-summary: Audit Logs
     get:
       operationId: getAuditLogs
       summary: Retrieve audit logs
