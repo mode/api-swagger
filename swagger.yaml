@@ -775,6 +775,81 @@ paths:
         description: "`DataSource` token"
         required: true
         type: string
+  /{workspace}/audit_logs:
+    x-summary: Retrieve audit logs
+    get:
+      operationId: getAuditLogs
+      summary: Retrieve audit logs
+      description: Returns a paginated list of audit log events for the given workspace.
+      parameters:
+      - name: workspace
+        in: path
+        required: true
+        description: "`Workspace` username"
+        type: string
+      - name: start_timestamp
+        in: query
+        required: true
+        type: string
+        description: The start of the time range for audit logs (ISO 8601 format).
+      - name: end_timestamp
+        in: query
+        required: true
+        type: string
+        description: The end of the time range for audit logs (ISO 8601 format).
+      - name: action
+        in: query
+        required: false
+        type: string
+        description: The type of action performed.
+      - name: entity_id
+        in: query
+        required: false
+        type: string
+        description: The ID of the entity to filter logs.
+      - name: entity_type
+        in: query
+        required: false
+        type: string
+        description: The type/category of the entity to filter logs.
+      - name: entity_name
+        in: query
+        required: false
+        type: string
+        description: The name of the entity affected by the action.
+      - name: username
+        in: query
+        required: false
+        type: string
+        description: The username of the user performing the action.
+      - name: ip
+        in: query
+        required: false
+        type: string
+        description: The IP address of the client device that initiated the action.
+      - name: event_source
+        in: query
+        required: false
+        type: string
+        description: The source of the event to filter logs.
+      - name: next_token
+        in: query
+        required: false
+        type: string
+        description: Token for fetching logs of the next page.
+      responses:
+        '200':
+          description: A list of audit logs matching the given filters.
+          schema:
+            "$ref": "#/definitions/AuditLogsResponse"
+        '400':
+          description: Bad request
+          schema:
+            "$ref": "#/definitions/BadRequest"
+        '403':
+          description: Forbidden
+          schema:
+            "$ref": "#/definitions/Forbidden"
   "/{workspace}/definitions":
     x-summary: Definitions
     get:
@@ -3596,6 +3671,78 @@ definitions:
         "$ref": "#/definitions/Spaces"
       all_spaces:
         "$ref": "#/definitions/Spaces"
+  AuditLogsResponse:
+    type: object
+    properties:
+      audit_logs:
+        type: array
+        description: List of audit log entries.
+        items:
+          type: object
+          description: Represents a single audit log event.
+          properties:
+            id:
+              type: string
+              description: Unique ID for the audit event
+              example: "ae026c8c-3c13-45a3-9b36-5a16d42937db"
+            action:
+              type: string
+              description: Action being audited
+              example: "connection_group_added_with_role"
+            description:
+              type: string
+              description: One-liner describing the audit event
+              example: "group added to connection"
+            context:
+              type: object
+              description: Additional metadata associated with the audit event
+              properties:
+                correlation_id:
+                  type: string
+                  example: "1f521917-5e07-4094-ae08-1b6254a2a6c8"
+            actor:
+              type: object
+              description: Information about the user or system that triggered the event
+              properties:
+                ip:
+                  type: string
+                  example: "157.52.123.41"
+                user_agent:
+                  type: string
+                  example: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36"
+                user_id:
+                  type: string
+                  example: "b903c024ac72"
+                username:
+                  type: string
+                  example: "sample_user_name"
+            entity:
+              type: object
+              description: The primary entity affected in the action performed
+              properties:
+                entity_name:
+                  type: string
+                  example: "Sample workspace name"
+                entity_type:
+                  type: string
+                  example: "workspace_connection"
+                entity_id:
+                  type: string
+                  example: "a45aaf31658b"
+            timestamp:
+              type: string
+              format: date-time
+              description: Event timestamp
+              example: "2025-02-18T10:47:37.000000Z"
+            workspace_username:
+              type: string
+              example: "sampleworkspaceusername"
+      metadata:
+        type: object
+        properties:
+          next_token:
+            type: string
+            example: "c29tZV9yYW5kb21fdG9rZW4"
   RunReportRequestBody:
     required:
     - parameters
