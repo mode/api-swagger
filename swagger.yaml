@@ -775,7 +775,7 @@ paths:
         description: "`DataSource` token"
         required: true
         type: string
-  /{workspace}/audit_logs:
+  "/{workspace}/audit_logs":
     x-summary: Retrieve audit logs
     get:
       operationId: getAuditLogs
