@@ -775,85 +775,91 @@ paths:
         description: "`DataSource` token"
         required: true
         type: string
-  "/{workspace}/audit_logs":
+
+  '/api/{workspace}/audit_logs':
     x-summary: Audit Log
     get:
-      operationId: getAuditLogs
+      tags:
+        - Audit Log API
       summary: Retrieve audit logs
       description: Returns a paginated list of audit log events for the given workspace.
+      operationId: getAuditLogs
       parameters:
-      - name: workspace
-        in: path
-        required: true
-        description: "`Workspace` username"
-        type: string
-      - name: start_timestamp
-        in: query
-        required: true
-        type: string
-        description: The start of the time range for audit logs (ISO 8601 format).
-      - name: end_timestamp
-        in: query
-        required: true
-        type: string
-        description: The end of the time range for audit logs (ISO 8601 format).
-      - name: action
-        in: query
-        required: false
-        type: string
-        description: The type of action performed.
-      - name: entity_id
-        in: query
-        required: false
-        type: string
-        description: The ID of the entity to filter logs.
-      - name: entity_type
-        in: query
-        required: false
-        type: string
-        description: The type/category of the entity to filter logs.
-      - name: entity_name
-        in: query
-        required: false
-        type: string
-        description: The name of the entity affected by the action.
-      - name: username
-        in: query
-        required: false
-        type: string
-        description: The username of the user performing the action.
-      - name: ip
-        in: query
-        required: false
-        type: string
-        description: The IP address of the client device that initiated the action.
-      - name: event_source
-        in: query
-        required: false
-        type: string
-        description: The source of the event to filter logs.
-      - name: next_token
-        in: query
-        required: false
-        type: string
-        description: Token for fetching logs of the next page.
+        - name: workspace
+          in: path
+          description: Workspace username
+          required: true
+          schema:
+            type: string
+        - name: start_timestamp
+          in: query
+          description: The start of the time range for audit logs (ISO 8601 format).
+          required: true
+          schema:
+            type: string
+        - name: end_timestamp
+          in: query
+          description: The end of the time range for audit logs (ISO 8601 format).
+          required: true
+          schema:
+            type: string
+        - name: action
+          in: query
+          description: The type of action performed.
+          schema:
+            type: string
+        - name: entity_id
+          in: query
+          description: The ID of the entity to filter logs.
+          schema:
+            type: string
+        - name: entity_type
+          in: query
+          description: The type/category of the entity to filter logs.
+          schema:
+            type: string
+        - name: username
+          in: query
+          description: The name of the entity affected by the action.
+          schema:
+            type: string
+        - name: ip
+          in: query
+          description: The username of the user performing the action.
+          schema:
+            type: string
+        - name: event_source
+          in: query
+          description: The IP address of the client device that initiated the action.
+          schema:
+            type: string
+        - name: entity_name
+          in: query
+          description: The source of the event to filter logs.
+          schema:
+            type: string
+        - name: next_token
+          in: query
+          description: Token for fetching logs of the next page.
+          schema:
+            type: string
       responses:
         '200':
           description: A list of audit logs matching the given filters.
           schema:
-            "$ref": "#/definitions/AuditLog"
+            $ref: '#/definitions/AuditLog'
         '400':
-          description: Bad request
+          description: Bad Request
           schema:
-            "$ref": "#/definitions/BadRequest"
+            $ref: '#/definitions/BadRequest'
         '401':
           description: Unauthorized
           schema:
-            "$ref": "#/definitions/Unauthorized"
+            $ref: '#/definitions/Unauthorized'
         '403':
           description: Forbidden
           schema:
-            "$ref": "#/definitions/Forbidden"
+            $ref: '#/definitions/Forbidden'
   "/{workspace}/definitions":
     x-summary: Definitions
     get:
